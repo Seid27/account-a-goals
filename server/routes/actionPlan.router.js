@@ -26,6 +26,36 @@ router.get('/', (req, res) => {
  */
 router.post('/', (req, res) => {
   // POST route code here
+  let queryText = `insert into action_plan("action_plan_title", "action_plan_desc", "date_created", "target_date", "goal_id")
+  values($1,$2,$3,$4,$5)`;
+
+  //status is optional field its default value is false
+  if (req.body.status){
+    queryText = `insert into action_plan("action_plan_title", "action_plan_desc", "date_created", "target_date","status", "goal_id")
+    values($1,$2,$3,$4,$5,$6)`;
+    pool.query(queryText,[req.body.action_plan_title,
+                        req.body.action_plan_desc,
+                        req.body.date_created,
+                        req.body.target_date,
+                        req.body.status,
+                        req.body.goal_id])
+    .then(()=>{
+        res.sendStatus(201);
+      }).catch((error)=>{
+        console.error(error);
+      })    
+  } else{
+    pool.query(queryText,[req.body.action_plan_title,
+                        req.body.action_plan_desc,
+                        req.body.date_created,
+                        req.body.target_date,
+                        req.body.goal_id])
+    .then(()=>{
+        res.sendStatus(201);
+      }).catch((error)=>{
+        console.error(error);
+      });
+  }
 });
 
 module.exports = router;
