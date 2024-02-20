@@ -6,7 +6,7 @@ const {
   } = require('../modules/authentication-middleware');
 
 /**
- * GET route template
+ * GET route to get goals for a specific user
  */
 router.get('/', rejectUnauthenticated,(req, res) => {
   // GET route code here
@@ -20,7 +20,7 @@ router.get('/', rejectUnauthenticated,(req, res) => {
 });
 
 /**
- * POST route template
+ * POST route to create a new goal
  */
 router.post('/', (req, res) => {
   // POST route code here
