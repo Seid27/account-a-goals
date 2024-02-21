@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const goalRouter = require('./routes/goal.router');
 const reflectionRouter = require('./routes/reflection.router');
 const actionPlanRouter = require('./routes/actionPlan.router');
+const commentRouter = require('./routes/comment.router');
 
 // Express Middleware
 app.use(express.json());
@@ -30,6 +31,7 @@ app.use('/api/user', userRouter);
 app.use('/api/goal',goalRouter);
 app.use('/api/reflection',reflectionRouter);
 app.use('/api/actionplan',actionPlanRouter);
+app.use('/api/comment',commentRouter);
 
 // Listen Server & Port
 app.listen(PORT, () => {
