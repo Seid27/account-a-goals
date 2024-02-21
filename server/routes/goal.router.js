@@ -40,4 +40,19 @@ router.post('/', (req, res) => {
     })
 });
 
+/**
+ * PUT route to edit goal
+ */
+router.put('/:goalId',(req,res)=>{
+    const queryText = `UPDATE "goal"
+    SET goal_title= $1, goal_desc= $2, target_date=$3 where id=${req.params.goalId}`;
+    pool.query(queryText,[req.body.goal_title, req.body.goal_desc, req.body.target_date])
+    .then(()=>{
+        res.sendStatus(201);
+    }).catch((error)=>{
+        console.error(error);
+    })
+
+});
+
 module.exports = router;
