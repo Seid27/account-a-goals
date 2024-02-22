@@ -13,6 +13,7 @@ const goalRouter = require('./routes/goal.router');
 const reflectionRouter = require('./routes/reflection.router');
 const actionPlanRouter = require('./routes/actionPlan.router');
 const commentRouter = require('./routes/comment.router');
+const accounta_buddyRouter = require('./routes/accounta_buddy.router');
 
 // Express Middleware
 app.use(express.json());
@@ -32,6 +33,8 @@ app.use('/api/goal',goalRouter);
 app.use('/api/reflection',reflectionRouter);
 app.use('/api/actionplan',actionPlanRouter);
 app.use('/api/comment',commentRouter);
+app.use('/api/accountabuddy', accounta_buddyRouter);
+
 
 // Listen Server & Port
 app.listen(PORT, () => {

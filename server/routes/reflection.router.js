@@ -10,7 +10,8 @@ const {
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
-    const queryText = `select  reflection.reflection_title, 
+    const queryText = `select reflection.id 
+                            reflection.reflection_title, 
                             reflection.reflection_desc, 
                             reflection.date_created from goal 
                             join reflection on reflection.goal_id = goal.id where user_id = ${req.user.id}`;

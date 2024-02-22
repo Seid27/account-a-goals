@@ -7,7 +7,8 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
-  const queryText = `select action_plan.action_plan_title, 
+  const queryText = `select action_plan.id
+                            action_plan.action_plan_title, 
                             action_plan.action_plan_desc,
                             action_plan.status, 
                             action_plan.target_date, 
