@@ -51,6 +51,18 @@ router.put('/:reflection_id', (req,res)=>{
     }).catch((error)=>{
         console.error(error);
     })
-})
+});
+
+/**
+ * DELETE route to edit goal
+ */
+router.delete('/:reflection_id', (req,res)=>{
+    const queryText = `delete from reflection where id=${req.params.reflection_id}`;
+    pool.query(queryText).then(()=>{
+        res.sendStatus(204);
+    }).catch((error)=>{
+        console.error(error);
+    })
+});
 
 module.exports = router;

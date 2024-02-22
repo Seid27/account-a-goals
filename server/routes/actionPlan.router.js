@@ -70,6 +70,6 @@ router.put('/:action_plan_id',(req,res)=>{
     }).catch((error)=>{
         console.error(error);
     })
-})
+});
 
 module.exports = router;
