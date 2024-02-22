@@ -7,10 +7,11 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
     // GET route code here
-    const queryText = `select "comment".comment_title, 
-                            "comment".comment_desc, 
-                            "comment".date_created from "comment" 
-                            join goal on goal.id = "comment".goal_id where user_id = ${req.user.id}`;
+    const queryText = `select "comment".id,
+                                "comment".comment_title, 
+                                "comment".comment_desc, 
+                                "comment".date_created from "comment" 
+                                join goal on goal.id = "comment".goal_id where user_id = ${req.user.id}`;
 
     pool.query(queryText).then((result)=>{
         res.send(result.rows);
@@ -40,7 +41,14 @@ router.post('/', (req, res) => {
 /**
  * PUT route to edit a comment
  */
-router.put('/')
+router.put('/comment_id',(req,res)=>{
+    const queryText = ``;
+    pool.query(queryText,[]).then(()=>{
+        res.sendStatus(201);
+    }).catch((error)=>{
+        console.error(error);
+    })
+})
 
 
 

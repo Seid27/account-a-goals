@@ -10,10 +10,9 @@ const {
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
-    const queryText = `select reflection.reflection_title, 
+    const queryText = `select  reflection.reflection_title, 
                             reflection.reflection_desc, 
-                            reflection.date_created, 
-                            reflection.comment from goal 
+                            reflection.date_created from goal 
                             join reflection on reflection.goal_id = goal.id where user_id = ${req.user.id}`;
     pool.query(queryText).then((result)=>{
         res.send(result.rows);
@@ -41,5 +40,17 @@ router.post('/', (req, res) => {
         res.sendStatus(500);
     })
 });
+
+/**
+ * PUT route to edit reflection
+ */
+router.put('/:reflection_id', (req,res)=>{
+    const queryText = `update "reflection" set reflection_title=$1, reflection_desc=$2 where id=${req.params.reflection_id}`;
+    pool.query(queryText,[req.body.reflection_title, req.body.reflection_desc]).then(()=>{
+        res.sendStatus(200);
+    }).catch((error)=>{
+        console.error(error);
+    })
+})
 
 module.exports = router;
