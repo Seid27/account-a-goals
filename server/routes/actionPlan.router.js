@@ -64,7 +64,7 @@ router.post('/', (req, res) => {
  */
 router.put('/:action_plan_id',(req,res)=>{
     const queryText = `UPDATE "action_plan"
-    SET "action_plan_title"=$1, "action_plan_desc"=$2, "target_date"=$3, "status"=$4 where id=${req.params.action_plan_id}`;
+    SET "action_plan_title"=$1, "action_plan_desc"=$2, "target_date"=$3, "status"=$4, date_modified=NOW() where id=${req.params.action_plan_id}`;
     pool.query(queryText,[req.body.action_plan_title, req.body.action_plan_desc, req.body.target_date, req.body.status]).then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{

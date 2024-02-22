@@ -41,15 +41,13 @@ router.post('/', (req, res) => {
 /**
  * PUT route to edit a comment
  */
-router.put('/comment_id',(req,res)=>{
-    const queryText = ``;
-    pool.query(queryText,[]).then(()=>{
+router.put('/:comment_id',(req,res)=>{
+    const queryText = `update "comment" set comment_title=$1, comment_desc=$2, date_modified=NOW() where id=${req.params.comment_id}`;
+    pool.query(queryText,[req.body.comment_title, req.body.comment_desc]).then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{
         console.error(error);
     })
 })
-
-
 
 module.exports = router;

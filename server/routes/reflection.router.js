@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
  * PUT route to edit reflection
  */
 router.put('/:reflection_id', (req,res)=>{
-    const queryText = `update "reflection" set reflection_title=$1, reflection_desc=$2 where id=${req.params.reflection_id}`;
+    const queryText = `update "reflection" set reflection_title=$1, reflection_desc=$2, date_modified=NOW() where id=${req.params.reflection_id}`;
     pool.query(queryText,[req.body.reflection_title, req.body.reflection_desc]).then(()=>{
         res.sendStatus(200);
     }).catch((error)=>{
