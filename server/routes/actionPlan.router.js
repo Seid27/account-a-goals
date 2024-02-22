@@ -72,4 +72,16 @@ router.put('/:action_plan_id',(req,res)=>{
     })
 });
 
+/**
+ * DELETE route to actionPlan 
+ */
+router.delete('/:action_plan_id', (req,res)=>{
+    const queryText = `delete from action_plan where id=${req.params.action_plan_id}`;
+    pool.query(queryText).then(()=>{
+        res.sendStatus(204);
+    }).catch((error)=>{
+        console.error(error);
+    })
+});
+
 module.exports = router;

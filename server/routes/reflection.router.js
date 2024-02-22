@@ -54,7 +54,7 @@ router.put('/:reflection_id', (req,res)=>{
 });
 
 /**
- * DELETE route to edit goal
+ * DELETE route to edit 
  */
 router.delete('/:reflection_id', (req,res)=>{
     const queryText = `delete from reflection where id=${req.params.reflection_id}`;
