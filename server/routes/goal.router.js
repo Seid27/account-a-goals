@@ -55,4 +55,16 @@ router.put('/:goalId',(req,res)=>{
 
 });
 
+/**
+ * DELETE route to edit goal
+ */
+router.delete('/:goalId', (req,res)=>{
+    const queryText = `delete from goal where id=${req.params.goalId}`;
+    pool.query(queryText).then(()=>{
+        res.sendStatus(204);
+    }).catch((error)=>{
+        console.error(error);
+    })
+});
+
 module.exports = router;
