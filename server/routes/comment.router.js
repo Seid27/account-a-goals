@@ -50,4 +50,16 @@ router.put('/:comment_id',(req,res)=>{
     })
 })
 
+/**
+ * DELETE route to edit goal
+ */
+router.delete('/:comment_id', (req,res)=>{
+    const queryText = `delete from comment where id=${req.params.comment_id}`;
+    pool.query(queryText).then(()=>{
+        res.sendStatus(204);
+    }).catch((error)=>{
+        console.error(error);
+    })
+});
+
 module.exports = router;
