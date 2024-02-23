@@ -15,7 +15,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 });
 
 /**
- * search for an account_a_buddy from registered users
+ * GET search for an account_a_buddy from registered users
  */
 router.get('/search/:username', (req,res)=>{
   const queryText = `SELECT * FROM "user" WHERE username ILIKE '%${req.params.username}%' and "user".id != 4`;
