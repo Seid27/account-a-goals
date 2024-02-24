@@ -9,7 +9,7 @@ const passport = require('./strategies/user.strategy');
 
 // Route Includes
 const userRouter = require('./routes/user.router');
-const goalRouter = require('./routes/goal.router');
+const goalsRouter = require('./routes/goals.router');
 const reflectionRouter = require('./routes/reflection.router');
 const actionPlanRouter = require('./routes/actionPlan.router');
 const commentRouter = require('./routes/comment.router');
@@ -29,7 +29,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/api/user', userRouter);
-app.use('/api/goal',goalRouter);
+app.use('/api/goals',goalsRouter);
 app.use('/api/reflection',reflectionRouter);
 app.use('/api/actionplan',actionPlanRouter);
 app.use('/api/comment',commentRouter);
