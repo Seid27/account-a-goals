@@ -18,7 +18,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * GET search for an account_a_buddy from registered users
  */
 router.get('/search/:username', (req,res)=>{
-  const queryText = `SELECT * FROM "user" WHERE username ILIKE '%${req.params.username}%' and "user".id != 4`;
+  const queryText = `SELECT CONCAT (f_name, ' ', l_name) full_name FROM "user" 
+                      WHERE username ILIKE '%${req.params.username}%' and "user".id != ${req.user.id}`;
   pool.query(queryText).then((result)=>{
       res.send(result.rows);
   }).catch((error)=>{
