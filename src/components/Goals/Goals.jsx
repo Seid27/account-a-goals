@@ -7,6 +7,7 @@ import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentTe
 import List from '@mui/material/List';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Search from '../Search/Search';
 export default function Goals() {
     const dispatch = useDispatch();
     const goals = useSelector(s=>s.goals);
@@ -37,13 +38,12 @@ export default function Goals() {
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
         console.log(formJson);
+        dispatch({
+            type: 'ADD_GOAL',
+            payload: {...formJson, "accounta_buddy_id": 2}
+        })
         handleClose();
-
-        
     }
-
-
-
 
     return (
         <>
@@ -95,8 +95,8 @@ export default function Goals() {
                         autoFocus
                         required
                         margin="normal"
-                        id="title"
-                        name="title"
+                        id="goal_title"
+                        name="goal_title"
                         label="Title"
                         type='text'
                         fullWidth
@@ -104,8 +104,8 @@ export default function Goals() {
                     />
                     <TextField
                         margin="dense"
-                        id="description"
-                        name="description"
+                        id="goal_desc"
+                        name="goal_desc"
                         label="Description"
                         type='text'
                         multiline
@@ -113,11 +113,11 @@ export default function Goals() {
                         fullWidth
                         variant="outlined"
                     />
-                    <FormControl fullWidth sx={{mt:1}}>
-                        <InputLabel id='status-label'>Status</InputLabel>
+                    {/* <FormControl fullWidth sx={{mt:1}}>
+                        <InputLabel id='status_label'>Status</InputLabel>
                         <Select
                         required
-                        labelId='status-label'
+                        labelId='status_label'
                         label="Status"
                         id="status"
                         name="status"
@@ -129,13 +129,14 @@ export default function Goals() {
                             <MenuItem value='Complete'>Complete</MenuItem>
                         </Select>
                         
-                    </FormControl>
+                    </FormControl> */}
+                    <Search/>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
                             <DatePicker 
                                 id="target_date"
                                 name="target_date"
-                                label="target_date" slotProps={{
+                                label="Target Date" slotProps={{
                                 textField: {
                                     required: true,
                                  },
@@ -148,9 +149,6 @@ export default function Goals() {
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
                     <Button type='submit' variant='outlined'>Add</Button>
                 </DialogActions>
-
-                
-
             </Dialog>
         </>
     )

@@ -20,7 +20,6 @@ export default function Search() {
         
     }
     return(<>
-        <h1>search user</h1>
         <Autocomplete
             disablePortal
             id="combo-box-demo"
