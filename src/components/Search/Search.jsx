@@ -21,13 +21,12 @@ export default function Search() {
     }
     return(<>
         <Autocomplete
+            sx={{mt:'10px'}}
             disablePortal
             id="combo-box-demo"
             options={searchUser}
-            sx={{ width: 300 }}
             getOptionLabel={(option) => option.full_name}
             renderOption={(props, option) => (
-
                 
                 <Box component="li" sx={{ '& > img': { ml: 10, flexShrink: 0 } }} {...props}>
                  <Avatar sx={{ mr: 2, flexShrink: 0 } } alt="Remy Sharp" 
@@ -38,7 +37,8 @@ export default function Search() {
               )}
             renderInput={(params) => 
                 
-            <TextField onChange={(e)=>{sendSearchQuery(e.target.value)}} {...params} label="Account-a-Buddy" />}
+            <TextField onChange={(e)=>{sendSearchQuery(e.target.value)}} {...params} id="account-a-buddy"
+            name="account-a-buddy" label="Account-a-Buddy" />}
         />
     </>)
     

@@ -130,14 +130,16 @@ export default function Goals() {
                         </Select>
                         
                     </FormControl> */}
-                    <Search/>
+                    <Search
+                    />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
                             <DatePicker 
                                 id="target_date"
                                 name="target_date"
-                                label="Target Date" slotProps={{
-                                textField: {
+                                label="Target Date"
+                                 slotProps={{
+                                    textField: {
                                     required: true,
                                  },
                                 }}
