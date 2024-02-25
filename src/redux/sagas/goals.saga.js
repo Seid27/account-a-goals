@@ -23,6 +23,7 @@ function* addGoalSaga(action){
 
 function* goalsSaga() {
     yield takeLatest('FETCH_GOALS', fetchGoals);
+    yield takeLatest('ADD_GOAL', addGoalSaga);
 }
 
 
