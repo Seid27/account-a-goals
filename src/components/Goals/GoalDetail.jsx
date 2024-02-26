@@ -41,7 +41,7 @@ export default function GoalDetail() {
             {/* todo: use search for accounta buddy name */}
             <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p> 
             <Button onClick={handleClickOpen} variant="outlined">Edit Goal</Button>
-            <Button onClick={()=>handleRemoveGoal(goalId)} variant="outlined">Delete</Button>
+            <Button onClick={()=>handleRemoveGoal(goalId)} variant="outlined">Remove</Button>
             <EditGoalDialog 
                 open={open}
                 handleClose={handleClose}
