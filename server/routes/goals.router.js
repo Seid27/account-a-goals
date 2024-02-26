@@ -43,6 +43,7 @@ router.post('/', (req, res) => {
  * PUT route to edit goal
  */
 router.put('/:goalId',(req,res)=>{
+  console.log('updating goal');
     const queryText = `UPDATE "goal"
     SET goal_title= $1, goal_desc= $2, target_date=$3, status=$4, date_modified=NOW() where id=${req.params.goalId}`;
     pool.query(queryText,[req.body.goal_title, req.body.goal_desc, req.body.target_date, req.body.status])
@@ -55,9 +56,10 @@ router.put('/:goalId',(req,res)=>{
 });
 
 /**
- * DELETE route to edit goal
+ * DELETE route to delete goal
  */
 router.delete('/:goalId', (req,res)=>{
+  console.log('deleting data ...');
     const queryText = `delete from goal where id=${req.params.goalId}`;
     pool.query(queryText).then(()=>{
         res.sendStatus(204);

@@ -10,6 +10,7 @@ export default function Search() {
 
     function sendSearchQuery(value) {
         console.log(value);
+        //todo: this should be in saga
         axios.get(`/api/user/search/${value}`).then((res)=>{
             console.log(res.data);
             // let result = res.data.map(user => user.full_name);

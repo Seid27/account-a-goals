@@ -2,14 +2,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { Delete} from '@mui/icons-material';
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, IconButton, InputLabel, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, TextField, Typography } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, IconButton, InputLabel, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
 import List from '@mui/material/List';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Search from '../Search/Search';
+import { useHistory } from 'react-router-dom';
 export default function Goals() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const goals = useSelector(s=>s.goals);
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState('Pending');
@@ -45,6 +47,18 @@ export default function Goals() {
         handleClose();
     }
 
+    function handleGoalDetail(goalId) {
+        console.log(goalId);
+        history.push({pathname: `/detail/${goalId}`});
+    }
+
+    function handleRemoveGoal(goalId){
+        dispatch({
+            type: 'REMOVE_GOAL',
+            payload: goalId
+        })
+    }
+
     return (
         <>
             <div>Your Goals</div>
@@ -54,14 +68,15 @@ export default function Goals() {
                     goals.map((goal) =>{
                     return (
                         <ListItem  key={goal.id} secondaryAction={
-                            <IconButton aria-label="delete" size="large">
-                                <Delete fontSize='inherit'></Delete>
+                            <IconButton aria-label="delete" size="large" onClick={()=>handleRemoveGoal(goal.id)}>
+                                <DeleteForeverIcon fontSize='inherit'/>
+                                
                             </IconButton>
                         }
                         disablePadding
                         >
 
-                            <ListItemButton>
+                            <ListItemButton onClick={()=>handleGoalDetail(goal.id)}>
                                 <ListItemIcon>
                                 <Checkbox 
                                     edge="end"
@@ -88,7 +103,7 @@ export default function Goals() {
             >
                 <DialogContent>
                     <DialogContentText>
-                        <Typography>Add a Goal</Typography>
+                        Add a Goal
                        
                     </DialogContentText>
                     <TextField
