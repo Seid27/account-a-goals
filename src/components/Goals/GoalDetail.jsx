@@ -1,11 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
 import ActionPlansTable from "./ActionPlansTable";
 import { Button } from "@mui/material";
 import EditGoalDialog from "./EditGoalDialog";
 import { useState } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 export default function GoalDetail() {
     const {goalId} = useParams();
+    const history = useHistory();
+    const dispatch = useDispatch();
     const goals = useSelector(s=>s.goals);
     const goalSelected = goals.filter((goal)=>goal.id == goalId);
     console.log(goalSelected);
@@ -19,6 +22,14 @@ export default function GoalDetail() {
         setOpen(false);
     };
 
+    function handleRemoveGoal(goal_id) {
+        dispatch({
+            type: 'REMOVE_GOAL',
+            payload: goal_id
+        })
+        history.push('/');
+    }
+
     return (
         <>
             <h1>{goalSelected[0].goal_title}</h1>
@@ -30,6 +41,7 @@ export default function GoalDetail() {
             {/* todo: use search for accounta buddy name */}
             <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p> 
             <Button onClick={handleClickOpen} variant="outlined">Edit Goal</Button>
+            <Button onClick={()=>handleRemoveGoal(goalId)} variant="outlined">Delete</Button>
             <EditGoalDialog 
                 open={open}
                 handleClose={handleClose}

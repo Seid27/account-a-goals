@@ -14,7 +14,7 @@ export default function Goals() {
     const history = useHistory();
     const goals = useSelector(s=>s.goals);
     const [open, setOpen] = useState(false);
-    const [status, setStatus] = useState('Pending');
+    // const [status, setStatus] = useState('Pending');
     function fetchGoals() {
         dispatch({
             type: 'FETCH_GOALS'
@@ -23,7 +23,7 @@ export default function Goals() {
 
     useEffect(()=>{
         fetchGoals();
-    },[]);
+    },[status]);
 
     function handleClickOpen() {
         setOpen(true);
@@ -59,6 +59,26 @@ export default function Goals() {
         })
     }
 
+    function handleChecked(event,goal){
+        event.stopPropagation();
+        console.log("goal status",goal.status);
+
+        let newGoal = {...goal};
+        if (goal.status === 'Pending' || goal.status === 'In Progress') {
+            newGoal = {...newGoal,status: 'Complete'};
+        }
+
+        else{
+            newGoal = {...newGoal,status: 'Pending'};
+        }
+
+        dispatch({
+            type: 'EDIT_GOAL',
+            payload: newGoal
+        })
+
+    }
+
     return (
         <>
             <div>Your Goals</div>
@@ -80,7 +100,8 @@ export default function Goals() {
                                 <ListItemIcon>
                                 <Checkbox 
                                     edge="end"
-                                    checked = {goal.status === 'Complete'}
+                                    checked = {goal.status === "Complete"}
+                                    onClick={(event)=>handleChecked(event,goal)}
                                     //todo: add check handler to send update to goal status using axios
                                 />
                                 </ListItemIcon>
