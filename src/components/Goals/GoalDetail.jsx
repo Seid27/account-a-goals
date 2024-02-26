@@ -4,7 +4,8 @@ import ActionPlansTable from "./ActionPlansTable";
 import { Button } from "@mui/material";
 import EditGoalDialog from "./EditGoalDialog";
 import { useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
+import AddActionPlanDialog from "./AddActionPlanDialog";
 export default function GoalDetail() {
     const {goalId} = useParams();
     const history = useHistory();
@@ -12,14 +13,22 @@ export default function GoalDetail() {
     const goals = useSelector(s=>s.goals);
     const goalSelected = goals.filter((goal)=>goal.id == goalId);
     console.log(goalSelected);
-    const [open, setOpen] = useState(false);
+    const [openAddActionPlanDialog, setOpenAddActionPlanDialog] = useState(false);
+    const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleOpenAddActionPlanDialog = () => {
+        setOpenAddActionPlanDialog(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseAddActionPlanDialog = () => {
+        setOpenAddActionPlanDialog(false);
+    };
+    const handlOpenEditGoalDiablog = () => {
+        setOpenEditGoalDiablog(true);
+    };
+
+    const handleCloseEditGoalDiablog = () => {
+        setOpenEditGoalDiablog(false);
     };
 
     function handleRemoveGoal(goal_id) {
@@ -40,13 +49,16 @@ export default function GoalDetail() {
             <p>Status: {goalSelected[0].status}</p>
             {/* todo: use search for accounta buddy name */}
             <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p> 
-            <Button onClick={handleClickOpen} variant="outlined">Edit Goal</Button>
-            <Button onClick={()=>handleRemoveGoal(goalId)} variant="outlined">Remove</Button>
+            <Button onClick={handlOpenEditGoalDiablog} variant="outlined">Edit Goal</Button>
             <EditGoalDialog 
-                open={open}
-                handleClose={handleClose}
+                open={openEditGoalDiablog}
+                handleClose={handleCloseEditGoalDiablog}
                 goal={goalSelected[0]}
             />
+            <Button onClick={()=>handleRemoveGoal(goalId)} variant="outlined">Remove</Button>
+            <h1>Action Plans</h1>
+            <Button  variant="outlined" onClick={handleOpenAddActionPlanDialog}>Add Action Plan</Button>
+            <AddActionPlanDialog open={openAddActionPlanDialog} onClose={handleCloseAddActionPlanDialog} goalId={goalId}/>
             <ActionPlansTable/>
 
             {/* <TableContainer component={Paper}>

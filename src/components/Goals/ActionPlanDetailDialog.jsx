@@ -1,9 +1,12 @@
 import { Dialog, DialogContent, DialogContentText } from "@mui/material";
 
-export default function ActionPlanDetail() {
+export default function ActionPlanDetailDialog({open,onClose}) {
     return(
         <>
-            <Dialog>
+            <Dialog
+                open={open}
+                close={onClose}
+            >
                 <DialogContent>
                     <DialogContentText>
                         <h1>This is Description page for action plans</h1>

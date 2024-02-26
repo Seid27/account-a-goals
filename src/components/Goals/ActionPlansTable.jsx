@@ -12,6 +12,7 @@ import { IconButton, TableCell, TableContainer } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from 'react';
+import AddActionPlanDialog from "./AddActionPlanDialog";
 export default function ActionPlansTable() {
     const dispatch = useDispatch();
     const actionPlans = useSelector(s=>s.actionPlans);
@@ -41,8 +42,8 @@ export default function ActionPlansTable() {
 
     return (
         <>
-            <h1>Action Plans</h1>
-            <Button variant="outlined">Add Action Plan</Button>
+            {/* <Button  variant="outlined" onClick={handleClickOpen}>Add Action Plan</Button>
+            <AddActionPlanDialog open={open} onClose={handleClose} /> */}
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -86,7 +87,7 @@ export default function ActionPlansTable() {
                 </Table>
             </TableContainer>
 
-            <Dialog
+            {/* <Dialog
                 open={open}
                 onClose={handleClose}
             >
@@ -106,7 +107,7 @@ export default function ActionPlansTable() {
                     </DialogContentText>
                     
                 </DialogContent>
-            </Dialog>
+            </Dialog> */}
         </>
     )
     
