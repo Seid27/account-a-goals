@@ -13,16 +13,8 @@ export default function GoalDetail() {
     const goals = useSelector(s=>s.goals);
     const goalSelected = goals.filter((goal)=>goal.id == goal_id);
     console.log(goalSelected);
-    // const [openAddActionPlanDialog, setOpenAddActionPlanDialog] = useState(false);
     const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
 
-    // const handleOpenAddActionPlanDialog = () => {
-    //     setOpenAddActionPlanDialog(true);
-    // };
-
-    // const handleCloseAddActionPlanDialog = () => {
-    //     setOpenAddActionPlanDialog(false);
-    // };
     const handlOpenEditGoalDiablog = () => {
         setOpenEditGoalDiablog(true);
     };
