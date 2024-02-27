@@ -19,11 +19,7 @@ export default function ActionPlansTable({goal_id}) {
     const dispatch = useDispatch();
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     console.log(actionPlans);
-    const [open, setOpen] = useState(false);
-
     const [openDetailActionPlanDialog, setOpenDetailActionPlan] = useState(false);
-    const [openAddActionPlanDialog, setOpenAddActionPlanDialog] = useState(false);
-    const [openEditActionPlanDialog, setOpenEditActionPlanDialog] = useState(false);
     // const [selectedActionPlan, setSelectedActionPlan] = useState({});
     console.log();
     function fetchActionPlans() {
@@ -35,22 +31,11 @@ export default function ActionPlansTable({goal_id}) {
     useEffect(()=>{
         fetchActionPlans();
     },[]);
-
-    //Dialog controls
-    const handleOpenDetailActionPlanDialog = () => setOpenDetailActionPlan(true);
-    const handleCloseDetailActionPlanDialog = () => setOpenDetailActionPlan(false);
-    const handleOpenAddActionPlanDialog = () => setOpenAddActionPlanDialog(true);
-    const handleCloseAddActionPlanDialog = () => setOpenAddActionPlanDialog(false);
-    const handleOpenEditActionPlanDialog = () => setOpenEditActionPlanDialog(true);
-    const handleCloseEditActionPlanDialog = () => setOpenEditActionPlanDialog(false);
-
     
-
     return (
         <>
             <h1>Action Plans</h1>
-            <Button  variant="outlined" onClick={handleOpenAddActionPlanDialog}>Add Action Plan</Button>
-            <AddActionPlanDialog open={openAddActionPlanDialog} handleClose={handleCloseAddActionPlanDialog} goal_id={goal_id}/>
+            <AddActionPlanDialog goal_id={goal_id}/>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -76,14 +61,7 @@ export default function ActionPlansTable({goal_id}) {
                                         {actionPlan.status}
                                     </TableCell>
                                     <TableCell >
-                                        <IconButton onClick={(e)=>{e.stopPropagation();
-                                                                    console.log(actionPlan);
-                                                                    handleOpenEditActionPlanDialog()}}>
-                                            <EditIcon />
-                                        </IconButton>
                                         <EditActionPlanDialog 
-                                        open={openEditActionPlanDialog} 
-                                        handleClose={handleCloseEditActionPlanDialog} 
                                         actionPlan={actionPlan}/>
                                         
                                     </TableCell>

@@ -13,15 +13,15 @@ export default function GoalDetail() {
     const goals = useSelector(s=>s.goals);
     const goalSelected = goals.filter((goal)=>goal.id == goal_id);
     console.log(goalSelected);
-    const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
+    // const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
 
-    const handlOpenEditGoalDiablog = () => {
-        setOpenEditGoalDiablog(true);
-    };
+    // const handlOpenEditGoalDiablog = () => {
+    //     setOpenEditGoalDiablog(true);
+    // };
 
-    const handleCloseEditGoalDiablog = () => {
-        setOpenEditGoalDiablog(false);
-    };
+    // const handleCloseEditGoalDiablog = () => {
+    //     setOpenEditGoalDiablog(false);
+    // };
 
     function handleRemoveGoal(goal_id) {
         dispatch({
@@ -40,13 +40,8 @@ export default function GoalDetail() {
             <p>Target Date on: {goalSelected[0].target_date}</p>
             <p>Status: {goalSelected[0].status}</p>
             {/* todo: use search for accounta buddy name */}
-            <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p> 
-            <Button onClick={handlOpenEditGoalDiablog} variant="outlined">Edit Goal</Button>
-            <EditGoalDialog 
-                open={openEditGoalDiablog}
-                handleClose={handleCloseEditGoalDiablog}
-                goal={goalSelected[0]}
-            />
+            <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p>
+            <EditGoalDialog goal={goalSelected[0]}/>
             <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
             <ActionPlansTable goal_id={goal_id}/>
         </>

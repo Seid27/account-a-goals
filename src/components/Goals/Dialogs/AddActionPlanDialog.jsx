@@ -6,29 +6,34 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function AddActionPlanDialog({open, handleClose, goal_id}) {
+export default function AddActionPlanDialog({goal_id}) {
     console.log('open add action plan dialog');
     const [status, setStatus] = useState('Pending');
+    const [openAddActionPlanDialog, setOpenAddActionPlanDialog] = useState(false)
     const dispatch = useDispatch();
+
+    const handleOpenAddActionPlanDialog = () => setOpenAddActionPlanDialog(true);
+    const handleCloseAddActionPlanDialog = () => setOpenAddActionPlanDialog(false);
 
     function handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
-        
-        // console.log({...formJson,goal_id:parseInt(goal_id)});
         dispatch({
             type: 'ADD_ACTION_PLAN',
             payload: {...formJson,goal_id}
         });
-        handleClose();
+        handleCloseAddActionPlanDialog();
     }
 
     return (
         <>
+            <Button onClick={handleOpenAddActionPlanDialog} variant="outlined">
+                Add Action Plan
+            </Button>
             <Dialog
-            open={open}
-            onClose={handleClose}
+            open={openAddActionPlanDialog}
+            onClose={handleCloseAddActionPlanDialog}
             PaperProps={{
                 component:'form',
                 onSubmit: (event)=>{handleSubmit(event)}}}
@@ -93,7 +98,7 @@ export default function AddActionPlanDialog({open, handleClose, goal_id}) {
                     </LocalizationProvider>
                 </DialogContent>
                 <DialogActions>
-                    <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
+                    <Button  onClick={handleCloseAddActionPlanDialog} variant='outlined'>Cancel</Button>
                     <Button type='submit' variant='outlined'>Add</Button>
                 </DialogActions>
                 

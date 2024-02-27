@@ -6,10 +6,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-export default function EditGoalDialog({open, handleClose, goal}) {
+export default function EditGoalDialog({goal}) {
     console.log('open Edit dialog');
     const [status, setStatus] = useState(goal.status);
     const dispatch = useDispatch();
+    const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
+
+    //submits form data
+    //dispatches EDIT_GOAL action to goalsSaga
     function handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -18,14 +22,25 @@ export default function EditGoalDialog({open, handleClose, goal}) {
             type: 'EDIT_GOAL',
             payload: {id:goal.id, ...formJson}
         })
-        handleClose();
+        handleCloseEditGoalDiablog();
     }
+
+    //dialog open
+    const handlOpenEditGoalDiablog = () => {
+        setOpenEditGoalDiablog(true);
+    };
+
+    //dialog close
+    const handleCloseEditGoalDiablog = () => {
+        setOpenEditGoalDiablog(false);
+    };
 
     return (
         <>
+            <Button onClick={handlOpenEditGoalDiablog} variant="outlined">Edit Goal</Button>
             <Dialog
-                open={open}
-                onClose={handleClose}
+                open={openEditGoalDiablog}
+                onClose={handleCloseEditGoalDiablog}
                 PaperProps={{
                     component:'form',
                     onSubmit: (event)=>{handleSubmit(event)}
@@ -96,7 +111,7 @@ export default function EditGoalDialog({open, handleClose, goal}) {
                     </LocalizationProvider>
                 </DialogContent>
                 <DialogActions>
-                    <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
+                    <Button  onClick={handleCloseEditGoalDiablog} variant='outlined'>Cancel</Button>
                     <Button type='submit' variant='outlined'>Submit</Button>
                 </DialogActions>
             </Dialog>
