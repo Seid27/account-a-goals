@@ -111,7 +111,7 @@ function App() {
             }
           </Route>
 
-          <Route path='/detail/:goalId'>
+          <Route path='/detail/:goal_id'>
             <GoalDetail/>
           </Route>
 

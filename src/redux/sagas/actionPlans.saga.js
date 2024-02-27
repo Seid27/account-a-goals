@@ -6,10 +6,10 @@ import axios from 'axios';
 // deletes action plan
 // adds new action plan
 // edit action plan
-function* fetchActionPlans () {
+function* fetchActionPlans (action) {
     try {
-        console.log('fetching data');
-        const result = yield axios.get('/api/actionplans');
+        console.log(action.payload);
+        const result = yield axios.get(`/api/actionplans/`);
         console.log(result);
         yield put({type: 'SET_ACTION_PLAN', payload: result.data})
         
@@ -19,9 +19,10 @@ function* fetchActionPlans () {
 }
 
 function* addActionPlan(action){
+    console.log(action.payload);
     try {
         yield axios.post('api/actionplans', action.payload);
-        yield put({type: 'FETCH_ACTION_PLANS'});
+        yield put({type: 'FETCH_ACTION_PLANS'}); //fixes this
     } catch (error) {
         console.error(error);
     }
@@ -42,7 +43,7 @@ function* editActionPlan(action){
 
 function* actionPlansSaga(){
     yield takeLatest('FETCH_ACTION_PLANS',fetchActionPlans);
-    yield takeLatest('ADD_ACTION_PLANS',addActionPlan);
+    yield takeLatest('ADD_ACTION_PLAN',addActionPlan);
     yield takeLatest('REMOVE_ACTION_PLANS',fetchActionPlans);
     yield takeLatest('EDIT_ACTION_PLANS',fetchActionPlans);
 }

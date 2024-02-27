@@ -12,15 +12,18 @@ import { IconButton, TableCell, TableContainer } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from 'react';
-import AddActionPlanDialog from "./AddActionPlanDialog";
-export default function ActionPlansTable() {
+import AddActionPlanDialog from "../Dialogs/AddActionPlanDialog";
+export default function ActionPlansTable({goal_id}) {
+    console.log('in action plan table',goal_id);
     const dispatch = useDispatch();
-    const actionPlans = useSelector(s=>s.actionPlans);
+    const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
+    console.log(actionPlans);
     const [open, setOpen] = useState(false);
-    const [selectedActionPlan, setSelectedActionPlan] = useState({});
+    // const [selectedActionPlan, setSelectedActionPlan] = useState({});
+    console.log();
     function fetchActionPlans() {
         dispatch({
-            type: 'FETCH_ACTION_PLANS'
+            type: 'FETCH_ACTION_PLANS',
         });
     }
 
@@ -29,8 +32,6 @@ export default function ActionPlansTable() {
     },[]);
 
     function handleClickOpen() {
-       
-        // setSelectedActionPlan(actionPlan);
         setOpen(true);
         
     }
@@ -42,8 +43,9 @@ export default function ActionPlansTable() {
 
     return (
         <>
-            {/* <Button  variant="outlined" onClick={handleClickOpen}>Add Action Plan</Button>
-            <AddActionPlanDialog open={open} onClose={handleClose} /> */}
+            <h1>Action Plans</h1>
+            <Button  variant="outlined" onClick={handleClickOpen}>Add Action Plan</Button>
+            <AddActionPlanDialog open={open} handleClose={handleClose} goal_id={goal_id}/>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -61,7 +63,7 @@ export default function ActionPlansTable() {
                                     actionPlan.id} 
                                     hover 
                                     sx={{ cursor: 'pointer' }}
-                                    onClick={handleClickOpen}>
+                                >
                                     <TableCell>
                                         {actionPlan.action_plan_title}
                                     </TableCell>
@@ -86,28 +88,6 @@ export default function ActionPlansTable() {
                         </TableBody>
                 </Table>
             </TableContainer>
-
-            {/* <Dialog
-                open={open}
-                onClose={handleClose}
-            >
-                <DialogTitle>
-                       {selectedActionPlan.action_plan_title} 
-                    </DialogTitle>
-                <DialogContent>
-                    
-                    <DialogContentText>
-                        {selectedActionPlan.action_plan_desc}
-                        
-                    </DialogContentText>
-                    <DialogContentText>
-
-                        {selectedActionPlan.date_created}
-                        
-                    </DialogContentText>
-                    
-                </DialogContent>
-            </Dialog> */}
         </>
     )
     

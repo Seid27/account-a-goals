@@ -6,7 +6,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function AddActionPlanDialog({open, onClose, goal_id}) {
+export default function AddActionPlanDialog({open, handleClose, goal_id}) {
     console.log('open add action plan dialog');
     const [status, setStatus] = useState('Pending');
     const dispatch = useDispatch();
@@ -15,20 +15,20 @@ export default function AddActionPlanDialog({open, onClose, goal_id}) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
-        console.log({...formJson,goal_id});
+        
+        // console.log({...formJson,goal_id:parseInt(goal_id)});
         dispatch({
-            type: 'ADD_ACTION_PLANS',
+            type: 'ADD_ACTION_PLAN',
             payload: {...formJson,goal_id}
         });
-        onClose();
-        
+        handleClose();
     }
 
     return (
         <>
             <Dialog
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             PaperProps={{
                 component:'form',
                 onSubmit: (event)=>{handleSubmit(event)}}}
@@ -93,7 +93,7 @@ export default function AddActionPlanDialog({open, onClose, goal_id}) {
                     </LocalizationProvider>
                 </DialogContent>
                 <DialogActions>
-                    <Button  onClick={onClose} variant='outlined'>Cancel</Button>
+                    <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
                     <Button type='submit' variant='outlined'>Add</Button>
                 </DialogActions>
                 

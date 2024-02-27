@@ -8,14 +8,19 @@ const router = express.Router();
 router.get('/', (req, res) => {
   // GET route code here
   console.log('getting action plans data ... ');
-  const queryText = `select action_plan.id,
-                            action_plan.action_plan_title, 
-                            action_plan.action_plan_desc,
-                            action_plan.status, 
-                            action_plan.target_date, 
-                            action_plan.date_created from action_plan 
-                            join goal on goal.id=action_plan.goal_id where user_id=${req.user.id}`;
+  // const queryText = `select action_plan.id,
+  //                           action_plan.action_plan_title, 
+  //                           action_plan.action_plan_desc,
+  //                           action_plan.status, 
+  //                           action_plan.target_date, 
+  //                           action_plan.date_created from action_plan 
+  //                           join goal on goal.id=action_plan.goal_id where "user_id"=${req.user.id} and "goal_id"=${req.params.goal_id}`;
+
+  const queryText = `select action_plan.id, action_plan.action_plan_title, action_plan.action_plan_desc,action_plan.goal_id,
+  action_plan.status, action_plan.target_date, action_plan.date_created from
+  action_plan join goal on goal.id=action_plan.goal_id where user_id=${req.user.id} order by date_created desc`
   pool.query(queryText).then((result)=>{
+    console.log(result.rows);
     res.send(result.rows);
   }).catch((error)=>{
     console.error(error);
@@ -27,35 +32,47 @@ router.get('/', (req, res) => {
  * POST route for action_plan
  */
 router.post('/', (req, res) => {
+  console.log(req.body);
   // POST route code here
-  let queryText = `insert into action_plan("action_plan_title", "action_plan_desc", "target_date", "goal_id")
-  values($1,$2,$3,$4)`;
+  const queryText = `insert into action_plan("action_plan_title", "action_plan_desc", "target_date", "status", "goal_id")
+  values($1,$2,$3,$4,$5)`;
 
-  //status is optional field its default value is false
-  if (req.body.status){
-    queryText = `insert into action_plan("action_plan_title", "action_plan_desc", "target_date","status", "goal_id")
-    values($1,$2,$3,$4,$5)`;
-    pool.query(queryText,[req.body.action_plan_title,
+  pool.query(queryText,[
+                        req.body.action_plan_title,
                         req.body.action_plan_desc,
                         req.body.target_date,
                         req.body.status,
-                        req.body.goal_id])
-    .then(()=>{
-        res.sendStatus(201);
-      }).catch((error)=>{
-        console.error(error);
-      })    
-  } else{
-    pool.query(queryText,[req.body.action_plan_title,
-                        req.body.action_plan_desc,
-                        req.body.target_date,
-                        req.body.goal_id])
-    .then(()=>{
-        res.sendStatus(201);
-      }).catch((error)=>{
-        console.error(error);
-      });
-  }
+                        req.body.goal_id]).then(()=>{
+                          res.sendStatus(201);
+                        }).catch((error)=>{
+                          console.error(error);
+                        })
+
+  //status is optional field its default value is false
+  // if (req.body.status){
+  //   queryText = `insert into action_plan("action_plan_title", "action_plan_desc", "target_date","status", "goal_id")
+  //   values($1,$2,$3,$4,$5)`;
+  //   pool.query(queryText,[req.body.action_plan_title,
+  //                       req.body.action_plan_desc,
+  //                       req.body.target_date,
+  //                       req.body.status,
+  //                       req.body.goal_id])
+  //   .then(()=>{
+  //       res.sendStatus(201);
+  //     }).catch((error)=>{
+  //       console.error(error);
+  //     })    
+  // } else{
+  //   pool.query(queryText,[req.body.action_plan_title,
+  //                       req.body.action_plan_desc,
+  //                       req.body.target_date,
+  //                       req.body.goal_id])
+  //   .then(()=>{
+  //       res.sendStatus(201);
+  //     }).catch((error)=>{
+  //       console.error(error);
+  //     });
+  // }
 });
 
 

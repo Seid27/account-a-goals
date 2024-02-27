@@ -14,7 +14,6 @@ export default function Goals() {
     const history = useHistory();
     const goals = useSelector(s=>s.goals);
     const [open, setOpen] = useState(false);
-    // const [status, setStatus] = useState('Pending');
     function fetchGoals() {
         dispatch({
             type: 'FETCH_GOALS'
@@ -23,7 +22,7 @@ export default function Goals() {
 
     useEffect(()=>{
         fetchGoals();
-    },[status]);
+    },[]);
 
     function handleClickOpen() {
         setOpen(true);
@@ -47,15 +46,16 @@ export default function Goals() {
         handleClose();
     }
 
-    function handleGoalDetail(goalId) {
-        console.log(goalId);
-        history.push({pathname: `/detail/${goalId}`});
+    function handleGoalDetail(goal_id) {
+        console.log(goal_id);
+        history.push({pathname: `/detail/${goal_id}`});
+        console.log(history);
     }
 
-    function handleRemoveGoal(goalId){
+    function handleRemoveGoal(goal_id){
         dispatch({
             type: 'REMOVE_GOAL',
-            payload: goalId
+            payload: goal_id
         })
     }
 
@@ -149,23 +149,6 @@ export default function Goals() {
                         fullWidth
                         variant="outlined"
                     />
-                    {/* <FormControl fullWidth sx={{mt:1}}>
-                        <InputLabel id='status_label'>Status</InputLabel>
-                        <Select
-                        required
-                        labelId='status_label'
-                        label="Status"
-                        id="status"
-                        name="status"
-                        value={status}
-                        onChange={(e)=>setStatus(e.target.value)}
-                        >
-                            <MenuItem value='Pending'>Pending</MenuItem>
-                            <MenuItem value='In progress'>In Progress</MenuItem>
-                            <MenuItem value='Complete'>Complete</MenuItem>
-                        </Select>
-                        
-                    </FormControl> */}
                     <Search
                     />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

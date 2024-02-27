@@ -1,28 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import ActionPlansTable from "./ActionPlansTable";
+import ActionPlansTable from "./Tables/ActionPlansTable";
 import { Button } from "@mui/material";
-import EditGoalDialog from "./EditGoalDialog";
+import EditGoalDialog from "./Dialogs/EditGoalDialog";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import AddActionPlanDialog from "./AddActionPlanDialog";
+import AddActionPlanDialog from "./Dialogs/AddActionPlanDialog";
 export default function GoalDetail() {
-    const {goalId} = useParams();
+    const {goal_id} = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
     const goals = useSelector(s=>s.goals);
-    const goalSelected = goals.filter((goal)=>goal.id == goalId);
+    const goalSelected = goals.filter((goal)=>goal.id == goal_id);
     console.log(goalSelected);
-    const [openAddActionPlanDialog, setOpenAddActionPlanDialog] = useState(false);
+    // const [openAddActionPlanDialog, setOpenAddActionPlanDialog] = useState(false);
     const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
 
-    const handleOpenAddActionPlanDialog = () => {
-        setOpenAddActionPlanDialog(true);
-    };
+    // const handleOpenAddActionPlanDialog = () => {
+    //     setOpenAddActionPlanDialog(true);
+    // };
 
-    const handleCloseAddActionPlanDialog = () => {
-        setOpenAddActionPlanDialog(false);
-    };
+    // const handleCloseAddActionPlanDialog = () => {
+    //     setOpenAddActionPlanDialog(false);
+    // };
     const handlOpenEditGoalDiablog = () => {
         setOpenEditGoalDiablog(true);
     };
@@ -55,50 +55,8 @@ export default function GoalDetail() {
                 handleClose={handleCloseEditGoalDiablog}
                 goal={goalSelected[0]}
             />
-            <Button onClick={()=>handleRemoveGoal(goalId)} variant="outlined">Remove</Button>
-            <h1>Action Plans</h1>
-            <Button  variant="outlined" onClick={handleOpenAddActionPlanDialog}>Add Action Plan</Button>
-            <AddActionPlanDialog open={openAddActionPlanDialog} onClose={handleCloseAddActionPlanDialog} goalId={goalId}/>
-            <ActionPlansTable/>
-
-            {/* <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Action Plan</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Edit</TableCell>
-                            <TableCell>Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                            <TableRow
-                            hover
-                            sx={{ cursor: 'pointer' }}
-                            onClick={()=>{}}
-                            >
-                                <TableCell>
-                                    Im gonna do th
-                                </TableCell>
-                                <TableCell>
-                                    Pending
-                                </TableCell>
-                                <TableCell >
-                                    <IconButton onClick={()=>{console.log('hello');}}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    
-                                </TableCell>
-                                <TableCell>
-                                    <IconButton onClick={()=>{console.log('hello');}}>
-                                        <DeleteForeverIcon/>
-                                    </IconButton>
-                                    
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                </Table>
-            </TableContainer> */}
+            <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
+            <ActionPlansTable goal_id={goal_id}/>
         </>
     )
     

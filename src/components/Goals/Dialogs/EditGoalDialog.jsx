@@ -14,9 +14,6 @@ export default function EditGoalDialog({open, handleClose, goal}) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
-        // let newGoal = {...goal,...formJson}
-        // console.log('form json', formJson);
-        // console.log('form json', goal);
         dispatch({
             type: 'EDIT_GOAL',
             payload: {id:goal.id, ...formJson}
@@ -80,8 +77,6 @@ export default function EditGoalDialog({open, handleClose, goal}) {
                         </Select>
                         
                     </FormControl>
-                    {/* <Search
-                    /> */}
                     
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
