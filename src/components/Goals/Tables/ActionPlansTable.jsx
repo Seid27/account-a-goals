@@ -14,14 +14,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from 'react';
 import AddActionPlanDialog from "../Dialogs/AddActionPlanDialog";
 import EditActionPlanDialog from "../Dialogs/EditActionPlanDialog";
+import DeleteDialog from "../Dialogs/DeleteDialog";
+import { ActionPlanDetailDialog } from "../Dialogs/ActionPlanDetailDialog";
 export default function ActionPlansTable({goal_id}) {
     console.log('in action plan table',goal_id);
     const dispatch = useDispatch();
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     console.log(actionPlans);
-    const [openDetailActionPlanDialog, setOpenDetailActionPlan] = useState(false);
-    // const [selectedActionPlan, setSelectedActionPlan] = useState({});
-    console.log();
+    const [openActionPlanDetail, setOpenActionPlanDetail] = useState(false);
+    const handleOpenActionPlanDetail = ()=>setOpenActionPlanDetail(true);
+    const handleCloseActionPlanDetail = ()=>setOpenActionPlanDetail(false);
+
     function fetchActionPlans() {
         dispatch({
             type: 'FETCH_ACTION_PLANS',
@@ -49,26 +52,32 @@ export default function ActionPlansTable({goal_id}) {
                     <TableBody>
                         {actionPlans.map((actionPlan)=>{
                             return (
-                                <TableRow key={
-                                    actionPlan.id} 
+                                <TableRow 
+                                    key={actionPlan.id} 
                                     hover 
                                     sx={{ cursor: 'pointer' }}
-                                >
+                                    onClick={handleOpenActionPlanDetail}>
+
+                                    <ActionPlanDetailDialog 
+                                        open={openActionPlanDetail} 
+                                        handleClose={handleCloseActionPlanDetail} 
+                                        actionPlan={actionPlan}/>
+
                                     <TableCell>
                                         {actionPlan.action_plan_title}
                                     </TableCell>
                                     <TableCell>
                                         {actionPlan.status}
                                     </TableCell>
+                                    {/* Edit */}
                                     <TableCell >
                                         <EditActionPlanDialog 
                                         actionPlan={actionPlan}/>
                                         
                                     </TableCell>
+                                    {/* Delete */}
                                     <TableCell>
-                                        <IconButton onClick={()=>{console.log('hello');}}>
-                                            <DeleteForeverIcon/>
-                                        </IconButton>
+                                        <DeleteDialog action={'REMOVE_ACTION_PLANS'} id={actionPlan.id} title={actionPlan.action_plan_title}/>
                                         
                                     </TableCell>
 

@@ -6,10 +6,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 
 export default function EditActionPlanDialog({actionPlan}) {
     console.log(actionPlan.status);
+    const dispatch = useDispatch();
     const [status, setStatus] = useState(actionPlan.status);
     const [openEditActionPlanDialog, setOpenEditActionPlanDialog] = useState(false);
     const handleOpenEditActionPlanDialog = () => setOpenEditActionPlanDialog(true);
@@ -17,6 +19,14 @@ export default function EditActionPlanDialog({actionPlan}) {
 
     function handleSubmit(event) {
         event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries(formData.entries());
+        console.log(formJson);
+        dispatch({
+            type: 'EDIT_ACTION_PLAN',
+            payload: {id:actionPlan.id, ...formJson}
+        })
+        handleCloseEditActionPlanDialog();
         
     }
 
@@ -30,8 +40,8 @@ export default function EditActionPlanDialog({actionPlan}) {
              open={openEditActionPlanDialog}
              onClose={handleCloseEditActionPlanDialog}
              PaperProps={{
-                component:'form'}}
-                onSubmit={(e)=>handleSubmit(e)}
+                component:'form',
+                onSubmit: (event)=>{handleSubmit(event)}}}
                 >
                 <DialogTitle>
                     Edit Action Plan

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Search from '../Search/Search';
 import { useHistory } from 'react-router-dom';
+import DeleteDialog from './Dialogs/DeleteDialog';
 export default function Goals() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -88,10 +89,11 @@ export default function Goals() {
                     goals.map((goal) =>{
                     return (
                         <ListItem  key={goal.id} secondaryAction={
-                            <IconButton aria-label="delete" size="large" onClick={()=>handleRemoveGoal(goal.id)}>
-                                <DeleteForeverIcon fontSize='inherit'/>
+                            <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
+                            // <IconButton aria-label="delete" size="large" onClick={()=>handleRemoveGoal(goal.id)}>
+                            //     <DeleteForeverIcon fontSize='inherit'/>
                                 
-                            </IconButton>
+                            // </IconButton>
                         }
                         disablePadding
                         >

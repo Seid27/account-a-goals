@@ -20,7 +20,6 @@ router.get('/', (req, res) => {
   action_plan.status, action_plan.target_date, action_plan.date_created from
   action_plan join goal on goal.id=action_plan.goal_id where user_id=${req.user.id} order by date_created desc`
   pool.query(queryText).then((result)=>{
-    console.log(result.rows);
     res.send(result.rows);
   }).catch((error)=>{
     console.error(error);
@@ -93,6 +92,7 @@ router.put('/:action_plan_id',(req,res)=>{
  * DELETE route to actionPlan 
  */
 router.delete('/:action_plan_id', (req,res)=>{
+  console.log('delete action plan');
     const queryText = `delete from action_plan where id=${req.params.action_plan_id}`;
     pool.query(queryText).then(()=>{
         res.sendStatus(204);
