@@ -25,13 +25,12 @@ router.get('/', rejectUnauthenticated,(req, res) => {
 router.post('/', (req, res) => {
   // POST route code here
   console.log('receiving data');
-  const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_buddy_id","target_date","date_created")
-  values($1, $2, ${req.user.id}, $3, $4 , $5)`;
+  const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_buddy_id","target_date")
+  values($1, $2, ${req.user.id}, $3, $4)`;
   pool.query(queryText, [req.body.goal_title, 
                             req.body.goal_desc, 
                             req.body.accounta_buddy_id, 
-                            req.body.target_date, 
-                            req.body.date_created])
+                            req.body.target_date])
     .then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{
@@ -44,6 +43,7 @@ router.post('/', (req, res) => {
  * PUT route to edit goal
  */
 router.put('/:goalId',(req,res)=>{
+  console.log('updating goal');
     const queryText = `UPDATE "goal"
     SET goal_title= $1, goal_desc= $2, target_date=$3, status=$4, date_modified=NOW() where id=${req.params.goalId}`;
     pool.query(queryText,[req.body.goal_title, req.body.goal_desc, req.body.target_date, req.body.status])
@@ -56,9 +56,10 @@ router.put('/:goalId',(req,res)=>{
 });
 
 /**
- * DELETE route to edit goal
+ * DELETE route to delete goal
  */
 router.delete('/:goalId', (req,res)=>{
+  console.log('deleting data ...');
     const queryText = `delete from goal where id=${req.params.goalId}`;
     pool.query(queryText).then(()=>{
         res.sendStatus(204);
@@ -66,5 +67,6 @@ router.delete('/:goalId', (req,res)=>{
         console.error(error);
     })
 });
+
 
 module.exports = router;

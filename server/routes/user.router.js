@@ -14,6 +14,20 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
+/**
+ * GET search for an account_a_buddy from registered users
+ */
+router.get('/search/:username', (req,res)=>{
+  const queryText = `SELECT CONCAT (f_name, ' ', l_name) full_name FROM "user" 
+                      WHERE username ILIKE '%${req.params.username}%' and "user".id != ${req.user.id}`;
+  pool.query(queryText).then((result)=>{
+      res.send(result.rows);
+  }).catch((error)=>{
+      console.error(error);
+      res.sendStatus(500);
+  })
+})
+
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
