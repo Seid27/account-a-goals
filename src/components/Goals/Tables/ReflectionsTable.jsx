@@ -103,7 +103,7 @@ export default function reflectionsTable({goal_id}) {
                         {reflections.map((reflection)=>{
                             return (
                                 <>
-                                  <Row reflection={reflection}/> 
+                                  <Row reflection={reflection} key={reflection.id}/> 
                                 </>    
                         )})}
                         </TableBody>

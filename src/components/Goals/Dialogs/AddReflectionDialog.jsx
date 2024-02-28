@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function AddActionPlanDialog({goal_id}) {
-    const [status, setStatus] = useState('Pending');
     const [openAddReflectionDialog, setOpenReflectionDialog] = useState(false)
     const dispatch = useDispatch();
 

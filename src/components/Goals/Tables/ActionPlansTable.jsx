@@ -89,7 +89,7 @@ export default function ActionPlansTable({goal_id}) {
         <>
             {/* <h1>Action Plans</h1> */}
             <AddActionPlanDialog goal_id={goal_id}/>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} elevation={1}>
                 <Box>
                     <Typography
                         sx={{ flex: '1 1 100%', p:'20px' }}

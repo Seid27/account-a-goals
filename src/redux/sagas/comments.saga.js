@@ -3,19 +3,21 @@ import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 function* fetchComments() {
     try {
-        
+        const result = yield axios.get('/api/comments');
+        yield put({type: 'SET_COMMENTS', payload: result.data});
     } catch (error) {
-        
+        console.error(error);
     }
     
 }
 
 
-function* addComment(){
+function* addComment(action){
     try {
-        
+        yield axios.post('/api/comments', action.payload);
+        yield put({type: 'FETCH_COMMENTS'});
     } catch (error) {
-        
+        console.error(error);
     }
 }
 

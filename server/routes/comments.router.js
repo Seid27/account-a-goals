@@ -10,8 +10,12 @@ router.get('/', (req, res) => {
     const queryText = `select "comment".id,
                                 "comment".comment_title, 
                                 "comment".comment_desc, 
-                                "comment".date_created from "comment" 
-                                join goal on goal.id = "comment".goal_id where user_id = ${req.user.id}`;
+                                "comment".date_created, 
+                                "comment".date_modified,
+                                "comment".date_created,
+                                "comment".goal_id from "comment" 
+                                join goal on goal.id = "comment".goal_id where user_id = ${req.user.id} 
+                                order by date_modified desc` ;
 
     pool.query(queryText).then((result)=>{
         res.send(result.rows);

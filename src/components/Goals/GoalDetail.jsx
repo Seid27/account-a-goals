@@ -44,7 +44,7 @@ export default function GoalDetail() {
             <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p>
             <EditGoalDialog goal={goalSelected[0]}/>
             <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
-            <ViewComments/>
+            <ViewComments goal_id={goal_id}/>
             <ActionPlansTable goal_id={goal_id}/>
             <ReflectionsTable goal_id={goal_id}/>
         </>
