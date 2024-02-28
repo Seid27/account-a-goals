@@ -1,4 +1,4 @@
-import { Button, DialogTitle } from "@mui/material";
+import { Box, Button, Collapse, DialogTitle, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
@@ -6,6 +6,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import { Dialog, DialogContent, DialogContentText } from "@mui/material";
 import { IconButton, TableCell, TableContainer } from "@mui/material";
@@ -21,9 +23,6 @@ export default function ActionPlansTable({goal_id}) {
     const dispatch = useDispatch();
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     console.log(actionPlans);
-    const [openActionPlanDetail, setOpenActionPlanDetail] = useState(false);
-    const handleOpenActionPlanDetail = ()=>setOpenActionPlanDetail(true);
-    const handleCloseActionPlanDetail = ()=>setOpenActionPlanDetail(false);
 
     function fetchActionPlans() {
         dispatch({
@@ -34,6 +33,62 @@ export default function ActionPlansTable({goal_id}) {
     useEffect(()=>{
         fetchActionPlans();
     },[]);
+
+
+    function Row({actionPlan}) {
+        const [open, setOpen] = useState(false);
+        return (<>
+                 <TableRow 
+                    sx={{ '& > *': { borderBottom: 'unset', cursor:'pointer' }}}
+                    onClick={() => setOpen(!open)}
+                    >
+                    <TableCell>
+                        <IconButton
+                            aria-label="expand row"
+                            size="small"
+                            onClick={() => setOpen(!open)}>
+                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        </IconButton>
+                    </TableCell>
+                    <TableCell>
+                        {actionPlan.action_plan_title}
+                    </TableCell>
+                    <TableCell>
+                        {actionPlan.status}
+                    </TableCell>
+                    {/* Edit */}
+                    <TableCell >
+                        <EditActionPlanDialog 
+                        actionPlan={actionPlan}/>
+                        
+                    </TableCell>
+                    {/* Delete */}
+                    <TableCell>
+                        <DeleteDialog action={'REMOVE_ACTION_PLANS'} id={actionPlan.id} title={actionPlan.action_plan_title}/>
+                        
+                    </TableCell>
+
+                    </TableRow>
+                    <TableRow>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                
+                                <Box sx={{ margin: 1 }}>
+                                    <Typography variant="h6">
+                                    Description: {actionPlan.action_plan_desc}
+                                    </Typography> 
+                                    <Typography>
+                                    Date Created: {actionPlan.date_created}
+                                    </Typography>
+                                    <Typography>
+                                    Target Date: {actionPlan.target_date}
+                                    </Typography>
+                                </Box>
+                            </Collapse>
+                        </TableCell>
+                    </TableRow>
+        </>) 
+    }
     
     return (
         <>
@@ -43,6 +98,7 @@ export default function ActionPlansTable({goal_id}) {
                 <Table>
                     <TableHead>
                         <TableRow>
+                           <TableCell/>
                             <TableCell>Action Plan</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Edit</TableCell>
@@ -52,36 +108,10 @@ export default function ActionPlansTable({goal_id}) {
                     <TableBody>
                         {actionPlans.map((actionPlan)=>{
                             return (
-                                <TableRow 
-                                    key={actionPlan.id} 
-                                    hover 
-                                    sx={{ cursor: 'pointer' }}
-                                    onClick={handleOpenActionPlanDetail}>
-
-                                    <ActionPlanDetailDialog 
-                                        open={openActionPlanDetail} 
-                                        handleClose={handleCloseActionPlanDetail} 
-                                        actionPlan={actionPlan}/>
-
-                                    <TableCell>
-                                        {actionPlan.action_plan_title}
-                                    </TableCell>
-                                    <TableCell>
-                                        {actionPlan.status}
-                                    </TableCell>
-                                    {/* Edit */}
-                                    <TableCell >
-                                        <EditActionPlanDialog 
-                                        actionPlan={actionPlan}/>
-                                        
-                                    </TableCell>
-                                    {/* Delete */}
-                                    <TableCell>
-                                        <DeleteDialog action={'REMOVE_ACTION_PLANS'} id={actionPlan.id} title={actionPlan.action_plan_title}/>
-                                        
-                                    </TableCell>
-
-                                </TableRow>
+                                <>
+                                  <Row actionPlan={actionPlan}/> 
+                                </>
+                                
                         )})}
                         </TableBody>
                 </Table>
