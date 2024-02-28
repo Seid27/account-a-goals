@@ -24,12 +24,10 @@ router.get('/', (req, res) => {
  * POST route to create a new comment
  */
 router.post('/', (req, res) => {
-    // POST route code here
-    const queryText = `insert into "comment" ("comment_title", "comment_desc", "date_created", "goal_id")
-    values ($1,$2,$3,$4)`;
+    const queryText = `insert into "comment" ("comment_title", "comment_desc", "goal_id")
+    values ($1,$2,$3)`;
     pool.query(queryText,[req.body.comment_title,
                             req.body.comment_desc,
-                            req.body.date_created,
                             req.body.goal_id])
     .then(()=>{
         res.sendStatus(201);

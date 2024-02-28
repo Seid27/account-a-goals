@@ -12,7 +12,7 @@ const userRouter = require('./routes/user.router');
 const goalsRouter = require('./routes/goals.router');
 const reflectionsRouter = require('./routes/reflections.router');
 const actionPlansRouter = require('./routes/actionPlans.router');
-const commentRouter = require('./routes/comment.router');
+const commentsRouter = require('./routes/comments.router');
 const accounta_buddyRouter = require('./routes/accounta_buddy.router');
 
 // Express Middleware
@@ -32,7 +32,7 @@ app.use('/api/user', userRouter);
 app.use('/api/goals',goalsRouter);
 app.use('/api/reflections',reflectionsRouter);
 app.use('/api/actionplans',actionPlansRouter);
-app.use('/api/comment',commentRouter);
+app.use('/api/comments',commentsRouter);
 app.use('/api/accountabuddy', accounta_buddyRouter);
 
 

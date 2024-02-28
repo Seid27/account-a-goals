@@ -4,6 +4,7 @@ import user from './user.reducer';
 import goals from './goals.reducer';
 import actionPlans from './actionPlans.reducer';
 import reflections from './reflections.reducer';
+import comments from './comments.reducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   goals,
   actionPlans,
-  reflections
+  reflections,
+  comments
 });
 
 export default rootReducer;
