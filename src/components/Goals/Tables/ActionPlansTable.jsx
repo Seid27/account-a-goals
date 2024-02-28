@@ -17,7 +17,7 @@ import { useState } from 'react';
 import AddActionPlanDialog from "../Dialogs/AddActionPlanDialog";
 import EditActionPlanDialog from "../Dialogs/EditActionPlanDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
-import { ActionPlanDetailDialog } from "../Dialogs/ActionPlanDetailDialog";
+
 export default function ActionPlansTable({goal_id}) {
     console.log('in action plan table',goal_id);
     const dispatch = useDispatch();

@@ -4,9 +4,7 @@ import axios from 'axios';
 // gets action plan data
 function* fetchActionPlans (action) {
     try {
-        console.log(action.payload);
         const result = yield axios.get(`/api/actionplans/`);
-        console.log(result);
         yield put({type: 'SET_ACTION_PLAN', payload: result.data})
         
     } catch (error) {
@@ -17,7 +15,6 @@ function* fetchActionPlans (action) {
 
 // adds new action plan
 function* addActionPlan(action){
-    console.log(action.payload);
     try {
         yield axios.post('api/actionplans', action.payload);
         yield put({type: 'FETCH_ACTION_PLANS'}); 

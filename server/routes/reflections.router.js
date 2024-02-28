@@ -10,7 +10,7 @@ const {
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
-    const queryText = `select reflection.id 
+    const queryText = `select reflection.id, 
                             reflection.reflection_title, 
                             reflection.reflection_desc, 
                             reflection.date_created from goal 
@@ -28,11 +28,10 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  */
 router.post('/', (req, res) => {
   // POST route code here
-  const queryText = `insert into reflection ("reflection_title", "reflection_desc", "date_created", "goal_id") values
-  ($1,$2, $3, $4)`;
+  const queryText = `insert into reflection ("reflection_title", "reflection_desc", "goal_id") values
+  ($1,$2, $3)`;
   pool.query(queryText,[req.body.reflection_title, 
-                        req.body.reflection_desc, 
-                        req.body.date_created, 
+                        req.body.reflection_desc,
                         req.body.goal_id])
     .then(()=>{
         res.sendStatus(201);

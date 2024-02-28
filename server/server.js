@@ -10,7 +10,7 @@ const passport = require('./strategies/user.strategy');
 // Route Includes
 const userRouter = require('./routes/user.router');
 const goalsRouter = require('./routes/goals.router');
-const reflectionRouter = require('./routes/reflection.router');
+const reflectionsRouter = require('./routes/reflections.router');
 const actionPlansRouter = require('./routes/actionPlans.router');
 const commentRouter = require('./routes/comment.router');
 const accounta_buddyRouter = require('./routes/accounta_buddy.router');
@@ -30,7 +30,7 @@ app.use(passport.session());
 // Routes
 app.use('/api/user', userRouter);
 app.use('/api/goals',goalsRouter);
-app.use('/api/reflection',reflectionRouter);
+app.use('/api/reflection',reflectionsRouter);
 app.use('/api/actionplans',actionPlansRouter);
 app.use('/api/comment',commentRouter);
 app.use('/api/accountabuddy', accounta_buddyRouter);
