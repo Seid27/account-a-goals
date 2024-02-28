@@ -58,7 +58,7 @@ export default function EditGoalDialog({goal}) {
                         id="goal_title"
                         name="goal_title"
                         label="Title"
-                        value={goal.goal_title}
+                        defaultValue={goal.goal_title}
                         type='text'
                         fullWidth
                         variant="outlined"
@@ -68,7 +68,7 @@ export default function EditGoalDialog({goal}) {
                         id="goal_desc"
                         name="goal_desc"
                         label="Description"
-                        value={goal.goal_desc}
+                        defaultValue={goal.goal_desc}
                         type='text'
                         multiline
                         rows={5}
@@ -83,7 +83,7 @@ export default function EditGoalDialog({goal}) {
                         label="Status"
                         id="status"
                         name="status"
-                        value={status}
+                        defaultValue={status}
                         onChange={(e)=>setStatus(e.target.value)}
                         >
                             <MenuItem value='Pending'>Pending</MenuItem>
@@ -100,7 +100,7 @@ export default function EditGoalDialog({goal}) {
                                 id="target_date"
                                 name="target_date"
                                 label="Target Date"
-                                value={dayjs(goal.taregt_date)}
+                                defaultValue={dayjs(goal.taregt_date)}
                                  slotProps={{
                                     textField: {
                                     required: true,

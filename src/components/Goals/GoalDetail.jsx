@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
 import ActionPlansTable from "./Tables/ActionPlansTable";
+import ReflectionsTable from "./Tables/ReflectionsTable";
 import { Button } from "@mui/material";
 import EditGoalDialog from "./Dialogs/EditGoalDialog";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import AddActionPlanDialog from "./Dialogs/AddActionPlanDialog";
+import ViewComments from "./Dialogs/ViewCommentsDialog";
 export default function GoalDetail() {
     const {goal_id} = useParams();
     const history = useHistory();
@@ -43,7 +44,9 @@ export default function GoalDetail() {
             <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p>
             <EditGoalDialog goal={goalSelected[0]}/>
             <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
+            <ViewComments/>
             <ActionPlansTable goal_id={goal_id}/>
+            <ReflectionsTable goal_id={goal_id}/>
         </>
     )
     

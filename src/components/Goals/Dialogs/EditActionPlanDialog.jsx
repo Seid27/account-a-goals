@@ -25,7 +25,7 @@ export default function EditActionPlanDialog({actionPlan}) {
         dispatch({
             type: 'EDIT_ACTION_PLAN',
             payload: {id:actionPlan.id, ...formJson}
-        })
+        });
         handleCloseEditActionPlanDialog();
         
     }
@@ -54,7 +54,7 @@ export default function EditActionPlanDialog({actionPlan}) {
                         id="action_plan_title"
                         name="action_plan_title"
                         label="Action Plan"
-                        value={actionPlan.action_plan_title}
+                        defaultValue={actionPlan.action_plan_title}
                         type='text'
                         fullWidth
                         variant="outlined"
@@ -64,7 +64,7 @@ export default function EditActionPlanDialog({actionPlan}) {
                         id="action_plan_desc"
                         name="action_plan_desc"
                         label="Description"
-                        value={actionPlan.action_plan_desc}
+                        defaultValue={actionPlan.action_plan_desc}
                         type='text'
                         multiline
                         rows={5}
@@ -79,7 +79,7 @@ export default function EditActionPlanDialog({actionPlan}) {
                         label="Status"
                         id="status"
                         name="status"
-                        value={status}
+                        defaultValue={status}
                         onChange={(e)=>setStatus(e.target.value)}
                         >
                             <MenuItem value='Pending'>Pending</MenuItem>
@@ -96,7 +96,7 @@ export default function EditActionPlanDialog({actionPlan}) {
                                 id="target_date"
                                 name="target_date"
                                 label="Target Date"
-                                value={dayjs(actionPlan.taregt_date)}
+                                defaultValue={dayjs(actionPlan.taregt_date)}
                                  slotProps={{
                                     textField: {
                                     required: true,

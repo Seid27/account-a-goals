@@ -1,8 +1,10 @@
-const { takeLatest, put } = require("redux-saga/effects");
+import { put, takeEvery, takeLatest } from 'redux-saga/effects';
+import axios from 'axios';
 
 function* fetchReflections(){
     try {
-        const result = yield axios.get('/api/reflections/');
+        const result = yield axios.get('api/reflections/');
+        console.log('reflection saga get',result);
         yield put({type: 'SET_REFLECTIONS',payload: result.data});
     } catch (error) {
         console.error(error);

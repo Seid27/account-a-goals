@@ -10,11 +10,13 @@ const {
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
-    const queryText = `select reflection.id, 
-                            reflection.reflection_title, 
-                            reflection.reflection_desc, 
-                            reflection.date_created from goal 
-                            join reflection on reflection.goal_id = goal.id where user_id = ${req.user.id}`;
+    // const queryText = `select reflection.id, 
+    //                         reflection.reflection_title, 
+    //                         reflection.reflection_desc, 
+    //                         reflection.date_created from goal 
+    //                         join reflection on reflection.goal_id = goal.id where user_id = ${req.user.id}`;
+    const queryText = `select reflection.id, reflection.reflection_title, reflection.reflection_desc, reflection.goal_id, reflection.date_created, reflection.date_modified
+    from reflection join goal on goal.id = reflection.goal_id where user_id=${req.user.id} order by date_modified desc`;
     pool.query(queryText).then((result)=>{
         res.send(result.rows);
     }).catch((error)=>{

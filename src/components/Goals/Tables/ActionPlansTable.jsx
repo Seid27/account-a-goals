@@ -1,15 +1,11 @@
-import { Box, Button, Collapse, DialogTitle, Typography } from "@mui/material";
+import { Box, Collapse, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
-import { Dialog, DialogContent, DialogContentText } from "@mui/material";
 import { IconButton, TableCell, TableContainer } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,8 +35,7 @@ export default function ActionPlansTable({goal_id}) {
         const [open, setOpen] = useState(false);
         return (<>
                  <TableRow 
-                    sx={{ '& > *': { borderBottom: 'unset', cursor:'pointer' }}}
-                    onClick={() => setOpen(!open)}
+                    sx={{ '& > *': { borderBottom: 'unset'}}}
                     >
                     <TableCell>
                         <IconButton
@@ -70,7 +65,7 @@ export default function ActionPlansTable({goal_id}) {
 
                     </TableRow>
                     <TableRow>
-                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0}} colSpan={6} >
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 
                                 <Box sx={{ margin: 1 }}>
@@ -92,9 +87,18 @@ export default function ActionPlansTable({goal_id}) {
     
     return (
         <>
-            <h1>Action Plans</h1>
+            {/* <h1>Action Plans</h1> */}
             <AddActionPlanDialog goal_id={goal_id}/>
             <TableContainer component={Paper}>
+                <Box>
+                    <Typography
+                        sx={{ flex: '1 1 100%', p:'20px' }}
+                        variant="h4"
+                        id="tableTitle"
+                    >
+                        Action Plans
+                    </Typography>
+                </Box>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -109,7 +113,7 @@ export default function ActionPlansTable({goal_id}) {
                         {actionPlans.map((actionPlan)=>{
                             return (
                                 <>
-                                  <Row actionPlan={actionPlan}/> 
+                                  <Row actionPlan={actionPlan} key={actionPlan.id}/> 
                                 </>
                                 
                         )})}

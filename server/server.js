@@ -30,7 +30,7 @@ app.use(passport.session());
 // Routes
 app.use('/api/user', userRouter);
 app.use('/api/goals',goalsRouter);
-app.use('/api/reflection',reflectionsRouter);
+app.use('/api/reflections',reflectionsRouter);
 app.use('/api/actionplans',actionPlansRouter);
 app.use('/api/comment',commentRouter);
 app.use('/api/accountabuddy', accounta_buddyRouter);
