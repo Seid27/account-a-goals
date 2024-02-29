@@ -22,6 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
 import GoalDetail from '../Goals/GoalDetail';
+import AccountaFriends from '../AccountaFriends/AccountaFriends';
 
 function App() {
   const dispatch = useDispatch();
@@ -111,9 +112,17 @@ function App() {
             }
           </Route>
 
+          {/* Details page */}
           <Route path='/detail/:goal_id'>
             <GoalDetail/>
           </Route>
+
+          <Route path='/accountaFriends'>
+            <AccountaFriends/>
+
+          </Route>
+
+
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>

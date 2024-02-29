@@ -25,11 +25,12 @@ router.get('/', rejectUnauthenticated,(req, res) => {
 router.post('/', (req, res) => {
   // POST route code here
   console.log('receiving data');
-  const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_buddy_id","target_date")
+  console.log(req.body);
+  const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date")
   values($1, $2, ${req.user.id}, $3, $4)`;
   pool.query(queryText, [req.body.goal_title, 
                             req.body.goal_desc, 
-                            req.body.accounta_buddy_id, 
+                            req.body.accounta_friend_id, 
                             req.body.target_date])
     .then(()=>{
         res.sendStatus(201);

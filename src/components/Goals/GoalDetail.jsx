@@ -41,7 +41,7 @@ export default function GoalDetail() {
             <p>Target Date on: {goalSelected[0].target_date}</p>
             <p>Status: {goalSelected[0].status}</p>
             {/* todo: use search for accounta buddy name */}
-            <p>Account-a-Buddy: {goalSelected[0].accounta_buddy_id}</p>
+            <p>Account-a-Friend: {goalSelected[0].accounta_friend_id}</p>
             <EditGoalDialog goal={goalSelected[0]}/>
             <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
             <ViewComments goal_id={goal_id}/>

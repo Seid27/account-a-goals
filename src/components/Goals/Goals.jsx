@@ -42,7 +42,7 @@ export default function Goals() {
         console.log(formJson);
         dispatch({
             type: 'ADD_GOAL',
-            payload: {...formJson, "accounta_buddy_id": 2}
+            payload: {...formJson, "accounta_friend_id": 2}
         })
         handleClose();
     }
@@ -151,8 +151,7 @@ export default function Goals() {
                         fullWidth
                         variant="outlined"
                     />
-                    <Search
-                    />
+                    <Search/>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
                             <DatePicker 
