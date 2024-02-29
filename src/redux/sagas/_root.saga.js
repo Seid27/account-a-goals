@@ -6,6 +6,7 @@ import goalsSaga from './goals.saga';
 import actionPlansSaga from './actionPlans.saga';
 import reflectionsSaga from './reflections.saga';
 import commentSaga from './comments.saga';
+import accountaFriendsSaga from './accounta_friends.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -22,6 +23,7 @@ export default function* rootSaga() {
     goalsSaga(),
     actionPlansSaga(),
     reflectionsSaga(),
-    commentSaga()
+    commentSaga(),
+    accountaFriendsSaga()
   ]);
 }
