@@ -65,38 +65,28 @@ export default function ViewComments({goal_id}) {
                         <DialogTitle sx={{p:'0px', mt:'10px'}}>
                             Comments
                         </DialogTitle>
-                        <DialogContentText>
-                            <List sx={{p:'0px'}}>
-                                {comments.map((comment,i)=>{
-                                    return (
-                                    <>
-                                        <ListItem key={comment.id}>
-                                        <ListItemText primary={
-                                             <>
-                                             <Typography
-                                             component="span"
-                                             >
-                                             {comment.comment_title}
-                                             </Typography>
+                        <List sx={{p:'0px'}}>
+                                {comments.map((comment)=>
+                                        <ListItem key={comment.id} dividers>
+                                            <ListItemText primary={
+                                                <>
+                                                <Typography
+                                                component="span"
+                                                >
+                                                {comment.comment_title}
+                                                </Typography>
 
-                                             <Typography sx={{ display: 'inline'}} component="span">
-                                             {` - ${dayjs(comment.date_created).format('DD/MM/YYYY')}`}
-                                             </Typography>
-                                         </>
-                                         } secondary=
-                                        {comment.comment_desc}/>
+                                                <Typography sx={{ display: 'inline'}} component="span">
+                                                {` - ${dayjs(comment.date_created).format('DD/MM/YYYY')}`}
+                                                </Typography>
+                                                </>
+                                            } secondary=
+                                            {comment.comment_desc}/>
                                         </ListItem>
-                                        <Divider component="li" />
-                                    </>
                                     
-                                    )  
-                                })}
+                                    )}
                                 
-                            </List>
-                        </DialogContentText>
-                        <Paper>
-                            
-                        </Paper>
+                        </List>
 
                         {/* <List>
                             {comments.map((comment)=>{
