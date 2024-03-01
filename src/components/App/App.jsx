@@ -23,6 +23,8 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import './App.css';
 import GoalDetail from '../Goals/GoalDetail';
 import AccountaFriends from '../AccountaFriends/AccountaFriends';
+import AcccountaFriendsGoals from '../AccountaFriends/AccountaFriendsGoals';
+import AcccountaFriendsGoalDetail from '../AccountaFriends/AccountaFriendsGoalDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -117,9 +119,16 @@ function App() {
             <GoalDetail/>
           </Route>
 
-          <Route path='/accountaFriends'>
+          <Route path='/accountafriends'>
             <AccountaFriends/>
+          </Route>
 
+          <Route path='/accounta-friends-goals/:id'>
+            <AcccountaFriendsGoals/>
+          </Route>
+
+          <Route path='/accounta-friends-goal-detail/:goal_id'>
+            <AcccountaFriendsGoalDetail/>
           </Route>
 
 

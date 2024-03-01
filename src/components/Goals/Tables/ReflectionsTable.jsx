@@ -11,6 +11,8 @@ import DeleteDialog from "../Dialogs/DeleteDialog";
 export default function reflectionsTable({goal_id}) {
     const dispatch = useDispatch();
     const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
+    const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
+    const user = useSelector((store) => store.user);
     // const reflections = useSelector((s)=>s);
     console.log("reflections data filter", reflections);
 
@@ -79,7 +81,8 @@ export default function reflectionsTable({goal_id}) {
 
     return (
         <>
-            <AddReflectionDialog goal_id={goal_id}/>
+            {/* {user.id ===  goal.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>} */}
+            {user.id ===  goal.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
             <TableContainer component={Paper}>
                 <Box>
                     <Typography

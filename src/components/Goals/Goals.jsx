@@ -90,10 +90,6 @@ export default function Goals() {
                     return (
                         <ListItem  key={goal.id} secondaryAction={
                             <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
-                            // <IconButton aria-label="delete" size="large" onClick={()=>handleRemoveGoal(goal.id)}>
-                            //     <DeleteForeverIcon fontSize='inherit'/>
-                                
-                            // </IconButton>
                         }
                         disablePadding
                         >
