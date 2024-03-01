@@ -20,14 +20,20 @@ router.get('/', (req, res) => {
 });
 
 /**
- * GET accounta_buddy friend's goals a user is accountable for
+ * GET accountaFriends friend's goals a user is accountable for
  */
 router.get('/goals/:accountaFriend_id', (req, res) => {
     // GET route code here
     const queryText = `select goal.id, 
-                        goal.goal_title from "user" 
-                        join "goal" on "user".id = goal.user_id 
-                        where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id};`;
+                              goal.goal_title, 
+                              goal.accounta_friend_id, 
+                              goal.goal_desc, 
+                              goal.status, 
+                              goal.date_created, 
+                              goal.date_modified, 
+                              goal.target_date from "user" 
+                              join "goal" on "user".id = goal.user_id 
+                              where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id};`;
     pool.query(queryText).then((result)=>{
       res.send(result.rows);
     }).catch((error)=>{
@@ -36,7 +42,7 @@ router.get('/goals/:accountaFriend_id', (req, res) => {
   });
 
   /**
- * GET action_plan for an accounta_buddy 
+ * GET action_plan for an accountaFriends 
  */
 router.get('/actionplans/:goal_id', (req,res)=>{
     const queryText = `select  action_plan.action_plan_title, 
@@ -55,7 +61,7 @@ router.get('/actionplans/:goal_id', (req,res)=>{
 
 
  /**
- * GET reflection for an accounta_buddy 
+ * GET reflection for an accountaFriends 
  */
 router.get('/reflections/:goal_id',(req,res)=>{
     const queryText = `select reflection.id, 
