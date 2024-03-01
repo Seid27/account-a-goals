@@ -5,7 +5,7 @@ import goals from './goals.reducer';
 import actionPlans from './actionPlans.reducer';
 import reflections from './reflections.reducer';
 import comments from './comments.reducer';
-import {accountaFriends, accountaFriendsGoals} from './accounta_friends.reducer'
+import {accountaFriends, accountaFriendsGoals, accountaFriendsReflections, accountaFriendsActionPlans} from './accounta_friends.reducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -21,7 +21,9 @@ const rootReducer = combineReducers({
   reflections,
   comments,
   accountaFriends,
-  accountaFriendsGoals
+  accountaFriendsGoals,
+  accountaFriendsActionPlans,
+  accountaFriendsReflections
 });
 
 export default rootReducer;

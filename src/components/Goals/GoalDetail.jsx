@@ -12,6 +12,8 @@ export default function GoalDetail() {
     const history = useHistory();
     const dispatch = useDispatch();
     const goals = useSelector(s=>s.goals);
+    const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
+    const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
     const goalSelected = goals.filter((goal)=>goal.id == goal_id);
     console.log(goalSelected);
     // const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
@@ -45,8 +47,8 @@ export default function GoalDetail() {
             <EditGoalDialog goal={goalSelected[0]}/>
             <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
             <ViewComments goal_id={goal_id}/>
-            <ActionPlansTable goal_id={goal_id}/>
-            <ReflectionsTable goal_id={goal_id}/>
+            <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
+            <ReflectionsTable goal_id={goal_id} reflections={reflections}/>
         </>
     )
     

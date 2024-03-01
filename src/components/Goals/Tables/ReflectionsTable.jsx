@@ -8,23 +8,23 @@ import AddReflectionDialog from "../Dialogs/AddReflectionDialog"
 import EditReflectionDialog from "../Dialogs/EditReflectionDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
 
-export default function reflectionsTable({goal_id}) {
+export default function reflectionsTable({goal_id, reflections}) {
     const dispatch = useDispatch();
-    const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
+    // const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
     const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
     const user = useSelector((store) => store.user);
     // const reflections = useSelector((s)=>s);
     console.log("reflections data filter", reflections);
 
-    function fetchReflections() {
-        dispatch({
-            type: 'FETCH_REFLECTIONS'
-        }); 
-    }
+    // function fetchReflections() {
+    //     dispatch({
+    //         type: 'FETCH_REFLECTIONS'
+    //     }); 
+    // }
 
-    useState(()=>{
-        fetchReflections();
-    }, []);
+    // useState(()=>{
+    //     fetchReflections();
+    // }, []);
 
     
     function Row({reflection}) {
@@ -98,8 +98,10 @@ export default function reflectionsTable({goal_id}) {
                         <TableRow>
                            <TableCell/>
                             <TableCell>Reflection</TableCell>
-                            <TableCell>Edit</TableCell>
-                            <TableCell>Delete</TableCell>
+                            {user.id != goal[0]?.accounta_friend_id && 
+                            <TableCell>Edit</TableCell>}
+                            {user.id != goal[0]?.accounta_friend_id && 
+                            <TableCell>Delete</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>

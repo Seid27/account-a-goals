@@ -31,7 +31,7 @@ router.get('/goals/:accountaFriend_id', (req, res) => {
                               goal.status, 
                               goal.date_created, 
                               goal.date_modified, 
-                              goal.target_date from "user" 
+                              goal.target_date from "user"
                               join "goal" on "user".id = goal.user_id 
                               where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id};`;
     pool.query(queryText).then((result)=>{
@@ -42,16 +42,17 @@ router.get('/goals/:accountaFriend_id', (req, res) => {
   });
 
   /**
- * GET action_plan for an accountaFriends 
+ * GET action_plan for an accountaFriend
  */
 router.get('/actionplans/:goal_id', (req,res)=>{
-    const queryText = `select  action_plan.action_plan_title, 
-                        action_plan.action_plan_desc, 
-                        action_plan.target_date, 
-                        action_plan.date_created, 
-                        action_plan.date_modified, 
-                        action_plan.status from action_plan 
-                        join goal on action_plan.goal_id = goal.id where goal.id = ${req.params.goal_id}`;
+    const queryText = `select action_plan.id, 
+    action_plan.action_plan_title, 
+    action_plan.action_plan_desc, 
+    action_plan.target_date, 
+    action_plan.date_created, 
+    action_plan.date_modified, 
+    action_plan.status, 
+    action_plan.goal_id from action_plan where action_plan.goal_id = ${req.params.goal_id}`;
     pool.query(queryText).then((result)=>{
         res.send(result.rows);
     }).catch((error)=>{
@@ -61,20 +62,27 @@ router.get('/actionplans/:goal_id', (req,res)=>{
 
 
  /**
- * GET reflection for an accountaFriends 
+ * GET reflection for an accountaFriend
  */
 router.get('/reflections/:goal_id',(req,res)=>{
-    const queryText = `select reflection.id, 
-                        reflection.reflection_title, 
-                        reflection.reflection_desc, 
-                        reflection.date_created, 
-                        reflection.date_modified from reflection 
-                        join goal on goal.id = reflection.goal_id where goal.id = ${req.params.goal_id}`;
-    pool.query(queryText).then((result)=>{
-        res.send(result.rows);
-    }).catch((error)=>{
-        console.error(error);
-    })
+    // const queryText = `select reflection.id, 
+    //                     reflection.reflection_title, 
+    //                     reflection.reflection_desc, 
+    //                     reflection.date_created, 
+    //                     reflection.date_modified from reflection 
+    //                     join goal on goal.id = reflection.goal_id where goal.id = ${req.params.goal_id}`;
+
+    // const queryText = `select reflection.id, 
+    //                     reflection.reflection_title, 
+    //                     reflection.reflection_desc, 
+    //                     reflection.date_created, 
+    //                     reflection.date_modified, 
+    //                     reflection.goal_id from reflection where reflection.goal_id = ${req.params.goal_id};`
+    // pool.query(queryText).then((result)=>{
+    //     res.send(result.rows);
+    // }).catch((error)=>{
+    //     console.error(error);
+    // })
 });
 
 module.exports = router;

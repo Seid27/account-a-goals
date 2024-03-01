@@ -33,7 +33,7 @@ app.use('/api/goals',goalsRouter);
 app.use('/api/reflections',reflectionsRouter);
 app.use('/api/actionplans',actionPlansRouter);
 app.use('/api/comments',commentsRouter);
-app.use('/api/accountaFriends', accountaFriendsRouter);
+app.use('/api/accountafriends', accountaFriendsRouter);
 
 
 // Listen Server & Port

@@ -14,25 +14,25 @@ import AddActionPlanDialog from "../Dialogs/AddActionPlanDialog";
 import EditActionPlanDialog from "../Dialogs/EditActionPlanDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
 
-export default function ActionPlansTable({goal_id}) {
+export default function ActionPlansTable({goal_id, actionPlans}) {
     console.log('in action plan table',goal_id);
     const dispatch = useDispatch();
-    const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
+    // const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
     const user = useSelector((store) => store.user);
 
     console.log('compare ', user.id, goal[0]?.accounta_friend_id );
     console.log(actionPlans);
 
-    function fetchActionPlans() {
-        dispatch({
-            type: 'FETCH_ACTION_PLANS',
-        });
-    }
+    // function fetchActionPlans() {
+    //     dispatch({
+    //         type: 'FETCH_ACTION_PLANS',
+    //     });
+    // }
 
-    useEffect(()=>{
-        fetchActionPlans();
-    },[]);
+    // useEffect(()=>{
+    //     fetchActionPlans();
+    // },[]);
 
 
     function Row({actionPlan}) {
@@ -56,16 +56,22 @@ export default function ActionPlansTable({goal_id}) {
                         {actionPlan.status}
                     </TableCell>
                     {/* Edit */}
+                    {user.id != goal[0]?.accounta_friend_id && 
                     <TableCell >
                         <EditActionPlanDialog 
                         actionPlan={actionPlan}/>
                         
-                    </TableCell>
+                    </TableCell>}
                     {/* Delete */}
+                    {user.id != goal[0]?.accounta_friend_id && 
                     <TableCell>
                         <DeleteDialog action={'REMOVE_ACTION_PLANS'} id={actionPlan.id} title={actionPlan.action_plan_title}/>
                         
-                    </TableCell>
+                    </TableCell>}
+                    {/* <TableCell>
+                        <DeleteDialog action={'REMOVE_ACTION_PLANS'} id={actionPlan.id} title={actionPlan.action_plan_title}/>
+                        
+                    </TableCell> */}
 
                     </TableRow>
                     <TableRow>
@@ -109,8 +115,10 @@ export default function ActionPlansTable({goal_id}) {
                            <TableCell/>
                             <TableCell>Action Plan</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell>Edit</TableCell>
-                            <TableCell>Delete</TableCell>
+                            {user.id != goal[0]?.accounta_friend_id && 
+                            <TableCell>Edit</TableCell>}
+                            {user.id != goal[0]?.accounta_friend_id && 
+                            <TableCell>Delete</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>

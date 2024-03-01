@@ -19,6 +19,12 @@ export default function Goals() {
         dispatch({
             type: 'FETCH_GOALS'
         });
+        dispatch({
+            type: 'FETCH_ACTION_PLANS',
+        });
+        dispatch({
+            type: 'FETCH_REFLECTIONS'
+        }); 
     }
 
     useEffect(()=>{
