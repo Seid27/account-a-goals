@@ -34,8 +34,8 @@ function* fetchAccountaFriendActionPlans(action) {
 
 function* fetchReflections(action){
     try {
-        yield put({type:'SET_ACCOUNTA_FRIENDS_REFLECTIONS', payload: result.data});
         const result = yield axios.get(`/api/accountafriends/reflections/${action.payload}`);
+        yield put({type:'SET_ACCOUNTA_FRIENDS_REFLECTIONS', payload: result.data});
         console.log("friends reflections",result);
     } catch (error) {
         

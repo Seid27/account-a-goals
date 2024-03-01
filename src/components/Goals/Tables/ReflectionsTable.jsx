@@ -45,17 +45,21 @@ export default function reflectionsTable({goal_id, reflections}) {
                         {reflection.reflection_title}
                     </TableCell>
                     {/* Edit */}
+                    {user.id != goal[0]?.accounta_friend_id &&
                     <TableCell >
                         <EditReflectionDialog 
                         reflection={reflection}/>
                     </TableCell>
+                    }
                     
                     {/* Delete */}
+                    {user.id != goal[0]?.accounta_friend_id &&
                     <TableCell>
                         
                         <DeleteDialog action={'REMOVE_REFLECTION'} id={reflection.id} title={reflection.reflection_title}/>
                         
                     </TableCell>
+                    }
 
                     </TableRow>
                     <TableRow>

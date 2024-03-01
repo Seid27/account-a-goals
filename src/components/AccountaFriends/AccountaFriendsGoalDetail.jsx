@@ -13,7 +13,7 @@ export default function AcccountaFriendsGoalDetail() {
     const dispatch = useDispatch();
     const accountaFriendsGoal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=>goal.id == goal_id));
     const actionPlans = useSelector(s=>s.accountaFriendsActionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
-    const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
+    const reflections = useSelector(s=>s.accountaFriendsReflections.filter((reflection)=>reflection.goal_id==goal_id));
     console.log('detail',actionPlans);
     
     function fetchAccountaFriendsData() {
@@ -21,9 +21,10 @@ export default function AcccountaFriendsGoalDetail() {
             type: 'FETCH_ACCOUNTA_FRIENDS_ACTION_PLANS',
             payload: goal_id
         });
-        // dispatch({
-        //     type: 'FETCH_ACCOUNTA_FRIENDS_REFLECTIONS'
-        // }); 
+        dispatch({
+            type: 'FETCH_ACCOUNTA_FRIENDS_REFLECTIONS',
+            payload: goal_id
+        }); 
     }
 
     useEffect(()=>{

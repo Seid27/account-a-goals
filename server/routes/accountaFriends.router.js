@@ -72,17 +72,17 @@ router.get('/reflections/:goal_id',(req,res)=>{
     //                     reflection.date_modified from reflection 
     //                     join goal on goal.id = reflection.goal_id where goal.id = ${req.params.goal_id}`;
 
-    // const queryText = `select reflection.id, 
-    //                     reflection.reflection_title, 
-    //                     reflection.reflection_desc, 
-    //                     reflection.date_created, 
-    //                     reflection.date_modified, 
-    //                     reflection.goal_id from reflection where reflection.goal_id = ${req.params.goal_id};`
-    // pool.query(queryText).then((result)=>{
-    //     res.send(result.rows);
-    // }).catch((error)=>{
-    //     console.error(error);
-    // })
+    const queryText = `select reflection.id, 
+                        reflection.reflection_title, 
+                        reflection.reflection_desc, 
+                        reflection.date_created, 
+                        reflection.date_modified, 
+                        reflection.goal_id from reflection where reflection.goal_id = ${req.params.goal_id};`
+    pool.query(queryText).then((result)=>{
+        res.send(result.rows);
+    }).catch((error)=>{
+        console.error(error);
+    })
 });
 
 module.exports = router;
