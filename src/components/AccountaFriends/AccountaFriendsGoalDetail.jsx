@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import ViewComments from "../Goals/Dialogs/ViewCommentsDialog";
 import ActionPlansTable from "../Goals/Tables/ActionPlansTable";
 import ReflectionsTable from "../Goals/Tables/ReflectionsTable";
+import AddCommentDialog from "../Goals/Dialogs/AddCommentDialog";
 
 export default function AcccountaFriendsGoalDetail() {
     const {goal_id} = useParams();
@@ -23,10 +24,9 @@ export default function AcccountaFriendsGoalDetail() {
             {/* <EditGoalDialog goal={accountaFriendsGoal[0]}/> */}
             {/* <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button> */}
             <ViewComments goal_id={goal_id}/>
+            <AddCommentDialog goal_id={goal_id}/>
             <ActionPlansTable goal_id={goal_id}/>
-            <ReflectionsTable goal_id={goal_id}/>
-
-            
+            <ReflectionsTable goal_id={goal_id}/>  
     </>)
     
 }

@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from 'dayjs';
 export default function ViewComments({goal_id}) {
-    const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id == goal_id));
+    const comments = useSelector(s=>s.comments);
+    // const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id == goal_id));
     const dispatch = useDispatch();
-    console.log('comments', comments);
+    console.log('comments friends', comments);
     const [openViewCommentsDialog, setOpenViewCommentsDialog] = useState(false);
     const handleOpenViewCommentsDialog = () => setOpenViewCommentsDialog(true);
     const handleCloseViewCommentsDialog = () => setOpenViewCommentsDialog(false);

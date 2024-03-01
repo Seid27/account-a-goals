@@ -82,7 +82,7 @@ export default function reflectionsTable({goal_id}) {
     return (
         <>
             {/* {user.id ===  goal.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>} */}
-            {user.id ===  goal.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
+            {user.id != goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
             <TableContainer component={Paper}>
                 <Box>
                     <Typography

@@ -20,6 +20,8 @@ export default function ActionPlansTable({goal_id}) {
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
     const user = useSelector((store) => store.user);
+
+    console.log('compare ', user.id, goal[0]?.accounta_friend_id );
     console.log(actionPlans);
 
     function fetchActionPlans() {
@@ -90,7 +92,7 @@ export default function ActionPlansTable({goal_id}) {
     return (
         <>
             {/* <h1>Action Plans</h1> */}
-            {user.id ===  goal.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>}
+            {user.id != goal[0]?.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>}
             <TableContainer component={Paper} elevation={1}>
                 <Box>
                     <Typography
