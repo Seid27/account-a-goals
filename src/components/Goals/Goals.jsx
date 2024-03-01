@@ -24,6 +24,9 @@ export default function Goals() {
         });
         dispatch({
             type: 'FETCH_REFLECTIONS'
+        });
+        dispatch({
+            type: 'FETCH_COMMENTS'
         }); 
     }
 

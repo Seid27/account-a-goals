@@ -33,7 +33,7 @@ router.get('/goals/:accountaFriend_id', (req, res) => {
                               goal.date_modified, 
                               goal.target_date from "user"
                               join "goal" on "user".id = goal.user_id 
-                              where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id};`;
+                              where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id}`;
     pool.query(queryText).then((result)=>{
       res.send(result.rows);
     }).catch((error)=>{
@@ -77,12 +77,31 @@ router.get('/reflections/:goal_id',(req,res)=>{
                         reflection.reflection_desc, 
                         reflection.date_created, 
                         reflection.date_modified, 
-                        reflection.goal_id from reflection where reflection.goal_id = ${req.params.goal_id};`
+                        reflection.goal_id from reflection where reflection.goal_id = ${req.params.goal_id}`
     pool.query(queryText).then((result)=>{
         res.send(result.rows);
     }).catch((error)=>{
         console.error(error);
     })
+});
+
+/**
+ * GET comment for an accountaFriend
+ */
+router.get('/comments/:goal_id',(req,res)=>{
+
+
+  const queryText = `select comment.id, 
+                            comment.comment_title, 
+                            comment.comment_desc, 
+                            comment.date_created, 
+                            comment.date_modified, 
+                            comment.goal_id from comment where comment.goal_id = ${req.params.goal_id}`
+  pool.query(queryText).then((result)=>{
+      res.send(result.rows);
+  }).catch((error)=>{
+      console.error(error);
+  })
 });
 
 module.exports = router;

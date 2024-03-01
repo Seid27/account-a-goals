@@ -7,6 +7,8 @@ import EditGoalDialog from "./Dialogs/EditGoalDialog";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ViewComments from "./Dialogs/ViewCommentsDialog";
+import CommentsTable from "./Tables/CommentsTable";
+import comments from "../../redux/reducers/comments.reducer";
 export default function GoalDetail() {
     const {goal_id} = useParams();
     const history = useHistory();
@@ -14,7 +16,9 @@ export default function GoalDetail() {
     const goals = useSelector(s=>s.goals);
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
+    const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id==goal_id));
     const goalSelected = goals.filter((goal)=>goal.id == goal_id);
+    console.log('comments--detail',comments);
     console.log(goalSelected);
     // const [openEditGoalDiablog, setOpenEditGoalDiablog] = useState(false);
 
@@ -46,9 +50,10 @@ export default function GoalDetail() {
             <p>Account-a-Friend: {goalSelected[0].accounta_friend_id}</p>
             <EditGoalDialog goal={goalSelected[0]}/>
             <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button>
-            <ViewComments goal_id={goal_id}/>
+            {/* <ViewComments goal_id={goal_id}/> */}
             <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
             <ReflectionsTable goal_id={goal_id} reflections={reflections}/>
+            <CommentsTable goal_id={goal_id} comments={comments}/>
         </>
     )
     

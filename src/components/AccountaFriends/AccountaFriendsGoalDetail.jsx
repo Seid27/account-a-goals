@@ -7,6 +7,7 @@ import ActionPlansTable from "../Goals/Tables/ActionPlansTable";
 import ReflectionsTable from "../Goals/Tables/ReflectionsTable";
 import AddCommentDialog from "../Goals/Dialogs/AddCommentDialog";
 import { useEffect } from "react";
+import CommentsTable from "../Goals/Tables/CommentsTable";
 
 export default function AcccountaFriendsGoalDetail() {
     const {goal_id} = useParams();
@@ -14,6 +15,7 @@ export default function AcccountaFriendsGoalDetail() {
     const accountaFriendsGoal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=>goal.id == goal_id));
     const actionPlans = useSelector(s=>s.accountaFriendsActionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const reflections = useSelector(s=>s.accountaFriendsReflections.filter((reflection)=>reflection.goal_id==goal_id));
+    const comments = useSelector(s=>s.accountaFriendsComments.filter((comment)=>comment.goal_id==goal_id));
     console.log('detail',actionPlans);
     
     function fetchAccountaFriendsData() {
@@ -23,6 +25,10 @@ export default function AcccountaFriendsGoalDetail() {
         });
         dispatch({
             type: 'FETCH_ACCOUNTA_FRIENDS_REFLECTIONS',
+            payload: goal_id
+        }); 
+        dispatch({
+            type: 'FETCH_ACCOUNTA_FRIENDS_COMMENTS',
             payload: goal_id
         }); 
     }
@@ -45,7 +51,9 @@ export default function AcccountaFriendsGoalDetail() {
             <ViewComments goal_id={goal_id}/>
             <AddCommentDialog goal_id={goal_id} />
             <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
-            <ReflectionsTable goal_id={goal_id} reflections={reflections}/>  
+            <ReflectionsTable goal_id={goal_id} reflections={reflections}/> 
+            <CommentsTable goal_id={goal_id} comments={comments}/>
+            
     </>)
     
 }

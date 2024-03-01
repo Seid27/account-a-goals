@@ -21,11 +21,13 @@ function* addComment(action){
     }
 }
 
-function* editComment(){
+function* editComment(action){
     try {
-        
+        const result = yield axios.put(`/api/comments/${action.payload.id}`,action.payload);
+        console.log(result);
+        yield put({type: 'FETCH_COMMENTS'});
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
