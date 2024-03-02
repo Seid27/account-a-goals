@@ -55,10 +55,29 @@ function* fetchAccountaComments(action){
 
 function* editAccoutaFriendComment(action){
     try {
-        const result = yield axios.put(`/api/comments/${action.payload.id}`,action.payload);
+        yield axios.put(`/api/comments/${action.payload.id}`,action.payload);
         yield put({type: 'FETCH_ACCOUNTA_FRIENDS_COMMENTS', payload: action.payload.goal_id });
     } catch (error) {
         console.log(error);
+    }
+}
+
+function* addAccoutaFriendComment(action){
+    try {
+        yield axios.post('/api/comments', action.payload);
+        yield put({type: 'FETCH_ACCOUNTA_FRIENDS_COMMENTS', payload: action.payload.goal_id });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+function* removeAccoutaFriendComment(action){
+    try {
+        yield axios.delete(`/api/comments/${action.payload.id}`);
+        yield put({type: 'FETCH_ACCOUNTA_FRIENDS_COMMENTS', payload: action.payload.goal_id });
+    } catch (error) {
+        console.error(error);
     }
 }
 
@@ -71,6 +90,8 @@ function* accountaFriendsSaga() {
     yield takeLatest('FETCH_ACCOUNTA_FRIENDS_REFLECTIONS',fetchReflections);
     yield takeLatest('FETCH_ACCOUNTA_FRIENDS_COMMENTS', fetchAccountaComments);
     yield takeLatest('EDIT_ACCOUNTA_FRIEND_COMMENT', editAccoutaFriendComment);
+    yield takeLatest('ADD_ACCOUNTA_FRIEND_COMMENT', addAccoutaFriendComment);
+    yield takeLatest('REMOVE_ACCOUNTA_FRIEND_COMMENT', removeAccoutaFriendComment);
 }
 
 export default accountaFriendsSaga;

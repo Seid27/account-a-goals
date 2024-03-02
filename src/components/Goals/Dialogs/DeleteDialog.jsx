@@ -4,7 +4,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function DeleteDialog({action,id,title}) {
+export default function DeleteDialog({type,action,id, goal_id,title}) {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const dispatch = useDispatch();
     
@@ -17,19 +17,33 @@ export default function DeleteDialog({action,id,title}) {
     function handleSubmit(event) {
         event.preventDefault();
 
-        dispatch({
-            type: action,
-            payload: id
-        })
+        if (action === 'REMOVE_ACCOUNTA_FRIEND_COMMENT'){
+            dispatch({
+                type: action,
+                payload: {id, goal_id}
+            })
+        }
 
+        else{
+            dispatch({
+                type: action,
+                payload: id
+            })
+        }
+        
         handleCloseDelteDialog();
+
     }
 
     return(
         <>
+
+        {type === 'Button'? <Button variant="outlined" onClick={handleOpenDeleteDialog}>Remove</Button> : 
             <IconButton aria-label="delete" size="large" onClick={handleOpenDeleteDialog}>
                 <DeleteForeverIcon fontSize='inherit'/>                
-            </IconButton>
+            </IconButton>}
+
+            
 
             <Dialog
             open={openDeleteDialog}

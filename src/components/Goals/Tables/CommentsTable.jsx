@@ -8,6 +8,7 @@ import AddReflectionDialog from "../Dialogs/AddReflectionDialog"
 import EditReflectionDialog from "../Dialogs/EditReflectionDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
 import EditCommentDialog from "../Dialogs/EditCommentDialog";
+import AddCommentDialog from "../Dialogs/AddCommentDialog";
 
 export default function CommentsTable({goal_id, comments}) {
     const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
@@ -44,13 +45,13 @@ export default function CommentsTable({goal_id, comments}) {
                     } */}
                     
                     {/* Delete */}
-                    {/* {user.id != goal[0]?.accounta_friend_id &&
+                    {user.id == goal[0]?.accounta_friend_id &&
                     <TableCell>
                         
-                        <DeleteDialog action={'REMOVE_REFLECTION'} id={reflection.id} title={reflection.reflection_title}/>
+                        <DeleteDialog action={'REMOVE_ACCOUNTA_FRIEND_COMMENT'} id={comment.id} title={comment.comment_title} goal_id={goal_id}/>
                         
                     </TableCell>
-                    } */}
+                    }
 
                     </TableRow>
                     <TableRow>
@@ -75,7 +76,7 @@ export default function CommentsTable({goal_id, comments}) {
     }
     return (
         <>
-            {user.id == goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
+            {user.id == goal[0]?.accounta_friend_id &&<AddCommentDialog goal_id={goal_id}/>}
             <TableContainer component={Paper}>
                 <Box>
                     <Typography
