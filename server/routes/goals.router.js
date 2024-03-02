@@ -4,6 +4,10 @@ const router = express.Router();
 const {
     rejectUnauthenticated,
   } = require('../modules/authentication-middleware');
+require('dotenv').config()
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 
 /**
  * GET route to get goals for a specific user
@@ -81,6 +85,13 @@ router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
         res.sendStatus(201);
         if (req.body.status === 'Complete') {
           console.log('sending complete message');
+          client.messages
+          .create({
+              body: 'This is twilio test message',
+              from: '+18554640563',
+              to: '+12069607616'
+          })
+          .then(message => console.log(message.sid));
         }
     }).catch((error)=>{
         console.error(error);
