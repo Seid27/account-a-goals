@@ -48,7 +48,7 @@ export default function Goals() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
+        console.log("add a goal", formJson);
         dispatch({
             type: 'ADD_GOAL',
             payload: {...formJson, "accounta_friend_id": 2}

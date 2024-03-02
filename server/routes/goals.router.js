@@ -10,7 +10,11 @@ const {
  */
 router.get('/', rejectUnauthenticated,(req, res) => {
   // GET route code here
-  const queryText = `select * from "goal" where "user_id"=${req.user.id}`;
+  // const queryText = `select * from "goal" where "user_id"=${req.user.id}`;
+  const queryText = `select goal.id, 
+  goal.goal_title, goal.goal_desc, goal.user_id, goal.date_created, goal.date_modified, 
+  goal.target_date, goal.status, goal.accounta_friend_id, (select concat( f_name, ' ', l_name) 
+  from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name from goal where goal.user_id=${req.user.id};`
   pool.query(queryText).then((result)=>{
     res.send(result.rows);
   }).catch((error)=>{
@@ -25,19 +29,44 @@ router.get('/', rejectUnauthenticated,(req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
   // POST route code here
   console.log('receiving data');
-  console.log(req.body);
-  const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date")
-  values($1, $2, ${req.user.id}, $3, $4)`;
-  pool.query(queryText, [req.body.goal_title, 
-                            req.body.goal_desc, 
-                            req.body.accounta_friend_id, 
-                            req.body.target_date])
-    .then(()=>{
-        res.sendStatus(201);
-    }).catch((error)=>{
-        console.error(error);
-        res.sendStatus(500);
-    })
+  console.log(req.body.accounta_friend_name);
+  const fullName = req.body.accounta_friend_name.split(" ");
+  console.log(fullName);
+  const getIdQuery = `select id from "user" where "f_name"='${fullName[0]}' and "l_name"='${fullName[1]}'`;
+  pool.query(getIdQuery).then((result)=>{
+    console.log(result.rows[0].id);
+    const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date")
+    values($1, $2, ${req.user.id}, $3, $4)`;
+    pool.query(queryText, [req.body.goal_title, 
+                              req.body.goal_desc, 
+                              result.rows[0].id, 
+                              req.body.target_date])
+      .then(()=>{
+          res.sendStatus(201);
+      }).catch((error)=>{
+          console.error(error);
+          res.sendStatus(500);
+      })
+  }).catch((error)=>{
+    console.error(error);
+    res.sendStatus(500);
+  })
+  // if (getIdQuery.rows) {
+  //   const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date")
+  //   values($1, $2, ${req.user.id}, $3, $4)`;
+  //   pool.query(queryText, [req.body.goal_title, 
+  //                             req.body.goal_desc, 
+  //                             getIdQuery.data, 
+  //                             req.body.target_date])
+  //     .then(()=>{
+  //         res.sendStatus(201);
+  //     }).catch((error)=>{
+  //         console.error(error);
+  //         res.sendStatus(500);
+  //     })
+  // }
+
+  
 });
 
 /**
@@ -52,6 +81,7 @@ router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
         res.sendStatus(201);
     }).catch((error)=>{
         console.error(error);
+        res.sendStatus(500);
     })
 
 });
@@ -66,6 +96,7 @@ router.delete('/:goalId', rejectUnauthenticated, (req,res)=>{
         res.sendStatus(204);
     }).catch((error)=>{
         console.error(error);
+        res.sendStatus(500);
     })
 });
 
