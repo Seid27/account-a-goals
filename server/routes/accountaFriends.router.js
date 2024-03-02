@@ -1,11 +1,14 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const {
+  rejectUnauthenticated,
+} = require('../modules/authentication-middleware');
 
 /**
  * GET accounta_buddy friends a user is accountable for
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated,(req, res) => {
   // GET route code here
   const queryText = `select "user".id,
                     "user".f_name, 
@@ -22,7 +25,7 @@ router.get('/', (req, res) => {
 /**
  * GET accountaFriends friend's goals a user is accountable for
  */
-router.get('/goals/:accountaFriend_id', (req, res) => {
+router.get('/goals/:accountaFriend_id', rejectUnauthenticated, (req, res) => {
     // GET route code here
     const queryText = `select goal.id, 
                               goal.goal_title, 
@@ -44,7 +47,7 @@ router.get('/goals/:accountaFriend_id', (req, res) => {
   /**
  * GET action_plan for an accountaFriend
  */
-router.get('/actionplans/:goal_id', (req,res)=>{
+router.get('/actionplans/:goal_id', rejectUnauthenticated,(req,res)=>{
     const queryText = `select action_plan.id, 
     action_plan.action_plan_title, 
     action_plan.action_plan_desc, 
@@ -64,7 +67,7 @@ router.get('/actionplans/:goal_id', (req,res)=>{
  /**
  * GET reflection for an accountaFriend
  */
-router.get('/reflections/:goal_id',(req,res)=>{
+router.get('/reflections/:goal_id', rejectUnauthenticated,(req,res)=>{
     // const queryText = `select reflection.id, 
     //                     reflection.reflection_title, 
     //                     reflection.reflection_desc, 
@@ -88,7 +91,7 @@ router.get('/reflections/:goal_id',(req,res)=>{
 /**
  * GET comment for an accountaFriend
  */
-router.get('/comments/:goal_id',(req,res)=>{
+router.get('/comments/:goal_id', rejectUnauthenticated,(req,res)=>{
 
 
   const queryText = `select comment.id, 

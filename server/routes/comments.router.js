@@ -1,11 +1,14 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-
+const {
+    rejectUnauthenticated,
+  } = require('../modules/authentication-middleware');
+  
 /**
  * GET route for comment
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
     // GET route code here
     const queryText = `select "comment".id,
                                 "comment".comment_title, 
@@ -27,7 +30,7 @@ router.get('/', (req, res) => {
 /**
  * POST route to create a new comment
  */
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     const queryText = `insert into "comment" ("comment_title", "comment_desc", "goal_id")
     values ($1,$2,$3)`;
     pool.query(queryText,[req.body.comment_title,
@@ -43,7 +46,8 @@ router.post('/', (req, res) => {
 /**
  * PUT route to edit a comment
  */
-router.put('/:comment_id',(req,res)=>{
+router.put('/:comment_id', rejectUnauthenticated,(req,res)=>{
+    
     const queryText = `update "comment" set comment_title=$1, comment_desc=$2, date_modified=NOW() where id=${req.params.comment_id}`;
     pool.query(queryText,[req.body.comment_title, req.body.comment_desc]).then(()=>{
         res.sendStatus(201);
@@ -55,7 +59,7 @@ router.put('/:comment_id',(req,res)=>{
 /**
  * DELETE route to edit goal
  */
-router.delete('/:comment_id', (req,res)=>{
+router.delete('/:comment_id', rejectUnauthenticated, (req,res)=>{
     const queryText = `delete from comment where id=${req.params.comment_id}`;
     pool.query(queryText).then(()=>{
         res.sendStatus(204);

@@ -22,7 +22,7 @@ router.get('/', rejectUnauthenticated,(req, res) => {
 /**
  * POST route to create a new goal
  */
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
   // POST route code here
   console.log('receiving data');
   console.log(req.body);
@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
 /**
  * PUT route to edit goal
  */
-router.put('/:goalId',(req,res)=>{
+router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
   console.log('updating goal');
     const queryText = `UPDATE "goal"
     SET goal_title= $1, goal_desc= $2, target_date=$3, status=$4, date_modified=NOW() where id=${req.params.goalId}`;
@@ -59,7 +59,7 @@ router.put('/:goalId',(req,res)=>{
 /**
  * DELETE route to delete goal
  */
-router.delete('/:goalId', (req,res)=>{
+router.delete('/:goalId', rejectUnauthenticated, (req,res)=>{
   console.log('deleting data ...');
     const queryText = `delete from goal where id=${req.params.goalId}`;
     pool.query(queryText).then(()=>{
