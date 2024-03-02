@@ -18,9 +18,8 @@ export default function AddCommentDialog({goal_id}){
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
-
         dispatch({
-            type:'ADD_COMMENT',
+            type:'ADD_ACCOUNTA_FRIEND_COMMENT',
             payload: {...formJson, goal_id: goal_id}
         });
 

@@ -48,11 +48,12 @@ export default function AcccountaFriendsGoalDetail() {
             <p>Account-a-Friend: {accountaFriendsGoal[0].accounta_friend_id}</p>
             {/* <EditGoalDialog goal={accountaFriendsGoal[0]}/> */}
             {/* <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button> */}
-            <ViewComments goal_id={goal_id}/>
-            <AddCommentDialog goal_id={goal_id} />
+            {/* <ViewComments goal_id={goal_id}/> */}
+            
             <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
             <ReflectionsTable goal_id={goal_id} reflections={reflections}/> 
             <CommentsTable goal_id={goal_id} comments={comments}/>
+            
             
     </>)
     
