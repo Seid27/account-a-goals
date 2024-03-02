@@ -45,7 +45,7 @@ export default function AcccountaFriendsGoalDetail() {
             <p>Target Date on: {accountaFriendsGoal[0].target_date}</p>
             <p>Status: {accountaFriendsGoal[0].status}</p>
             {/* todo: use search for accounta buddy name */}
-            <p>Account-a-Friend: {accountaFriendsGoal[0].accounta_friend_id}</p>
+            <p>Account-a-Friend: {accountaFriendsGoal[0].accounta_friend_name}</p>
             {/* <EditGoalDialog goal={accountaFriendsGoal[0]}/> */}
             {/* <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button> */}
             {/* <ViewComments goal_id={goal_id}/> */}

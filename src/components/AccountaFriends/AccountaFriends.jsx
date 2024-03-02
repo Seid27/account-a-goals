@@ -30,7 +30,7 @@ export default function AccountaFriends() {
                         <ListItem key={accountaFriend.id} divider>
                             <ListItemButton onClick={()=>handleClick(accountaFriend.id)}>
                                 <ListItemAvatar >
-                                    <Avatar>H</Avatar>
+                                    <Avatar src="/broken-image.jpg"/>
                                 </ListItemAvatar>
                                 <ListItemText primary={
                                         <Typography

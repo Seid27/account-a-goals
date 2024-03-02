@@ -26,17 +26,23 @@ router.get('/', rejectUnauthenticated,(req, res) => {
  * GET accountaFriends friend's goals a user is accountable for
  */
 router.get('/goals/:accountaFriend_id', rejectUnauthenticated, (req, res) => {
-    // GET route code here
+
     const queryText = `select goal.id, 
-                              goal.goal_title, 
-                              goal.accounta_friend_id, 
-                              goal.goal_desc, 
-                              goal.status, 
-                              goal.date_created, 
-                              goal.date_modified, 
-                              goal.target_date from "user"
-                              join "goal" on "user".id = goal.user_id 
-                              where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id}`;
+    goal.goal_title, goal.goal_desc, goal.user_id, goal.date_created, goal.date_modified, 
+    goal.target_date, goal.status, goal.accounta_friend_id, (select concat( f_name, ' ', l_name) 
+    from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name from "user" join "goal" on "user".id = goal.user_id where goal.accounta_friend_id =  ${req.user.id}
+    and "user".id = ${req.params.accountaFriend_id};`
+    // GET route code here
+    // const queryText = `select goal.id, 
+    //                           goal.goal_title, 
+    //                           goal.accounta_friend_id, 
+    //                           goal.goal_desc, 
+    //                           goal.status, 
+    //                           goal.date_created, 
+    //                           goal.date_modified, 
+    //                           goal.target_date from "user"
+    //                           join "goal" on "user".id = goal.user_id 
+    //                           where goal.accounta_friend_id = ${req.user.id} and "user".id = ${req.params.accountaFriend_id}`;
     pool.query(queryText).then((result)=>{
       res.send(result.rows);
     }).catch((error)=>{

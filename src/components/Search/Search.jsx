@@ -30,9 +30,11 @@ export default function Search() {
             renderOption={(props, option) => (
                 
                 <Box component="li" sx={{ '& > img': { ml: 10, flexShrink: 0 } }} {...props}>
-                 <Avatar sx={{ mr: 2, flexShrink: 0 } } alt="Remy Sharp" 
-                 src="https://images.pexels.com/photos/3574678/pexels-photo-3574678.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                    <Avatar  sx={{ mr: 2, flexShrink: 0 } } src="/broken-image.jpg"/>
+                 {/* <Avatar sx={{ mr: 2, flexShrink: 0 } } alt="Remy Sharp" 
+                 src="https://images.pexels.com/photos/3574678/pexels-photo-3574678.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" /> */}
                   {option.full_name}
+                  
                 </Box>
 
               )}
