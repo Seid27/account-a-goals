@@ -114,22 +114,23 @@ function App() {
             }
           </Route>
 
-          {/* Details page */}
-          <Route path='/detail/:goal_id'>
-            <GoalDetail/>
-          </Route>
+          <ProtectedRoute exact path='/detail/:goal_id'>
+            {/* Details page */}
+              <GoalDetail/>
+          </ProtectedRoute>
 
-          <Route path='/accountafriends'>
-            <AccountaFriends/>
-          </Route>
+          <ProtectedRoute exact path='/accountafriends'>
+              <AccountaFriends/>
+          </ProtectedRoute>
 
-          <Route path='/accounta-friends-goals/:id'>
-            <AcccountaFriendsGoals/>
-          </Route>
+          <ProtectedRoute path='/accounta-friends-goals/:id'>
+              <AcccountaFriendsGoals/>
 
-          <Route path='/accounta-friends-goal-detail/:goal_id'>
-            <AcccountaFriendsGoalDetail/>
-          </Route>
+          </ProtectedRoute>
+
+          <ProtectedRoute path='/accounta-friends-goal-detail/:goal_id'>
+              <AcccountaFriendsGoalDetail/>
+          </ProtectedRoute>
 
 
 
