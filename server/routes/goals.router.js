@@ -79,6 +79,9 @@ router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
     pool.query(queryText,[req.body.goal_title, req.body.goal_desc, req.body.target_date, req.body.status])
     .then(()=>{
         res.sendStatus(201);
+        if (req.body.status === 'Complete') {
+          console.log('sending complete message');
+        }
     }).catch((error)=>{
         console.error(error);
         res.sendStatus(500);
