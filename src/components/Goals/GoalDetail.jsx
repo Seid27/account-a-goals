@@ -63,12 +63,15 @@ export default function GoalDetail() {
             </Box> */}
 
             <Grid container>
-                <Grid item lg={10} md={8}>
+                <Grid item lg={8} md={8}>
                     <Chip label={`${goalSelected[0].status}`}/>
                 </Grid>
-                <Grid sx={{backgroundColor: 'yellow'}} item lg={2} md={4}>
+                <Grid sx={{backgroundColor: 'yellow', display:'flex', justifyContent:'flex-end'}} item lg={4} md={4}>
                     <EditGoalDialog goal={goalSelected[0]}/>
-                    <Button sx={{ml: '25px'}} onClick={handleOpenDeleteDialog} variant="outlined">Remove</Button>
+                    <Button sx={{ml:'20px'}} onClick={handleOpenDeleteDialog} variant="outlined">Remove</Button>
+                </Grid>
+                <Grid>
+                    
                 </Grid>
             </Grid>
 
@@ -76,10 +79,10 @@ export default function GoalDetail() {
                 <Grid item lg={4} md={8}>
                     <p>Goal Created on: {goalSelected[0].date_created}</p>
                 </Grid>
-                <Grid sx={{backgroundColor: 'yellow'}} item lg={4} md={4}>
+                <Grid  item lg={4} md={4}>
                     <p>Target Date on: {goalSelected[0].target_date}</p>
                 </Grid>
-                <Grid sx={{backgroundColor: 'yellow'}} item lg={4} md={4}>
+                <Grid sx={{backgroundColor: 'yellow', display:'flex', justifyContent:'flex-end'}} item lg={4} md={4}>
                     <p>Goal Modified on: {goalSelected[0].date_modified}</p>
                 </Grid>
             </Grid>
