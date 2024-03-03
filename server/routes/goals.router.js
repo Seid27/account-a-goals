@@ -89,8 +89,8 @@ router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
             console.log('sending complete message');
             client.messages
             .create({
-                body: `This is a message from Account-a-goals. Your Account-a-friend, 
-                ${result.rows[0].f_name} ${result.rows[0].l_name} has completed ${req.body.goal_title} goal. Congratulate your friend`,
+                body: `Congratulate your Account-a-friend, 
+                ${result.rows[0].f_name} ${result.rows[0].l_name}. ${req.body.goal_title} goal is complete.`,
                 from: '+18554640563',
                 to: '+12069607616'
             })
