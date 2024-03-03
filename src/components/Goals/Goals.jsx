@@ -93,14 +93,13 @@ export default function Goals() {
         <>
             <div>Your Goals</div>
             <Button  sx={{ml:'85%'}} variant='contained' onClick={handleClickOpen} >Add a Goal</Button>
-            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            <List sx={{bgcolor: 'background.paper' }}>
                 {
                     goals.map((goal) =>{
                     return (
                         <ListItem  key={goal.id} secondaryAction={
                             <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
                         }
-                        disablePadding
                         >
 
                             <ListItemButton onClick={()=>handleGoalDetail(goal.id)}>

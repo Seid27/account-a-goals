@@ -39,106 +39,109 @@ function App() {
     <Router>
       <div>
         <Nav />
-        <Switch>
-          {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
-          <Redirect exact from="/" to="/home" />
+        <div id='main'>
+          <Switch>
+            {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
+            <Redirect exact from="/" to="/home" />
 
-          {/* Visiting localhost:5173/about will show the about page. */}
-          <Route
-            // shows AboutPage at all times (logged in or not)
-            exact
-            path="/about"
-          >
-            <AboutPage />
-          </Route>
+            {/* Visiting localhost:5173/about will show the about page. */}
+            <Route
+              // shows AboutPage at all times (logged in or not)
+              exact
+              path="/about"
+            >
+              <AboutPage />
+            </Route>
 
-          {/* For protected routes, the view could show one of several things on the same route.
-            Visiting localhost:5173/user will show the UserPage if the user is logged in.
-            If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
-            Even though it seems like they are different pages, the user is always on localhost:5173/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/user"
-          >
-            <UserPage />
-          </ProtectedRoute>
+            {/* For protected routes, the view could show one of several things on the same route.
+              Visiting localhost:5173/user will show the UserPage if the user is logged in.
+              If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
+              Even though it seems like they are different pages, the user is always on localhost:5173/user */}
+            <ProtectedRoute
+              // logged in shows UserPage else shows LoginPage
+              exact
+              path="/user"
+            >
+              <UserPage />
+            </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <InfoPage />
-          </ProtectedRoute>
+            <ProtectedRoute
+              // logged in shows InfoPage else shows LoginPage
+              exact
+              path="/info"
+            >
+              <InfoPage />
+            </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the login page
-              <LoginPage />
-            }
-          </Route>
+            <Route
+              exact
+              path="/login"
+            >
+              {user.id ?
+                // If the user is already logged in, 
+                // redirect to the /user page
+                <Redirect to="/user" />
+                :
+                // Otherwise, show the login page
+                <LoginPage />
+              }
+            </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the registration page
-              <RegisterPage />
-            }
-          </Route>
+            <Route
+              exact
+              path="/registration"
+            >
+              {user.id ?
+                // If the user is already logged in, 
+                // redirect them to the /user page
+                <Redirect to="/user" />
+                :
+                // Otherwise, show the registration page
+                <RegisterPage />
+              }
+            </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the Landing page
-              <LandingPage />
-            }
-          </Route>
+            <Route
+              exact
+              path="/home"
+            >
+              {user.id ?
+                // If the user is already logged in, 
+                // redirect them to the /user page
+                <Redirect to="/user" />
+                :
+                // Otherwise, show the Landing page
+                <LandingPage />
+              }
+            </Route>
 
-          <ProtectedRoute exact path='/detail/:goal_id'>
-            {/* Details page */}
-              <GoalDetail/>
-          </ProtectedRoute>
+            <ProtectedRoute exact path='/detail/:goal_id'>
+              {/* Details page */}
+                <GoalDetail/>
+            </ProtectedRoute>
 
-          <ProtectedRoute exact path='/accountafriends'>
-              <AccountaFriends/>
-          </ProtectedRoute>
+            <ProtectedRoute exact path='/accountafriends'>
+                <AccountaFriends/>
+            </ProtectedRoute>
 
-          <ProtectedRoute path='/accounta-friends-goals/:id'>
-              <AcccountaFriendsGoals/>
+            <ProtectedRoute path='/accounta-friends-goals/:id'>
+                <AcccountaFriendsGoals/>
 
-          </ProtectedRoute>
+            </ProtectedRoute>
 
-          <ProtectedRoute path='/accounta-friends-goal-detail/:goal_id'>
-              <AcccountaFriendsGoalDetail/>
-          </ProtectedRoute>
+            <ProtectedRoute path='/accounta-friends-goal-detail/:goal_id'>
+                <AcccountaFriendsGoalDetail/>
+            </ProtectedRoute>
 
 
 
-          {/* If none of the other routes matched, we will show a 404. */}
-          <Route>
-            <h1>404</h1>
-          </Route>
-        </Switch>
+            {/* If none of the other routes matched, we will show a 404. */}
+            <Route>
+              <h1>404</h1>
+            </Route>
+          </Switch>
+        </div>
+        
         <Footer />
       </div>
     </Router>

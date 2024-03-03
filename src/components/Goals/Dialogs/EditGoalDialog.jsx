@@ -83,7 +83,7 @@ export default function EditGoalDialog({goal}) {
                         label="Status"
                         id="status"
                         name="status"
-                        defaultValue={status}
+                        value={status}
                         onChange={(e)=>setStatus(e.target.value)}
                         >
                             <MenuItem value='Pending'>Pending</MenuItem>
