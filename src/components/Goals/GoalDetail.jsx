@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
 import ActionPlansTable from "./Tables/ActionPlansTable";
 import ReflectionsTable from "./Tables/ReflectionsTable";
-import { Button, Dialog } from "@mui/material";
+import { Box, Button, Container, Dialog, Grid } from "@mui/material";
 import EditGoalDialog from "./Dialogs/EditGoalDialog";
 import {DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -13,6 +13,7 @@ import ViewComments from "./Dialogs/ViewCommentsDialog";
 import CommentsTable from "./Tables/CommentsTable";
 import comments from "../../redux/reducers/comments.reducer";
 import DeleteDialog from "./Dialogs/DeleteDialog";
+import Chip from '@mui/material/Chip';
 export default function GoalDetail() {
     const {goal_id} = useParams();
     const history = useHistory();
@@ -52,16 +53,48 @@ export default function GoalDetail() {
 
     return (
         <>
+            
+            {/* <Box display={'inline-flex'} width={'100%'} backgroundColor={'yellow'}justifyContent={"space-between"}>
+                <Chip label={`${goalSelected[0].status}`}/>
+                <Container sx={{backgroundColor: 'purple'}}>
+                    <EditGoalDialog goal={goalSelected[0]}/>
+                    <Button onClick={handleOpenDeleteDialog} variant="outlined">Remove</Button>
+                </Container>
+            </Box> */}
+
+            <Grid container>
+                <Grid item lg={10} md={8}>
+                    <Chip label={`${goalSelected[0].status}`}/>
+                </Grid>
+                <Grid sx={{backgroundColor: 'yellow'}} item lg={2} md={4}>
+                    <EditGoalDialog goal={goalSelected[0]}/>
+                    <Button sx={{ml: '25px'}} onClick={handleOpenDeleteDialog} variant="outlined">Remove</Button>
+                </Grid>
+            </Grid>
+
+            <Grid container>
+                <Grid item lg={4} md={8}>
+                    <p>Goal Created on: {goalSelected[0].date_created}</p>
+                </Grid>
+                <Grid sx={{backgroundColor: 'yellow'}} item lg={4} md={4}>
+                    <p>Target Date on: {goalSelected[0].target_date}</p>
+                </Grid>
+                <Grid sx={{backgroundColor: 'yellow'}} item lg={4} md={4}>
+                    <p>Goal Modified on: {goalSelected[0].date_modified}</p>
+                </Grid>
+            </Grid>
+            
             <h1>{goalSelected[0].goal_title}</h1>
             <p>{goalSelected[0].goal_desc}</p>
-            <p>Goal Created on: {goalSelected[0].date_created}</p>
-            <p>Goal Modified on: {goalSelected[0].date_modified}</p>
-            <p>Target Date on: {goalSelected[0].target_date}</p>
-            <p>Status: {goalSelected[0].status}</p>
+            
+            
+            
+            
+            
+            {/* <p>Status: {goalSelected[0].status}</p> */}
             {/* todo: use search for accounta buddy name */}
             <p>Account-a-Friend: {goalSelected[0].accounta_friend_name}</p>
-            <EditGoalDialog goal={goalSelected[0]}/>
-            <Button onClick={handleOpenDeleteDialog} variant="outlined">Remove</Button>
+           
             {/* <DeleteDialog type={'Button'} action={'REMOVE_GOAL'} id={goal_id} title={goalSelected[0].goal_title}/> */}
             {/* <ViewComments goal_id={goal_id}/> */}
             <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
