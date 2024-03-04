@@ -14,7 +14,7 @@ router.get('/', rejectUnauthenticated,(req, res) => {
                     "user".f_name, 
                     "user".l_name from "user" 
                     join "goal" on "user".id = goal.user_id 
-                    where goal.accounta_friend_id = ${req.user.id}`;
+                    where goal.accounta_friend_id = ${req.user.id} group by "user".id;`;
   pool.query(queryText).then((result)=>{
     res.send(result.rows);
   }).catch((error)=>{
