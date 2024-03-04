@@ -90,10 +90,11 @@ export default function Goals() {
     }
 
     return (
-        <>
             <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
-                <Button variant='contained' onClick={handleClickOpen} >Add a Goal</Button>
-                
+                <Box sx={{width: '100%', maxWidth: 700, 
+                        display: 'flex', alignItems:'center', justifyContent:'right'}}>
+                    <Button variant='contained' sx={{backgroundColor: '#619b8a',":hover":{backgroundColor:"#a1c181"}}} onClick={handleClickOpen} >Add a Goal</Button>
+                </Box>
                 <List sx={{width: '100%', maxWidth: 700, bgcolor: 'background.paper'}}>
                     {
                         goals.map((goal) =>{
@@ -179,8 +180,6 @@ export default function Goals() {
                 </Dialog>
 
             </Box>
-            
-        </>
     )
     
 }

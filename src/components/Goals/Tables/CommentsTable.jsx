@@ -9,6 +9,7 @@ import EditReflectionDialog from "../Dialogs/EditReflectionDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
 import EditCommentDialog from "../Dialogs/EditCommentDialog";
 import AddCommentDialog from "../Dialogs/AddCommentDialog";
+import dayjs from "dayjs";
 
 export default function CommentsTable({goal_id, comments}) {
     const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
@@ -60,13 +61,13 @@ export default function CommentsTable({goal_id, comments}) {
                                 
                                 <Box sx={{ margin: 1 }}>
                                     <Typography variant="h6">
-                                    Description: {comment.comment_desc}
+                                    {comment.comment_desc}
                                     </Typography> 
                                     <Typography>
-                                    Date Created: {comment.date_created}
+                                    Date Created: {dayjs(comment.date_created).format('MM/DD/YYYY')}
                                     </Typography>
                                     <Typography>
-                                    Target Date: {comment.date_modified}
+                                    Target Date: {dayjs(comment.date_modified).format('MM/DD/YYYY')}
                                     </Typography>
                                 </Box>
                             </Collapse>
@@ -76,8 +77,11 @@ export default function CommentsTable({goal_id, comments}) {
     }
     return (
         <>
-            {user.id == goal[0]?.accounta_friend_id &&<AddCommentDialog goal_id={goal_id}/>}
+        <Box sx={{mt:'30px'}}>
+            
+            
             <TableContainer component={Paper}>
+            {user.id == goal[0]?.accounta_friend_id &&<AddCommentDialog goal_id={goal_id}/>}
                 <Box>
                     <Typography
                         sx={{ flex: '1 1 100%', p:'20px' }}
@@ -87,6 +91,10 @@ export default function CommentsTable({goal_id, comments}) {
                         Comments
                     </Typography>
                 </Box>
+
+                {comments.length===0? <Box sx={{display: 'flex', alignItems: 'center',justifyContent:'center'}} >
+                    <img width="200px" src='../public/images/noData.jpg' alt="" />
+                </Box>:
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -104,8 +112,11 @@ export default function CommentsTable({goal_id, comments}) {
                                   <Row comment={comment} key={comment.id}/> 
                         )})}
                         </TableBody>
-                </Table>
+                </Table>}
             </TableContainer>
+
+        </Box>
+            
         </>
     )
     

@@ -1,4 +1,4 @@
-import { Box, Collapse, Typography } from "@mui/material";
+import { Box, Chip, Collapse, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
@@ -13,6 +13,7 @@ import { useState } from 'react';
 import AddActionPlanDialog from "../Dialogs/AddActionPlanDialog";
 import EditActionPlanDialog from "../Dialogs/EditActionPlanDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
+import dayjs from "dayjs";
 
 export default function ActionPlansTable({goal_id, actionPlans}) {
     console.log('in action plan table',goal_id);
@@ -33,7 +34,17 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
     // useEffect(()=>{
     //     fetchActionPlans();
     // },[]);
-
+    function chipColor(goal_status) {
+        if(goal_status == 'Complete'){
+            return 'green';
+        }
+        else if(goal_status == 'In progress' || goal_status == 'In Progress' ){
+            return '#f3722c';
+        }
+        else{
+            return '#ffc917'
+        }
+    }
 
     function Row({actionPlan}) {
         const [open, setOpen] = useState(false);
@@ -53,7 +64,8 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
                         {actionPlan.action_plan_title}
                     </TableCell>
                     <TableCell>
-                        {actionPlan.status}
+                        
+                        <Chip size="small" sx={{backgroundColor: chipColor(actionPlan.status), color:'white'}} label={`${actionPlan.status}`}/>
                     </TableCell>
                     {/* Edit */}
                     {user.id != goal[0]?.accounta_friend_id && 
@@ -80,13 +92,13 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
                                 
                                 <Box sx={{ margin: 1 }}>
                                     <Typography variant="h6">
-                                    Description: {actionPlan.action_plan_desc}
+                                    {actionPlan.action_plan_desc}
                                     </Typography> 
                                     <Typography>
-                                    Date Created: {actionPlan.date_created}
+                                    Date Created: {dayjs(actionPlan.date_created).format('MM/DD/YYYY')}
                                     </Typography>
                                     <Typography>
-                                    Target Date: {actionPlan.target_date}
+                                    Target Date: {dayjs(actionPlan.target_date).format('MM/DD/YYYY')}
                                     </Typography>
                                 </Box>
                             </Collapse>
@@ -98,8 +110,11 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
     return (
         <>
             {/* <h1>Action Plans</h1> */}
-            {user.id != goal[0]?.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>}
+            {/* {user.id != goal[0]?.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>} */}
+
+            
             <TableContainer component={Paper} elevation={1}>
+            {user.id != goal[0]?.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>}
                 <Box>
                     <Typography
                         sx={{ flex: '1 1 100%', p:'20px' }}
@@ -109,6 +124,10 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
                         Action Plans
                     </Typography>
                 </Box>
+
+                {actionPlans.length===0? <Box sx={{display: 'flex', alignItems: 'center',justifyContent:'center'}} >
+                    <img width="200px" src='../public/images/noData.jpg' alt="" />
+                </Box>:
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -125,7 +144,7 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
                         {actionPlans.map((actionPlan)=>
                                   <Row actionPlan={actionPlan} key={actionPlan.id}/> )}
                         </TableBody>
-                </Table>
+                </Table>}
             </TableContainer>
         </>
     )

@@ -51,6 +51,16 @@ function RegisterForm() {
           />
         </label>
       </div>
+
+      <div>
+        <label htmlFor="phone">
+          Phone Number:
+          <input
+            type="text"
+            name="phone"
+          />
+        </label>
+      </div>
       <div>
         <input className="btn" type="submit" name="submit" value="Register" />
       </div>

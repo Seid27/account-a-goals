@@ -29,7 +29,7 @@ export default function AddCommentDialog({goal_id}){
     }
     return (
         <>
-            <Button variant="outlined" onClick={handleOpenCommentDialog}>Add a Comment</Button>
+            <Button variant="contained" sx={{width:'200px', backgroundColor: '#619b8a', ":hover":{backgroundColor:"#a1c181"}}} onClick={handleOpenCommentDialog}>Add a Comment</Button>
             <Dialog
              open={openCommentDialog}
              onClose={handleCloseCommentDialog}
@@ -55,8 +55,8 @@ export default function AddCommentDialog({goal_id}){
                     />
                     <TextField
                         margin="dense"
-                        id="action_plan_desc"
-                        name="action_plan_desc"
+                        id="comment_desc"
+                        name="comment_desc"
                         label="Description"
                         type='text'
                         multiline

@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useState } from "react";
@@ -52,10 +52,16 @@ export default function DeleteDialog({type,action,id, goal_id,title}) {
                 component:'form',
                 onSubmit: (event)=>handleSubmit(event)}}
             >
-                <DialogTitle>
-                    <WarningIcon color="warning"/>
-                    Delete
+                
+                
+                <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
+                <WarningIcon sx={{ml: '20px', pt:'10px'}} fontSize="large" color="warning"/>
+                <DialogTitle sx={{pt:'20px', pl:'10px', pb:'0px'}}>
+                Delete
                 </DialogTitle>
+                </Box>
+                
+        
                 <DialogContent>
                     Are you sure You want to delete "{title}"?
                 </DialogContent>

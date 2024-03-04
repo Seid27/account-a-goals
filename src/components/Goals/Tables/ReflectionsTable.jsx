@@ -7,6 +7,7 @@ import { Box, Collapse, Typography } from "@mui/material";
 import AddReflectionDialog from "../Dialogs/AddReflectionDialog"
 import EditReflectionDialog from "../Dialogs/EditReflectionDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
+import dayjs from "dayjs";
 
 export default function reflectionsTable({goal_id, reflections}) {
     const dispatch = useDispatch();
@@ -68,13 +69,13 @@ export default function reflectionsTable({goal_id, reflections}) {
                                 
                                 <Box sx={{ margin: 1 }}>
                                     <Typography variant="h6">
-                                    Description: {reflection.reflection_desc}
+                                    {reflection.reflection_desc}
                                     </Typography> 
                                     <Typography>
-                                    Date Created: {reflection.date_created}
+                                    Date Created: {dayjs(reflection.date_created).format('MM/DD/YYYY')}
                                     </Typography>
                                     <Typography>
-                                    Target Date: {reflection.date_modified}
+                                    Target Date: {dayjs(reflection.date_modified).format('MM/DD/YYYY')}
                                     </Typography>
                                 </Box>
                             </Collapse>
@@ -86,36 +87,45 @@ export default function reflectionsTable({goal_id, reflections}) {
     return (
         <>
             {/* {user.id ===  goal.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>} */}
-            {user.id != goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
-            <TableContainer component={Paper}>
-                <Box>
-                    <Typography
-                        sx={{ flex: '1 1 100%', p:'20px' }}
-                        variant="h4"
-                        id="tableTitle"
-                    >
-                        Reflections
-                    </Typography>
-                </Box>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                           <TableCell/>
-                            <TableCell>Reflection</TableCell>
-                            {user.id != goal[0]?.accounta_friend_id && 
-                            <TableCell>Edit</TableCell>}
-                            {user.id != goal[0]?.accounta_friend_id && 
-                            <TableCell>Delete</TableCell>}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {reflections.map((reflection)=>{
-                            return (
-                                  <Row reflection={reflection} key={reflection.id}/> 
-                        )})}
-                        </TableBody>
-                </Table>
-            </TableContainer>
+            {/* {user.id != goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>} */}
+            <Box sx={{mt:'30px'}}>
+                <TableContainer component={Paper}>
+                    {user.id != goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
+                    <Box>
+                        <Typography
+                            sx={{ flex: '1 1 100%', p:'20px' }}
+                            variant="h4"
+                            id="tableTitle"
+                        >
+                            Reflections
+                        </Typography>
+                    </Box>
+
+                    {reflections.length===0? <Box sx={{display: 'flex', alignItems: 'center',justifyContent:'center'}} >
+                    <img width="200px" src='../public/images/noData.jpg' alt="" />
+                </Box>:
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                            <TableCell/>
+                                <TableCell>Reflection</TableCell>
+                                {user.id != goal[0]?.accounta_friend_id && 
+                                <TableCell>Edit</TableCell>}
+                                {user.id != goal[0]?.accounta_friend_id && 
+                                <TableCell>Delete</TableCell>}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {reflections.map((reflection)=>{
+                                return (
+                                    <Row reflection={reflection} key={reflection.id}/> 
+                            )})}
+                            </TableBody>
+                    </Table>}
+                </TableContainer>
+
+            </Box>
+            
         </>
     )
     

@@ -3,14 +3,20 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
+import { Box } from '@mui/material';
 
 function Nav() {
   const user = useSelector((store) => store.user);
 
   return (
     <div className="nav">
+      
       <Link to="/home">
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+        <img src="/images/dart_32.png"/>
         <h2 className="nav-title">Account-a-Goals</h2>
+        </Box>
+        
       </Link>
       <div>
         {/* If no user is logged in, show these links */}
@@ -28,9 +34,9 @@ function Nav() {
               My Goals
             </Link>
 
-            <Link className="navLink" to="/info">
+            {/* <Link className="navLink" to="/info">
               Info Page
-            </Link>
+            </Link> */}
 
             <Link className='navLink' to='/accountafriends'>
               Account-a-Friends
@@ -40,9 +46,9 @@ function Nav() {
           </>
         )}
 
-        <Link className="navLink" to="/about">
+        {/* <Link className="navLink" to="/about">
           About
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
