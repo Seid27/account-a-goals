@@ -102,7 +102,7 @@ export default function reflectionsTable({goal_id, reflections}) {
                     </Box>
 
                     {reflections.length===0? <Box sx={{display: 'flex', alignItems: 'center',justifyContent:'center'}} >
-                    <img width="200px" src='../public/images/noData.jpg' alt="" />
+                    <img width="200px" src='/images/noData.jpg' alt="" />
                 </Box>:
                     <Table>
                         <TableHead>
