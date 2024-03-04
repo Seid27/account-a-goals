@@ -28,7 +28,7 @@ export default function AddActionPlanDialog({goal_id}) {
     return (
         <>
         
-            <Button onClick={handleOpenAddRefelctionDialog} variant="outlined">
+            <Button sx={{width:'200px', backgroundColor: '#619b8a', ":hover":{backgroundColor:"#a1c181"}}}  onClick={handleOpenAddRefelctionDialog} variant="contained">
                 Add Reflection
             </Button>
             <Dialog

@@ -30,7 +30,7 @@ export default function AcccountaFriendsGoals(){
     
     return (
         <>
-            <h1>AccountaFriends Goals</h1>
+            <h1>Account-a-Friends Goals</h1>
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {
                     accountaFriendsGoals?.map((goal) =>{
