@@ -1,17 +1,24 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-
+const {
+    rejectUnauthenticated,
+  } = require('../modules/authentication-middleware');
+  
 /**
  * GET route for comment
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
     // GET route code here
     const queryText = `select "comment".id,
                                 "comment".comment_title, 
                                 "comment".comment_desc, 
-                                "comment".date_created from "comment" 
-                                join goal on goal.id = "comment".goal_id where user_id = ${req.user.id}`;
+                                "comment".date_created, 
+                                "comment".date_modified,
+                                "comment".date_created,
+                                "comment".goal_id from "comment" 
+                                join goal on goal.id = "comment".goal_id where user_id = ${req.user.id} 
+                                order by date_modified desc` ;
 
     pool.query(queryText).then((result)=>{
         res.send(result.rows);
@@ -23,13 +30,11 @@ router.get('/', (req, res) => {
 /**
  * POST route to create a new comment
  */
-router.post('/', (req, res) => {
-    // POST route code here
-    const queryText = `insert into "comment" ("comment_title", "comment_desc", "date_created", "goal_id")
-    values ($1,$2,$3,$4)`;
+router.post('/', rejectUnauthenticated, (req, res) => {
+    const queryText = `insert into "comment" ("comment_title", "comment_desc", "goal_id")
+    values ($1,$2,$3)`;
     pool.query(queryText,[req.body.comment_title,
                             req.body.comment_desc,
-                            req.body.date_created,
                             req.body.goal_id])
     .then(()=>{
         res.sendStatus(201);
@@ -41,7 +46,8 @@ router.post('/', (req, res) => {
 /**
  * PUT route to edit a comment
  */
-router.put('/:comment_id',(req,res)=>{
+router.put('/:comment_id', rejectUnauthenticated,(req,res)=>{
+    
     const queryText = `update "comment" set comment_title=$1, comment_desc=$2, date_modified=NOW() where id=${req.params.comment_id}`;
     pool.query(queryText,[req.body.comment_title, req.body.comment_desc]).then(()=>{
         res.sendStatus(201);
@@ -53,7 +59,7 @@ router.put('/:comment_id',(req,res)=>{
 /**
  * DELETE route to edit goal
  */
-router.delete('/:comment_id', (req,res)=>{
+router.delete('/:comment_id', rejectUnauthenticated, (req,res)=>{
     const queryText = `delete from comment where id=${req.params.comment_id}`;
     pool.query(queryText).then(()=>{
         res.sendStatus(204);

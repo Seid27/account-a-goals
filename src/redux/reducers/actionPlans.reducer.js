@@ -1,3 +1,4 @@
+//actionplans reducer
 function actionPlans(state=[], action) {
     if (action.type === 'SET_ACTION_PLAN') {
         return action.payload;

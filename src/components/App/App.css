@@ -9,6 +9,12 @@ body {
   margin: 0px;
 }
 
+#main{
+  margin-right: 20px;
+  margin-left: 20px;
+  /* background-color: black; */
+}
+
 img {
   display: inline-block;
   max-width: 100%;
@@ -32,12 +38,15 @@ Button
   border-color: #014041;
   border-width: 1px 1px 3px;
   border-radius: 4px;
-  background-color: #00acb0;
+  background-color: #619b8a;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
+  
 }
+
+/* backgroundColor: '#619b8a', ":hover":{backgroundColor:"#a1c181" */
 
 .btn_sizeMin {
   min-height: 50px;
@@ -55,7 +64,7 @@ Button
 }
 
 .btn:hover {
-  background-color: #008183;
+  background-color: #a1c181;
   text-decoration: none;
 }
 
@@ -109,4 +118,13 @@ Form Treatment
 input {
   margin: 5px;
   margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+}
+
+.btn{
+  background-color:'#619b8a'
 }

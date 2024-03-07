@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
+import Swal from 'sweetalert2'
 
 function* fetchGoals() {
 
@@ -18,8 +19,12 @@ function* editGoalSaga(action){
     try {
         yield axios.put(`/api/goals/${action.payload.id}`, action.payload);
         yield put({type:'FETCH_GOALS'});
+        Swal.fire({
+            title: "Goal Updated!",
+            icon: "success"
+          });
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
@@ -27,6 +32,10 @@ function* addGoalSaga(action){
     try {
         yield axios.post('/api/goals', action.payload);
         yield put({type:'FETCH_GOALS'});
+        Swal.fire({
+            title: "Good Added!",
+            icon: "success"
+          });
     } catch (error) {
         console.error(error);
     }
