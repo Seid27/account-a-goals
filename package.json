@@ -34,6 +34,7 @@
   "scripts": {
     "start": "node server/server.js",
     "client": "vite",
+    "deploy": "npm run build && fly deploy --ha=false",
     "server": "nodemon --watch server server/server.js",
     "build": "vite build",
     "test": "vitest"

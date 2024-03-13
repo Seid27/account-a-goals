@@ -10,9 +10,8 @@ body {
 }
 
 #main{
-  margin-right: 20px;
-  margin-left: 20px;
-  /* background-color: black; */
+  margin: 30px;
+  /* background-color: #4a4e69; */
 }
 
 img {
@@ -103,21 +102,30 @@ Alert
 /* --------------------------------------------------------------------------------
 Form Treatment
 -------------------------------------------------------------------------------- */
-
 .formPanel {
   box-sizing: border-box;
   width: 400px;
   max-width: 100%;
   padding: 25px;
-  margin: 0 auto 20px;
+  margin: 10% auto 20px;
   background-color: #efefef;
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+
 }
 
-input {
+/* input {
   margin: 5px;
   margin-bottom: 10px;
+} */
+
+label{
+  display: inline-block;
+  width: 250px;
+  text-align: left;
+}
+input {
+display: inline-block;
 }
 
 ul {
@@ -126,5 +134,6 @@ ul {
 }
 
 .btn{
+  margin-top: 15px;
   background-color:'#619b8a'
 }
