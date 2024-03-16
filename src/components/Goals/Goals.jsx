@@ -91,23 +91,24 @@ export default function Goals() {
 
     return (
             <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
-                <Box sx={{width: '100%', maxWidth: 700, 
+                <Box sx={{width: '100%', maxWidth: 600, 
                         display: 'flex', alignItems:'center', justifyContent:'right'}}>
                     <Button variant='contained' sx={{backgroundColor: '#619b8a',":hover":{backgroundColor:"#a1c181"}}} onClick={handleClickOpen} >Add a Goal</Button>
                 </Box>
-                <List sx={{width: '100%', maxWidth: 700, bgcolor: 'background.paper'}}>
+                <List sx={{width: '100%', maxWidth: 650, bgcolor: 'background.paper'}}>
                     {
                         goals.map((goal) =>{
                         return (
+                            
                             <ListItem  key={goal.id} secondaryAction={
                                 <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
                             }
                             >
 
-                                <ListItemButton onClick={()=>handleGoalDetail(goal.id)}>
+                                <ListItemButton sx={{mr: '20px'}} onClick={()=>handleGoalDetail(goal.id)}>
                                     <ListItemIcon>
                                     <Checkbox 
-                                        edge="end"
+                                        edge="start"
                                         checked = {goal.status === "Complete"}
                                         onClick={(event)=>handleChecked(event,goal)}
                                         //todo: add check handler to send update to goal status using axios
