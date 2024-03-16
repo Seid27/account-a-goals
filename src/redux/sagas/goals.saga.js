@@ -33,7 +33,7 @@ function* addGoalSaga(action){
         yield axios.post('/api/goals', action.payload);
         yield put({type:'FETCH_GOALS'});
         Swal.fire({
-            title: "Good Added!",
+            title: "Goal Added!",
             icon: "success"
           });
     } catch (error) {

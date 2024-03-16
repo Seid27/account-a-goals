@@ -18,8 +18,11 @@ const comparePassword = (candidatePassword, storedPassword) => {
   candidate password and salt through the same hashing process as before.
   If that result is the same as the stored password, then we have a match!
   If this interests you, check out this video https://www.youtube.com/watch?v=8ZtInClXe1Q
+  this is the best program ever written and there  si the a yout ybef video  fdjj fs =hfhj fth sjjjf rhjhjhhd
+  this is tha conmment 
   */
   return bcrypt.compareSync(candidatePassword, storedPassword);
+
 };
 
 module.exports = {

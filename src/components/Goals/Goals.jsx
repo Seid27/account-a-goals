@@ -1,20 +1,19 @@
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, Grid, IconButton, InputLabel, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
+import { Box,Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import List from '@mui/material/List';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Search from '../Search/Search';
 import { useHistory } from 'react-router-dom';
 import DeleteDialog from './Dialogs/DeleteDialog';
+import CustomDialog from './Dialogs/CustomDialog';
+
+// This is goals page
+// It displays a lsit of goals for a user
 export default function Goals() {
     const dispatch = useDispatch();
     const history = useHistory();
     const goals = useSelector(s=>s.goals);
-    const [open, setOpen] = useState(false);
+
+    //fetch all data for a user
     function fetchGoals() {
         dispatch({
             type: 'FETCH_GOALS'
@@ -34,41 +33,15 @@ export default function Goals() {
         fetchGoals();
     },[]);
 
-    function handleClickOpen() {
-        setOpen(true);
-        
-    }
-
-    function handleClose() {
-        setOpen(false);
-        
-    }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const formJson = Object.fromEntries(formData.entries());
-        console.log("add a goal", formJson);
-        dispatch({
-            type: 'ADD_GOAL',
-            payload: {...formJson, "accounta_friend_id": 2}
-        })
-        handleClose();
-    }
-
+    // sends user to the goal detail page
     function handleGoalDetail(goal_id) {
         console.log(goal_id);
         history.push({pathname: `/detail/${goal_id}`});
         console.log(history);
     }
 
-    function handleRemoveGoal(goal_id){
-        dispatch({
-            type: 'REMOVE_GOAL',
-            payload: goal_id
-        })
-    }
-
+    // called when a user clicks on the check box
+    // updates the status of a goal
     function handleChecked(event,goal){
         event.stopPropagation();
         console.log("goal status",goal.status);
@@ -93,93 +66,48 @@ export default function Goals() {
             <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
                 <Box sx={{width: '100%', maxWidth: 600, 
                         display: 'flex', alignItems:'center', justifyContent:'right'}}>
-                    <Button variant='contained' sx={{backgroundColor: '#619b8a',":hover":{backgroundColor:"#a1c181"}}} onClick={handleClickOpen} >Add a Goal</Button>
+                    <CustomDialog 
+                        title={'Add a Goal'}
+                        label={{
+                            title: 'Title',
+                            description: 'Description',
+                            targetDate : 'Target Date',
+                        }}
+                        name={{
+                            title: 'goal_title',
+                            description: 'goal_description',
+                            targetDate: 'target_date'
+                        }}
+                        action='ADD_GOAL'/>
                 </Box>
+                
                 <List sx={{width: '100%', maxWidth: 650, bgcolor: 'background.paper'}}>
                     {
                         goals.map((goal) =>{
-                        return (
-                            
-                            <ListItem  key={goal.id} secondaryAction={
-                                <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
+                                return (
+                                
+                                    <ListItem  key={goal.id} secondaryAction={
+                                        <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
+                                    }
+                                    >
+
+                                        <ListItemButton sx={{mr: '20px'}} onClick={()=>handleGoalDetail(goal.id)}>
+                                            <ListItemIcon>
+                                            <Checkbox 
+                                                edge="start"
+                                                checked = {goal.status === "Complete"}
+                                                onClick={(event)=>handleChecked(event,goal)}
+                                                //todo: add check handler to send update to goal status using axios
+                                            />
+                                            </ListItemIcon>
+                                            <ListItemText primary={goal.goal_title}/>
+                                        </ListItemButton>
+                                    </ListItem>
+                                );
                             }
-                            >
-
-                                <ListItemButton sx={{mr: '20px'}} onClick={()=>handleGoalDetail(goal.id)}>
-                                    <ListItemIcon>
-                                    <Checkbox 
-                                        edge="start"
-                                        checked = {goal.status === "Complete"}
-                                        onClick={(event)=>handleChecked(event,goal)}
-                                        //todo: add check handler to send update to goal status using axios
-                                    />
-                                    </ListItemIcon>
-                                    <ListItemText primary={goal.goal_title}/>
-                                </ListItemButton>
-                            </ListItem>
-                        );
-                    })
+                        )
                     }              
-
                 </List>
-
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    PaperProps={{
-                        component:'form',
-                        onSubmit: (event)=>{handleSubmit(event)}
-                    }}
-                >
-                    <DialogContent>
-                        <DialogContentText>
-                            Add a Goal
-                        
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            required
-                            margin="normal"
-                            id="goal_title"
-                            name="goal_title"
-                            label="Title"
-                            type='text'
-                            fullWidth
-                            variant="outlined"
-                        />
-                        <TextField
-                            margin="dense"
-                            id="goal_desc"
-                            name="goal_desc"
-                            label="Description"
-                            type='text'
-                            multiline
-                            rows={5}
-                            fullWidth
-                            variant="outlined"
-                        />
-                        <Search/>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
-                                <DatePicker 
-                                    id="target_date"
-                                    name="target_date"
-                                    label="Target Date"
-                                    slotProps={{
-                                        textField: {
-                                        required: true,
-                                    },
-                                    }}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
-                        <Button type='submit' variant='outlined'>Add</Button>
-                    </DialogActions>
-                </Dialog>
-
             </Box>
     )
     

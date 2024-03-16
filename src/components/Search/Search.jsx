@@ -40,8 +40,8 @@ export default function Search() {
               )}
             renderInput={(params) => 
                 
-            <TextField onChange={(e)=>{sendSearchQuery(e.target.value)}} {...params} id="accounta_friend_name"
-            name="accounta_friend_name" label="Account-a-Friend" />}
+            <TextField onChange={(e)=>{e.target.value !== '' && sendSearchQuery(e.target.value)}} {...params} id="account_a_friend"
+            name="account_a_friend" label="Account-a-Friend" />}
         />
     </>)
     

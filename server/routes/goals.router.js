@@ -33,8 +33,8 @@ router.get('/', rejectUnauthenticated,(req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
   // POST route code here
   console.log('receiving data');
-  console.log(req.body.accounta_friend_name);
-  const fullName = req.body.accounta_friend_name.split(" ");
+  console.log(req.body.account_a_friend);
+  const fullName = req.body.account_a_friend.split(" ");
   console.log(fullName);
   const getIdQuery = `select id from "user" where "f_name"='${fullName[0]}' and "l_name"='${fullName[1]}'`;
   pool.query(getIdQuery).then((result)=>{
