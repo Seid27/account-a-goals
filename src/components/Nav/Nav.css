@@ -5,6 +5,7 @@
   align-items: center;
   background-color: #233d4d;
   overflow: hidden;
+  padding: 20px;
 }
 
 .nav a {
