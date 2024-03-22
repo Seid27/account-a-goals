@@ -4,7 +4,8 @@ import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import DeleteDialog from './Dialogs/DeleteDialog';
-import CustomDialog from './Dialogs/CustomDialog';
+import CustomDialog from './Dialogs/AddDialog';
+import AddDialog from './Dialogs/AddDialog';
 
 // This is goals page
 // It displays a lsit of goals for a user
@@ -66,7 +67,7 @@ export default function Goals() {
             <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
                 <Box sx={{width: '100%', maxWidth: 600, 
                         display: 'flex', alignItems:'center', justifyContent:'right'}}>
-                    <CustomDialog 
+                    <AddDialog
                         title={'Add a Goal'}
                         label={{
                             title: 'Title',

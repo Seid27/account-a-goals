@@ -8,15 +8,14 @@ import { useDispatch } from "react-redux";
 import Search from "../../Search/Search";
 
 // A reusable dialog
-//  To add a goal, reflection, action plan, and comment,
-//  and also to edit goal, reflection, action pland and comment.
+//  To add a goal, reflection, action plan, and comment
 // Takes in title, data, label and action as props
 // title is a string which is the title of the dialog Ex. Add a Goal
-// values is an object with values to auto populate input fields if necessary
+// value is an object with values to auto populate input fields if necessary
 // label is an object with labels for the fields
 // name is an object with name and id for the fields
 // action is the name of the action to dipatch to saga Ex. Add_A_GOAL.
-export default function CustomDialog({title, label, name, action}){
+export default function AddDialog({title, label, name, action}){
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
@@ -36,13 +35,13 @@ export default function CustomDialog({title, label, name, action}){
         dispatch({
             type: action,
             payload: formJson
-        })
+        });
         handleClose();
     }
 
     return(
         <>
-        <Button sx={{width:'200px',backgroundColor: '#619b8a', ":hover":{backgroundColor:"#a1c181"}}} onClick={handleClickOpen}  variant="contained">
+            <Button sx={{m:'20px', width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}} onClick={handleClickOpen}  variant="contained">
                 {title}
             </Button>
             <Dialog
@@ -81,45 +80,28 @@ export default function CustomDialog({title, label, name, action}){
                     {/* Shown only when adding a goal */}
                     {title == 'Add a Goal' && <Search/>}
                     {/* Shown only when editing a goal */}
-                    {title == 'Edit Goal' &&
-                    <FormControl fullWidth sx={{mt:1}}>
-                        <InputLabel id='status_label'>Status</InputLabel>
-                        <Select
-                        required
-                        labelId='status_label'
-                        label="Status"
-                        id="status"
-                        name="status"
-                        value={status}
-                        onChange={(e)=>setStatus(e.target.value)}
-                        >
-                            <MenuItem value='Pending'>Pending</MenuItem>
-                            <MenuItem value='In progress'>In Progress</MenuItem>
-                            <MenuItem value='Complete'>Complete</MenuItem>
-                        </Select>
-                    </FormControl>}
-                    
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                       <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
+                    {title == 'Add a Goal' && 
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
 
-                            <DatePicker 
-                                id={name.targetDate}
-                                name={name.targetDate}
-                                label={label.targetDate}
-                                 slotProps={{
-                                    textField: {
-                                    required: true,
-                                 },
-                                }}
-                            />
-                        </DemoContainer>
-                    </LocalizationProvider>
+                                <DatePicker 
+                                    id={name.targetDate}
+                                    name={name.targetDate}
+                                    label={label.targetDate}
+                                    slotProps={{
+                                        textField: {
+                                        required: true,
+                                    },
+                                    }}
+                                />
+                            </DemoContainer>
+                        </LocalizationProvider>
+                    }               
                 </DialogContent>
                 <DialogActions>
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
                     <Button type='submit' variant='outlined'>{title}</Button>
                 </DialogActions>
-                
             </Dialog>
         </>
     )

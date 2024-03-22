@@ -8,6 +8,8 @@ import AddReflectionDialog from "../Dialogs/AddReflectionDialog"
 import EditReflectionDialog from "../Dialogs/EditReflectionDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
 import dayjs from "dayjs";
+import AddDialog from "../Dialogs/AddDialog";
+import EditDialog from "../Dialogs/EditDialog";
 
 export default function reflectionsTable({goal_id, reflections}) {
     const dispatch = useDispatch();
@@ -48,8 +50,24 @@ export default function reflectionsTable({goal_id, reflections}) {
                     {/* Edit */}
                     {user.id != goal[0]?.accounta_friend_id &&
                     <TableCell >
-                        <EditReflectionDialog 
-                        reflection={reflection}/>
+                        
+                        <EditDialog 
+                                title={'Edit Reflection'}
+                                value = {{
+                                    id: reflection.id,
+                                    title: reflection.reflection_title,
+                                    description: reflection.reflection_desc,
+                                }}
+                                label={{
+                                    title: 'Title',
+                                    description: 'Description',
+                                }}
+                                name={{
+                                    title: 'reflection_title',
+                                    description: 'reflection_desc',
+                                }}
+                                action='EDIT_REFLECTION'
+                            />
                     </TableCell>
                     }
                     
@@ -89,8 +107,23 @@ export default function reflectionsTable({goal_id, reflections}) {
             {/* {user.id ===  goal.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>} */}
             {/* {user.id != goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>} */}
             <Box sx={{mt:'30px'}}>
-                <TableContainer component={Paper}>
-                    {user.id != goal[0]?.accounta_friend_id &&<AddReflectionDialog goal_id={goal_id}/>}
+                <TableContainer component={Paper} elevation={5}>
+                    
+                    {user.id != goal[0]?.accounta_friend_id &&
+                        // a dialog opens on screen when user clicks add reflection button
+                        //  a dialog to add reflection
+                        <AddDialog
+                        title={'Add Reflection'}
+                        label={{
+                            title: 'Title',
+                            description: 'Description',
+                        }}
+                        name={{
+                            title: 'reflection_title',
+                            description: 'reflection_desc',
+                        }}
+                        action='ADD_REFLECTION'/>
+                    }
                     <Box>
                         <Typography
                             sx={{ flex: '1 1 100%', p:'20px' }}

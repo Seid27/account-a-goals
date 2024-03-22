@@ -14,6 +14,8 @@ import AddActionPlanDialog from "../Dialogs/AddActionPlanDialog";
 import EditActionPlanDialog from "../Dialogs/EditActionPlanDialog";
 import DeleteDialog from "../Dialogs/DeleteDialog";
 import dayjs from "dayjs";
+import AddDialog from "../Dialogs/AddDialog";
+import EditDialog from "../Dialogs/EditDialog";
 
 export default function ActionPlansTable({goal_id, actionPlans}) {
     console.log('in action plan table',goal_id);
@@ -70,8 +72,28 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
                     {/* Edit */}
                     {user.id != goal[0]?.accounta_friend_id && 
                     <TableCell >
-                        <EditActionPlanDialog 
-                        actionPlan={actionPlan}/>
+                        {/*  */}
+                        <EditDialog 
+                                title={'Edit Action Plan'}
+                                value = {{
+                                    id: actionPlan.id,
+                                    title: actionPlan.action_plan_title,
+                                    description: actionPlan.action_plan_desc,
+                                    status: actionPlan.status,
+                                    targetDate: actionPlan.taregt_date //todo: fix typo
+                                }}
+                                label={{
+                                    title: 'Title',
+                                    description: 'Description',
+                                    targetDate : 'Target Date',
+                                }}
+                                name={{
+                                    title: 'action_plan_title',
+                                    description: 'action_plan_desc',
+                                    targetDate: 'target_date'
+                                }}
+                                action='EDIT_ACTION_PLAN'
+                            />
                         
                     </TableCell>}
                     {/* Delete */}
@@ -109,12 +131,21 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
     
     return (
         <>
-            {/* <h1>Action Plans</h1> */}
-            {/* {user.id != goal[0]?.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>} */}
-
-            
-            <TableContainer component={Paper} elevation={1}>
-            {user.id != goal[0]?.accounta_friend_id && <AddActionPlanDialog goal_id={goal_id}/>}
+            <TableContainer component={Paper} elevation={5}>
+            {user.id != goal[0]?.accounta_friend_id &&  
+            // a dialog opens on screen when user clicks add action plan button
+            //  a dialog to add action plan
+            <AddDialog
+                        title={'Add Action plan'}
+                        label={{
+                            title: 'Title',
+                            description: 'Description',
+                        }}
+                        name={{
+                            title: 'action_plan_title',
+                            description: 'action_plan_desc',
+                        }}
+                        action='ADD_ACTION_PLAN'/>}
                 <Box>
                     <Typography
                         sx={{ flex: '1 1 100%', p:'20px' }}

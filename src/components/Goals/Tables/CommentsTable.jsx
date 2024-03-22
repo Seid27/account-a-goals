@@ -10,6 +10,7 @@ import DeleteDialog from "../Dialogs/DeleteDialog";
 import EditCommentDialog from "../Dialogs/EditCommentDialog";
 import AddCommentDialog from "../Dialogs/AddCommentDialog";
 import dayjs from "dayjs";
+import AddDialog from "../Dialogs/AddDialog";
 
 export default function CommentsTable({goal_id, comments}) {
     const goal = useSelector(s=>s.accountaFriendsGoals.filter((goal)=> goal.id == goal_id));
@@ -80,8 +81,22 @@ export default function CommentsTable({goal_id, comments}) {
         <Box sx={{mt:'30px'}}>
             
             
-            <TableContainer component={Paper}>
-            {user.id == goal[0]?.accounta_friend_id &&<AddCommentDialog goal_id={goal_id}/>}
+            <TableContainer component={Paper} elevation={5}>
+            {user.id == goal[0]?.accounta_friend_id &&
+                // a dialog opens on screen when user clicks add comment button
+                //  a dialog to add comment
+                <AddDialog
+                    title={'Add Comment'}
+                    label={{
+                        title: 'Title',
+                        description: 'Description',
+                    }}
+                    name={{
+                        title: 'comment_title',
+                        description: 'comment_desc',
+                    }}
+                    action='ADD_ACCOUNTA_FRIEND_COMMENT'/>
+            }
                 <Box>
                     <Typography
                         sx={{ flex: '1 1 100%', p:'20px' }}
