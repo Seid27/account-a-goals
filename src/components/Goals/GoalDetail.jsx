@@ -17,6 +17,8 @@ import DeleteDialog from "./Dialogs/DeleteDialog";
 import Chip from '@mui/material/Chip';
 import CustomDialog from "./Dialogs/AddDialog";
 import EditDialog from "./Dialogs/EditDialog";
+import CustomTable from "./Tables/CusomTable";
+import AddDialog from "./Dialogs/AddDialog";
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -58,6 +60,20 @@ export default function GoalDetail() {
         }
     }
 
+    const addActionPlanDialog = <AddDialog
+            title={'Add Action plan'}
+            label={{
+                title: 'Title',
+                description: 'Description',
+            }}
+            name={{
+                title: 'action_plan_title',
+                description: 'action_plan_desc',
+            }}
+            action='ADD_ACTION_PLAN'/>;
+
+    
+
     return (
         <>
             <Box sx={{display: 'flex', flexDirection:'column'}}  >
@@ -98,12 +114,17 @@ export default function GoalDetail() {
                         <li>Goal Modified on: {dayjs(goalSelected[0].date_modified).format('MM/DD/YYYY')}</li>
                         <li>Account-a-Friend: {goalSelected[0].accounta_friend_name}</li>
                     </ul>
+
                 </Box>
 
                 <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:'10px'}}>
-                    <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
+                    <CustomTable headings={['Action Plan', 'Status', 'Edit', 'Delete' ]} 
+                                action={'FETCH_ACTION_PLANS'} 
+                                store={'actionPlans'} 
+                                dialog={addActionPlanDialog}/>
+                    {/* <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
                     <ReflectionsTable goal_id={goal_id} reflections={reflections}/>
-                    <CommentsTable goal_id={goal_id} comments={comments}/>
+                    <CommentsTable goal_id={goal_id} comments={comments}/> */}
                 </Box>
                 
 

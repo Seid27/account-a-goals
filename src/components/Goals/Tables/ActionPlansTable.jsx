@@ -131,7 +131,7 @@ export default function ActionPlansTable({goal_id, actionPlans}) {
     
     return (
         <>
-            <TableContainer component={Paper} elevation={5}>
+            <TableContainer component={Paper}>
             {user.id != goal[0]?.accounta_friend_id &&  
             // a dialog opens on screen when user clicks add action plan button
             //  a dialog to add action plan

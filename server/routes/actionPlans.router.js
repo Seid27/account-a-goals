@@ -30,6 +30,21 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   })
 });
 
+// /**
+//  * GET route for action_plan by goal ID
+//  */
+
+// router.get(':goalId',(req,res)=>{
+//   const queryText = ``;
+//   try {
+    
+//   } catch (error) {
+//     console.error(error);
+//     res.send(500);
+//   }
+// })
+
+
 /**
  * POST route for action_plan
  */
