@@ -67,7 +67,9 @@ export default function GoalDetail() {
     //creates action plan rows for each action plan
     const actionPlanRows = [];
     actionPlans.map((item,i)=> actionPlanRows.push(
-    <CollapsableRow title={item.action_plan_title} 
+    <CollapsableRow 
+                    key={i}
+                    title={item.action_plan_title} 
                     description={item.action_plan_desc}
                     status={item.status} 
                     dateCreated={item.data_created} 
@@ -97,7 +99,8 @@ export default function GoalDetail() {
     //creates reflection rows for each action plan
     const reflectionRows = [];
     reflections.map((item,i)=> reflectionRows.push(
-    <CollapsableRow title={item.reflection_title} 
+    <CollapsableRow key={i}
+                    title={item.reflection_title} 
                     description={item.reflection_desc}
                     dateCreated={item.data_created} 
                     dateModified={item.date_modified}
@@ -216,7 +219,7 @@ export default function GoalDetail() {
                 </Box>
 
                 {/* Action plan, reflection and comment tables */}
-                <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:'10px'}}>
+                <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
                     <CustomTable 
                     tableName={'Action Plans'}
                     headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
