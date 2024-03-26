@@ -7,7 +7,7 @@ import EditGoalDialog from "./Dialogs/EditGoalDialog";
 import {DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import WarningIcon from '@mui/icons-material/Warning';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import ViewComments from "./Dialogs/ViewCommentsDialog";
@@ -19,6 +19,7 @@ import CustomDialog from "./Dialogs/AddDialog";
 import EditDialog from "./Dialogs/EditDialog";
 import CustomTable from "./Tables/CusomTable";
 import AddDialog from "./Dialogs/AddDialog";
+import CollapsableRow from "./Tables/CollapsableRow";
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -31,14 +32,17 @@ export default function GoalDetail() {
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
     const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id==goal_id));
-    const goalSelected = goals.filter((goal)=>goal.id == goal_id);
-
+    // const actionPlans = useSelector(s=>s.actionPlans);
+    // const reflections = useSelector(s=>s.reflections);
+    // const comments = useSelector(s=>s.comments);
+    const goalSelected = goals.filter((goal)=>goal.id == goal_id); //an array with matching ID (only one item)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     
     //Delete dialog control
     const handleOpenDeleteDialog = () => setOpenDeleteDialog(true);
     const handleCloseDelteDialog = () => setOpenDeleteDialog(false);
 
+    // removes a goal and redirects to home page
     function handleRemoveGoal(event,goal_id) {
         event.preventDefault();
         dispatch({
@@ -60,6 +64,88 @@ export default function GoalDetail() {
         }
     }
 
+    //creates action plan rows for each action plan
+    const actionPlanRows = [];
+    actionPlans.map((item,i)=> actionPlanRows.push(
+    <CollapsableRow title={item.action_plan_title} 
+                    description={item.action_plan_desc}
+                    status={item.status} 
+                    dateCreated={item.data_created} 
+                    targetDate={item.target_date}
+                    editDialog={<EditDialog 
+                        title={'Edit Action Plan'}
+                        value = {{
+                            id: item.id,
+                            title: item.action_plan_title,
+                            description: item.action_plan_desc,
+                            status: item.status,
+                            targetDate: item.taregt_date //todo: fix typo
+                        }}
+                        label={{
+                            title: 'Title',
+                            description: 'Description',
+                            targetDate : 'Target Date',
+                        }}
+                        name={{
+                            title: 'action_plan_title',
+                            description: 'action_plan_desc',
+                            targetDate: 'target_date'
+                        }}
+                        action='EDIT_ACTION_PLAN'/> }
+    />));
+
+    //creates reflection rows for each action plan
+    const reflectionRows = [];
+    reflections.map((item,i)=> reflectionRows.push(
+    <CollapsableRow title={item.reflection_title} 
+                    description={item.reflection_desc}
+                    dateCreated={item.data_created} 
+                    dateModified={item.date_modified}
+                    editDialog={<EditDialog 
+                        title={'Edit Reflection'}
+                        value = {{
+                            id: item.id,
+                            title: item.reflection_title,
+                            description: item.reflection_desc,
+                        }}
+                        label={{
+                            title: 'Title',
+                            description: 'Description',
+                        }}
+                        name={{
+                            title: 'reflection_title',
+                            description: 'reflection_desc',
+                        }}
+                        action='EDIT_REFLECTION'/> }
+    />));
+    //creates comment rows for each action plan
+    const commentRows = [];
+    comments.map((item,i)=> commentRows.push(
+    <CollapsableRow key={i}
+                    title={item.comment_title} 
+                    description={item.comment_desc}
+                    dateCreated={item.data_created} 
+                    dateModified={item.date_modified}
+                    editDialog={<EditDialog 
+                        title={'Edit Comment'}
+                        value = {{
+                            id: item.id,
+                            title: item.comment_title,
+                            description: item.comment_desc,
+                        }}
+                        label={{
+                            title: 'Title',
+                            description: 'Description',
+                        }}
+                        name={{
+                            title: 'comment_title',
+                            description: 'comment_desc',
+                        }}
+                        action='EDIT_COMMENT'/> }
+    />));
+
+
+    //add action plan dialog
     const addActionPlanDialog = <AddDialog
             title={'Add Action plan'}
             label={{
@@ -71,6 +157,19 @@ export default function GoalDetail() {
                 description: 'action_plan_desc',
             }}
             action='ADD_ACTION_PLAN'/>;
+
+    //add reflection dialog
+    const addReflectionDialog = <AddDialog
+            title={'Add Reflection'}
+            label={{
+                title: 'Title',
+                description: 'Description',
+            }}
+            name={{
+                title: 'reflection_title',
+                description: 'reflection_desc',
+            }}
+            action='ADD_REFLECTION'/>
 
     
 
@@ -106,7 +205,7 @@ export default function GoalDetail() {
                     
                 <p>{goalSelected[0].goal_desc}</p>
                 
-
+                {/* More info about the selected goal */}
                 <Box sx={{display: 'flex', justifyContent:'space-between'}}>
                     <ul>
                         <li>Goal Created on: {dayjs(goalSelected[0].date_created).format('MM/DD/YYYY')}</li>
@@ -114,17 +213,24 @@ export default function GoalDetail() {
                         <li>Goal Modified on: {dayjs(goalSelected[0].date_modified).format('MM/DD/YYYY')}</li>
                         <li>Account-a-Friend: {goalSelected[0].accounta_friend_name}</li>
                     </ul>
-
                 </Box>
 
+                {/* Action plan, reflection and comment tables */}
                 <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:'10px'}}>
-                    <CustomTable headings={['Action Plan', 'Status', 'Edit', 'Delete' ]} 
-                                action={'FETCH_ACTION_PLANS'} 
-                                store={'actionPlans'} 
-                                dialog={addActionPlanDialog}/>
-                    {/* <ActionPlansTable goal_id={goal_id} actionPlans={actionPlans}/>
-                    <ReflectionsTable goal_id={goal_id} reflections={reflections}/>
-                    <CommentsTable goal_id={goal_id} comments={comments}/> */}
+                    <CustomTable 
+                    tableName={'Action Plans'}
+                    headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
+                                rows = {actionPlanRows}
+                                addDialog={addActionPlanDialog} />
+                    <CustomTable 
+                    tableName={'Reflections'}
+                    headings={['Reflections', 'Edit', 'Delete' ]}
+                                rows = {reflectionRows}
+                                addDialog={addReflectionDialog} />
+                    <CustomTable 
+                    tableName={'Comment'}
+                    headings={['Comment', 'Edit', 'Delete' ]}
+                                rows = {commentRows}/>
                 </Box>
                 
 
