@@ -86,6 +86,7 @@ export default function GoalDetail() {
                             targetDate: 'target_date'
                         }}
                         action='EDIT_ACTION_PLAN'/> }
+                    deleteDialog={<DeleteDialog action={'REMOVE_GOAL'} id={item.id} title={item.action_plan_title}/>}
     />));
 
     //creates reflection rows for each action plan
@@ -112,6 +113,7 @@ export default function GoalDetail() {
                             description: 'reflection_desc',
                         }}
                         action='EDIT_REFLECTION'/> }
+                    deleteDialog={<DeleteDialog action={'REMOVE_GOAL'} id={item.id} title={item.reflection_title}/>}
     />));
     //creates comment rows for each action plan
     const commentRows = [];
@@ -137,6 +139,7 @@ export default function GoalDetail() {
                             description: 'comment_desc',
                         }}
                         action='EDIT_COMMENT'/> }
+                    deleteDialog={<DeleteDialog action={'REMOVE_GOAL'} id={item.id} title={item.comment_title}/>}
     />));
 
 
@@ -195,7 +198,7 @@ export default function GoalDetail() {
                         }}
                         action='EDIT_GOAL'
                     />
-                    <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected[0].id} title={goalSelected[0].goal_title} />
+                    <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected[0].id} title={goalSelected[0].goal_title}/>
                 </Box>
                     
                 <p>{goalSelected[0].goal_desc}</p>
@@ -225,7 +228,7 @@ export default function GoalDetail() {
                     <CustomTable 
                     tableName={'Comment'}
                     headings={['Comment', 'Edit', 'Delete' ]}
-                                rows = {commentRows}/>
+                    rows = {commentRows}/>
                 </Box>
                 
                 {/* {type,action,id, goal_id,title} */}

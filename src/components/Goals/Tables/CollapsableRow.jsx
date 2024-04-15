@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import dayjs from "dayjs";
 //creates a collabsable row using given data of action plan, reflection, commen
-export default function CollapsableRow({id,title, description, status,targetDate, dateCreated, dateModified, editDialog, }) {
+export default function CollapsableRow({id,title, description, status,targetDate, dateCreated, dateModified, editDialog, deleteDialog}) {
     const [open, setOpen] = useState(false);
 
 
@@ -43,6 +43,9 @@ export default function CollapsableRow({id,title, description, status,targetDate
                 </TableCell>}
                 <TableCell>
                     {editDialog}
+                </TableCell>
+                <TableCell>
+                    {deleteDialog}
                 </TableCell>
 
             </TableRow>
