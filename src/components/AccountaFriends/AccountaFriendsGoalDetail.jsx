@@ -1,13 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import EditGoalDialog from "../Goals/Dialogs/EditGoalDialog";
 import { Box, Button, Chip } from "@mui/material";
-import ViewComments from "../Goals/Dialogs/ViewCommentsDialog";
-import ActionPlansTable from "../Goals/Tables/ActionPlansTable";
-import ReflectionsTable from "../Goals/Tables/ReflectionsTable";
-import AddCommentDialog from "../Goals/Dialogs/AddCommentDialog";
 import { useEffect } from "react";
-import CommentsTable from "../Goals/Tables/CommentsTable";
 import dayjs from "dayjs";
 
 export default function AcccountaFriendsGoalDetail() {

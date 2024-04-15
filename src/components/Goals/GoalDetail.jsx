@@ -1,21 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import ActionPlansTable from "./Tables/ActionPlansTable";
-import ReflectionsTable from "./Tables/ReflectionsTable";
 import { Box, Button, Container, Dialog, Grid, List, ListItem, ListItemText } from "@mui/material";
-import EditGoalDialog from "./Dialogs/EditGoalDialog";
 import {DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
-import ViewComments from "./Dialogs/ViewCommentsDialog";
-import CommentsTable from "./Tables/CommentsTable";
-import comments from "../../redux/reducers/comments.reducer";
-import DeleteDialog from "./Dialogs/DeleteDialog";
 import Chip from '@mui/material/Chip';
-import CustomDialog from "./Dialogs/AddDialog";
 import EditDialog from "./Dialogs/EditDialog";
 import CustomTable from "./Tables/CusomTable";
 import AddDialog from "./Dialogs/AddDialog";
@@ -178,7 +169,7 @@ export default function GoalDetail() {
 
     return (
         <>
-            <Box sx={{display: 'flex', flexDirection:'column'}}  >
+            <Box sx={{display: 'flex', flexDirection:'column', m: 3, p: 4}}  >
                 <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
                     <h1>{goalSelected[0].goal_title}</h1>
                     <Chip size="small" sx={{backgroundColor: chipColor(goalSelected[0].status), color:'white', ml:'20px'}} label={`${goalSelected[0].status}`}/>

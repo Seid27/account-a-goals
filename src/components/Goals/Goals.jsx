@@ -1,4 +1,4 @@
-import { Box,Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import { Box,Checkbox, Container, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import List from '@mui/material/List';
 import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,10 +6,11 @@ import { useHistory } from 'react-router-dom';
 import DeleteDialog from './Dialogs/DeleteDialog';
 import CustomDialog from './Dialogs/AddDialog';
 import AddDialog from './Dialogs/AddDialog';
+import UserPage from '../UserPage/UserPage';
 
 // This is goals page
 // It displays a lsit of goals for a user
-export default function Goals() {
+export default function Goals({name}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const goals = useSelector(s=>s.goals);
@@ -64,9 +65,12 @@ export default function Goals() {
     }
 
     return (
-            <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
-                <Box sx={{width: '100%', maxWidth: 600, 
-                        display: 'flex', alignItems:'center', justifyContent:'right'}}>
+        <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
+            
+            <Box sx={{ width: '100%', maxWidth: 800,}}>
+                <Box sx={{p:2,
+                        display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
+                    <h1>Welcome, {name}</h1>
                     <AddDialog
                         title={'Add a Goal'}
                         label={{
@@ -82,7 +86,7 @@ export default function Goals() {
                         action='ADD_GOAL'/>
                 </Box>
                 
-                <List sx={{width: '100%', maxWidth: 650, bgcolor: 'background.paper'}}>
+                <List>
                     {
                         goals.map((goal) =>{
                                 return (
@@ -109,7 +113,10 @@ export default function Goals() {
                         )
                     }              
                 </List>
+
             </Box>
+                
+        </Box>
     )
     
 }

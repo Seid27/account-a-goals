@@ -9,10 +9,10 @@ function UserPage() {
   const user = useSelector((store) => store.user);
   return (
     <div>
-      <h1>Welcome, {user.username}!</h1>
+      {/* <h1>Welcome, {user.username}!</h1> */}
       {/* <p>Your ID is: {user.id}</p> */}
       {/* <LogOutButton className="btn" /> */}
-      <Goals/>
+      <Goals name={user.username}/>
     </div>
   );
 }

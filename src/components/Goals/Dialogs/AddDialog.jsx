@@ -41,7 +41,7 @@ export default function AddDialog({title, label, name, action}){
 
     return(
         <>
-            <Button sx={{m:'20px', width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}} onClick={handleClickOpen}  variant="contained">
+            <Button sx={{width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}} onClick={handleClickOpen}  variant="contained">
                 {title}
             </Button>
             <Dialog

@@ -25,10 +25,10 @@ export default function CustomTable({tableName, headings, rows, addDialog}){
             border: 0,
             },
         }));
-
+        console.log(headings);
     return (
-        <TableContainer component={Paper} sx={{mt:2}}>
-            <Box sx={{display: 'flex', alignItems:'center', justifyContent:'space-between', backgroundColor:'black', color:'white'}} >
+        <TableContainer  component={Paper} sx={{mt:8}}>
+            <Box sx={{display: 'flex', alignItems:'center', justifyContent:'space-between', backgroundColor:'#233d4d', color:'white'}} >
                 
                 <Box>
                     <Typography
@@ -40,16 +40,18 @@ export default function CustomTable({tableName, headings, rows, addDialog}){
                 </Box>
                 {addDialog}
             </Box>
-            {rows.length===0? <Box sx={{display: 'flex', alignItems: 'center',justifyContent:'center'}} >
+            {rows.length===0? <Box sx={{p:10, display: 'flex', alignItems: 'center',justifyContent:'center'}} >
                     <img width="200px" src='/images/noData.jpg' alt="" /></Box>:
             <Table>
                 <TableHead>
                     <TableRow>
-                        
+                            <StyledTableCell>
+                            </StyledTableCell>
                         {headings.map((heading)=>
                             <StyledTableCell>
                                 {heading}
                             </StyledTableCell>
+                            
                         )}
                     </TableRow>
                 </TableHead>
