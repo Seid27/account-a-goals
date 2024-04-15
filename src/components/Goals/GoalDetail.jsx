@@ -11,6 +11,7 @@ import EditDialog from "./Dialogs/EditDialog";
 import CustomTable from "./Tables/CusomTable";
 import AddDialog from "./Dialogs/AddDialog";
 import CollapsableRow from "./Tables/CollapsableRow";
+import DeleteDialog from "./Dialogs/DeleteDialog";
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -194,7 +195,7 @@ export default function GoalDetail() {
                         }}
                         action='EDIT_GOAL'
                     />
-                     <Button sx={{ml:'10px'}} onClick={handleOpenDeleteDialog} variant="outlined">Remove Goal</Button>
+                    <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected[0].id} title={goalSelected[0].goal_title} />
                 </Box>
                     
                 <p>{goalSelected[0].goal_desc}</p>
@@ -227,8 +228,10 @@ export default function GoalDetail() {
                                 rows = {commentRows}/>
                 </Box>
                 
+                {/* {type,action,id, goal_id,title} */}
+                {/* <DeleteDialog action={'REMOVE_GOAL'}/> */}
 
-                <Dialog
+                {/* <Dialog
                 open={openDeleteDialog}
                 onClose={handleCloseDelteDialog}
                 PaperProps={{
@@ -246,7 +249,7 @@ export default function GoalDetail() {
                         <Button onClick={handleCloseDelteDialog} variant='outlined'>Cancel</Button>
                         <Button type='submit' variant='outlined'>Submit</Button>
                     </DialogActions>
-                </Dialog>
+                </Dialog> */}
             </Box>
             
         </>

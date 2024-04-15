@@ -21,8 +21,6 @@ export default function CollapsableRow({id,title, description, status,targetDate
         }
     }
 
-    console.log('in custom',status);
-
     return (
         <>
             <TableRow sx={{ '& > *': { borderBottom: 'unset'}}}>

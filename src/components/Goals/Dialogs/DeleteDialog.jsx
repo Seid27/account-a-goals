@@ -4,7 +4,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function DeleteDialog({type,action,id, goal_id,title}) {
+export default function DeleteDialog({buttonType,action,id, goal_id,title}) {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const dispatch = useDispatch();
     
@@ -38,7 +38,7 @@ export default function DeleteDialog({type,action,id, goal_id,title}) {
     return(
         <>
 
-        {type === 'Button'? <Button variant="outlined" onClick={handleOpenDeleteDialog}>Remove</Button> : 
+        {buttonType === 'Button'? <Button variant="outlined" onClick={handleOpenDeleteDialog}>Remove</Button> : 
             <IconButton aria-label="delete" size="large" onClick={handleOpenDeleteDialog}>
                 <DeleteForeverIcon fontSize='inherit'/>                
             </IconButton>}
