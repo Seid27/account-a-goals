@@ -125,7 +125,6 @@ export default function EditDialog({title, value, label, name, action}){
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
                     <Button type='submit' variant='outlined'>{title}</Button>
                 </DialogActions>
-                
             </Dialog>
         </>
     )

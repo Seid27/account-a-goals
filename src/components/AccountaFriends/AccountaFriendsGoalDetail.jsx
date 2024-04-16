@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { Box, Button, Chip } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 
@@ -66,7 +66,7 @@ export default function AcccountaFriendsGoalDetail() {
                 <p>Target Date on: {accountaFriendsGoal[0].target_date}</p> */}
 
                 {/* todo: use search for accounta buddy name */}
-                {/* <p>Account-a-Friend: {accountaFriendsGoal[0].accounta_friend_name}</p> */}
+                {/* <p>Account-a-Friend: {accountaFriendsGoal[0].accounta_friend_name}</p> */} 
                 {/* <EditGoalDialog goal={accountaFriendsGoal[0]}/> */}
                 {/* <Button onClick={()=>handleRemoveGoal(goal_id)} variant="outlined">Remove</Button> */}
                 {/* <ViewComments goal_id={goal_id}/> */}

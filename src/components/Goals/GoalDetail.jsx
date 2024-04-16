@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import { Box, Button, Container, Dialog, Grid, List, ListItem, ListItemText } from "@mui/material";
-import {DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
-import WarningIcon from '@mui/icons-material/Warning';
-import { useEffect, useState } from "react";
+import { Box} from "@mui/material";
+import {useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import Chip from '@mui/material/Chip';
@@ -24,15 +22,9 @@ export default function GoalDetail() {
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
     const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id==goal_id));
-    // const actionPlans = useSelector(s=>s.actionPlans);
-    // const reflections = useSelector(s=>s.reflections);
-    // const comments = useSelector(s=>s.comments);
     const goalSelected = goals.filter((goal)=>goal.id == goal_id); //an array with matching ID (only one item)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    
-    //Delete dialog control
-    const handleOpenDeleteDialog = () => setOpenDeleteDialog(true);
-    const handleCloseDelteDialog = () => setOpenDeleteDialog(false);
+    console.log('goal detail goals',goals);
 
     // removes a goal and redirects to home page
     function handleRemoveGoal(event,goal_id) {
@@ -230,31 +222,7 @@ export default function GoalDetail() {
                     headings={['Comment', 'Edit', 'Delete' ]}
                     rows = {commentRows}/>
                 </Box>
-                
-                {/* {type,action,id, goal_id,title} */}
-                {/* <DeleteDialog action={'REMOVE_GOAL'}/> */}
-
-                {/* <Dialog
-                open={openDeleteDialog}
-                onClose={handleCloseDelteDialog}
-                PaperProps={{
-                    component:'form',
-                    onSubmit: (event)=>handleRemoveGoal(event, goal_id)}}
-                >
-                    <DialogTitle>
-                        <WarningIcon color="warning"/>
-                        Delete
-                    </DialogTitle>
-                    <DialogContent>
-                        Are you sure You want to delete "{goalSelected[0].goal_title}"?
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDelteDialog} variant='outlined'>Cancel</Button>
-                        <Button type='submit' variant='outlined'>Submit</Button>
-                    </DialogActions>
-                </Dialog> */}
             </Box>
-            
         </>
     )
     

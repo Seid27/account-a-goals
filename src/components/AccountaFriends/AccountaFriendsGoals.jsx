@@ -1,11 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, IconButton, InputLabel, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
-import List from '@mui/material/List';
-import { Delete } from "@mui/icons-material";
-import DeleteDialog from "../Goals/Dialogs/DeleteDialog";
 import { useHistory } from "react-router-dom";
+import Goals from "../Goals/Goals";
 
 export default function AcccountaFriendsGoals(){
     const {id} = useParams();
@@ -30,7 +27,9 @@ export default function AcccountaFriendsGoals(){
     
     return (
         <>
-            <h1>Account-a-Friends Goals</h1>
+
+        <Goals goals={accountaFriendsGoals}/>
+            {/* <h1>Account-a-Friends Goals</h1>
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {
                     accountaFriendsGoals?.map((goal) =>{
@@ -40,7 +39,6 @@ export default function AcccountaFriendsGoals(){
                         >
                             <ListItemButton onClick={()=>handleGoalDetail(goal.id)}>
                                 <ListItemIcon>
-                                
                                 </ListItemIcon>
                                 <ListItemText primary={goal.goal_title}/>
                             </ListItemButton>
@@ -49,7 +47,7 @@ export default function AcccountaFriendsGoals(){
                     })
                 }              
 
-            </List>
+            </List> */}
 
 
         </>

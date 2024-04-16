@@ -6,8 +6,7 @@ import dayjs from "dayjs";
 //creates a collabsable row using given data of action plan, reflection, commen
 export default function CollapsableRow({id,title, description, status,targetDate, dateCreated, dateModified, editDialog, deleteDialog}) {
     const [open, setOpen] = useState(false);
-
-
+    
     // used to create color for status
     function chipColor(goal_status) {
         if(goal_status == 'Complete'){

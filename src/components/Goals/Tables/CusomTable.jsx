@@ -51,7 +51,6 @@ export default function CustomTable({tableName, headings, rows, addDialog}){
                             <StyledTableCell>
                                 {heading}
                             </StyledTableCell>
-                            
                         )}
                     </TableRow>
                 </TableHead>

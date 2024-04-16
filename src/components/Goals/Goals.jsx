@@ -1,39 +1,36 @@
-import { Box,Checkbox, Container, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import { Box,Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import List from '@mui/material/List';
-import { useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import DeleteDialog from './Dialogs/DeleteDialog';
-import CustomDialog from './Dialogs/AddDialog';
 import AddDialog from './Dialogs/AddDialog';
-import UserPage from '../UserPage/UserPage';
 
 // This is goals page
 // It displays a lsit of goals for a user
-export default function Goals({name}) {
+export default function Goals({goals}) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const goals = useSelector(s=>s.goals);
+    // const goals = useSelector(s=>s.goals);
 
     //fetch all data for a user
-    function fetchGoals() {
-        dispatch({
-            type: 'FETCH_GOALS'
-        });
-        dispatch({
-            type: 'FETCH_ACTION_PLANS',
-        });
-        dispatch({
-            type: 'FETCH_REFLECTIONS'
-        });
-        dispatch({
-            type: 'FETCH_COMMENTS'
-        }); 
-    }
+    // function fetchGoals() {
+    //     dispatch({
+    //         type: 'FETCH_GOALS'
+    //     });
+    //     dispatch({
+    //         type: 'FETCH_ACTION_PLANS',
+    //     });
+    //     dispatch({
+    //         type: 'FETCH_REFLECTIONS'
+    //     });
+    //     dispatch({
+    //         type: 'FETCH_COMMENTS'
+    //     }); 
+    // }
 
-    useEffect(()=>{
-        fetchGoals();
-    },[]);
+    // useEffect(()=>{
+    //     fetchGoals();
+    // },[]);
 
     // sends user to the goal detail page
     function handleGoalDetail(goal_id) {
@@ -70,7 +67,6 @@ export default function Goals({name}) {
             <Box sx={{ width: '100%', maxWidth: 800,}}>
                 <Box sx={{p:2,
                         display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
-                    <h1>Welcome, {name}</h1>
                     <AddDialog
                         title={'Add a Goal'}
                         label={{
@@ -95,7 +91,6 @@ export default function Goals({name}) {
                                         <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
                                     }
                                     >
-
                                         <ListItemButton sx={{mr: '20px'}} onClick={()=>handleGoalDetail(goal.id)}>
                                             <ListItemIcon>
                                             <Checkbox 
