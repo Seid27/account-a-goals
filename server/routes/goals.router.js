@@ -53,12 +53,21 @@ router.get('/detail/:goal_id', rejectUnauthenticated, (req,res)=>{
               'date_created', reflection.date_created,
               'date_modified',reflection.date_modified,
               'goal_id', reflection.goal_id
-              )) FILTER (WHERE reflection.id IS NOT NULL), '[]') reflections					
+              )) FILTER (WHERE reflection.id IS NOT NULL), '[]') reflections,
+  COALESCE (json_agg(DISTINCT jsonb_build_object(
+              'id', comment.id,
+              'title', comment.comment_title,
+              'description', comment.comment_desc,
+              'date_created', comment.date_created,
+              'date_modified',comment.date_modified,
+              'goal_id', comment.goal_id
+              )) FILTER (WHERE comment.id IS NOT NULL), '[]') comments					
   from goal
   full outer join action_plan on action_plan.goal_id = goal.id
   full outer join reflection on reflection.goal_id = goal.id
+  full outer join comment on comment.goal_id = goal.id
   where goal.id = ${req.params.goal_id}
-  group by goal.id`;
+  group by goal.id;`;
   pool.query(queryText)
   .then((result)=>{
     console.log(result.rows);
