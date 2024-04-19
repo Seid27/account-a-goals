@@ -20,10 +20,10 @@ export default function AcccountaFriendsGoals(){
         })
     }
 
-    function handleGoalDetail(goal_id) {
-        history.push({pathname: `/detail/${goal_id}`});
+    // function handleGoalDetail(goal_id) {
+    //     history.push({pathname: `/detail/${goal_id}`});
         
-    }
+    // }
     
     return (
         <>

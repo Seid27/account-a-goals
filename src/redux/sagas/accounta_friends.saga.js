@@ -11,6 +11,7 @@ function* fetchAccountaFriends(){
     }
 }
 
+// action.payload contains accountafriend id
 function* fetchAccountaFriendGoals(action){
     try {
         const result = yield axios.get(`/api/accountafriends/goals/${action.payload}`);

@@ -9,6 +9,7 @@ import EditDialog from "./Dialogs/EditDialog";
 import AddDialog from "./Dialogs/AddDialog";
 import CollapsableRow from "./Tables/CollapsableRow";
 import DeleteDialog from "./Dialogs/DeleteDialog";
+import CollapsibleTable from "./Tables/CollapsibleTable";
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -218,8 +219,11 @@ export default function GoalDetail() {
                 </Box>
 
                 {/* Action plan, reflection and comment tables */}
-                {/* <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
-                    <CustomTable 
+                <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
+                    <CollapsibleTable tableHeading={['Action Plans', 'Status', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.action_plans}/>
+                    <CollapsibleTable tableHeading={['Reflections', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.reflections}/>
+                    <CollapsibleTable tableHeading={['Comments', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.comments}/>
+                    {/* <CustomTable 
                     tableName={'Action Plans'}
                     headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
                                 rows = {actionPlanRows}
@@ -232,8 +236,8 @@ export default function GoalDetail() {
                     <CustomTable 
                     tableName={'Comment'}
                     headings={['Comment', 'Edit', 'Delete' ]}
-                    rows = {commentRows}/>
-                </Box> */}
+                    rows = {commentRows}/> */}
+                </Box>
             </Box>
         </>
     )
