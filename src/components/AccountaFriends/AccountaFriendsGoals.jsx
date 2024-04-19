@@ -21,7 +21,7 @@ export default function AcccountaFriendsGoals(){
     }
 
     function handleGoalDetail(goal_id) {
-        history.push({pathname: `/accounta-friends-goal-detail/${goal_id}`});
+        history.push({pathname: `/detail/${goal_id}`});
         
     }
     

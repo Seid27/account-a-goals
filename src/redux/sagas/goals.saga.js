@@ -2,26 +2,36 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 import Swal from 'sweetalert2'
 
-// function* fetchGoals(action) {
+function* fetchGoals(action) {
 
-//     try {
-//         const result = yield axios.get(`/api/goals/${action.payload}`);
-//         yield put({type: 'SET_GOALS', payload: result.data});
-//     } catch (error) {
-//         console.log(error);
-//     }
-    
-// }
-
-// action.payload contains username
-function* fetchGoalsByUserName(action) {
     try {
         const result = yield axios.get(`/api/goals/${action.payload}`);
         yield put({type: 'SET_GOALS', payload: result.data});
     } catch (error) {
         console.log(error);
     }
+    
 }
+
+// action.payload contains goal id
+function* fetchGoalDetail(action){
+    try {
+        const result = yield axios.get(`/api/goals/detail/${action.payload}`);
+        yield put({type: 'SET_GOAL_DETAIL', payload: result.data});
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// action.payload contains username
+// function* fetchGoalsByUserName(action) {
+//     try {
+//         const result = yield axios.get(`/api/goals/${action.payload}`);
+//         yield put({type: 'SET_GOALS', payload: result.data});
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 function* editGoalSaga(action){
     // console.log(action.payload.id);
@@ -63,7 +73,9 @@ function* removeGoalSaga(action) {
 }
 
 function* goalsSaga() {
-    yield takeLatest('FETCH_GOALS_BY_USERNAME', fetchGoalsByUserName);
+    yield takeLatest('FETCH_GOALS', fetchGoals);
+    yield takeLatest('FETCH_GOAL_DETAIL', fetchGoalDetail);
+    // yield takeLatest('FETCH_GOALS_BY_USERNAME', fetchGoalsByUserName);
     yield takeLatest('ADD_GOAL', addGoalSaga);
     yield takeLatest('EDIT_GOAL', editGoalSaga);
     yield takeLatest('REMOVE_GOAL', removeGoalSaga);

@@ -10,29 +10,33 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 // /**
-//  * GET route to get goals for a specific user
+//  * GET route to get goals for a specific user using user id
 //  */
-// router.get('/:userId', rejectUnauthenticated,(req, res) => {
-//   // GET route code here
-//   // const queryText = `select * from "goal" where "user_id"=${req.user.id}`;
-//   const queryText = `select goal.id, 
-//   goal.goal_title, goal.goal_desc, goal.user_id, goal.date_created, goal.date_modified, 
-//   goal.target_date, goal.status, goal.accounta_friend_id, (select concat( f_name, ' ', l_name) 
-//   from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name from goal where goal.user_id=${req.params.userId};`
-//   pool.query(queryText).then((result)=>{
-//     res.send(result.rows);
-//   }).catch((error)=>{
-//     console.error(error);
-//     res.sendStatus(500);
-//   })
-// });
+router.get('/:user_id', rejectUnauthenticated,(req, res) => {
+  // GET route code here
+  // const queryText = `select * from "goal" where "user_id"=${req.user.id}`;
+  console.log('get goals using user id');
+  const queryText = `select goal.id, 
+  goal.goal_title, goal.goal_desc, goal.user_id, goal.date_created, goal.date_modified, 
+  goal.target_date, goal.status, goal.accounta_friend_id, (select concat( f_name, ' ', l_name) 
+  from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name from goal where goal.user_id=${req.params.user_id};`
+  pool.query(queryText).then((result)=>{
+    res.send(result.rows);
+  }).catch((error)=>{
+    console.error(error);
+    res.sendStatus(500);
+  })
+});
 
 /**
- * GET route:  get goals using username
+ * GET route: get goals using username
  */
-router.get('/:username', rejectUnauthenticated, (req,res)=>{
-  const queryText = `select goal.id, goal.goal_title, goal.accounta_friend_id, goal.goal_desc, goal.status, goal.date_created, goal.date_modified, goal.target_date, 
-  COALESCE (json_agg(json_build_object(
+router.get('/detail/:goal_id', rejectUnauthenticated, (req,res)=>{
+  console.log('get goals using goal id');
+  console.log(req.params.goal_id);
+  const queryText = 
+  `select goal.id, goal.goal_title, goal.accounta_friend_id, goal.goal_desc, goal.status, goal.date_created, goal.date_modified, goal.target_date, 
+  COALESCE (json_agg(DISTINCT jsonb_build_object(
               'id', action_plan.id,
               'title', action_plan.action_plan_title,
               'description', action_plan.action_plan_desc,
@@ -42,7 +46,7 @@ router.get('/:username', rejectUnauthenticated, (req,res)=>{
               'target_date', action_plan.target_date,
               'goal_id', action_plan.goal_id
               )) FILTER (WHERE action_plan.id IS NOT NULL), '[]') action_plans,
-  COALESCE (json_agg(json_build_object(
+  COALESCE (json_agg(DISTINCT jsonb_build_object(
               'id', reflection.id,
               'title', reflection.reflection_title,
               'description', reflection.reflection_desc,
@@ -53,10 +57,11 @@ router.get('/:username', rejectUnauthenticated, (req,res)=>{
   from goal
   full outer join action_plan on action_plan.goal_id = goal.id
   full outer join reflection on reflection.goal_id = goal.id
-  join "user" on "user".id = goal.user_id where "user".username = '${req.params.username}'
+  where goal.id = ${req.params.goal_id}
   group by goal.id`;
-
-  pool.query(queryText).then((result)=>{
+  pool.query(queryText)
+  .then((result)=>{
+    console.log(result.rows);
     res.send(result.rows);
   }).catch((err)=>{
     console.error(err);

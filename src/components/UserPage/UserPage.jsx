@@ -11,8 +11,8 @@ function UserPage() {
   //fetch all data for a user
   function fetchGoals() {
       dispatch({
-          type: 'FETCH_GOALS_BY_USERNAME',
-          payload: user.username
+          type: 'FETCH_GOALS',
+          payload: user.id
       });
   }
 

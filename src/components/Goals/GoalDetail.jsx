@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
 import { Box} from "@mui/material";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import EditDialog from "./Dialogs/EditDialog";
-import CustomTable from "./Tables/CusomTable";
 import AddDialog from "./Dialogs/AddDialog";
 import CollapsableRow from "./Tables/CollapsableRow";
 import DeleteDialog from "./Dialogs/DeleteDialog";
@@ -19,12 +18,25 @@ export default function GoalDetail() {
     const history = useHistory();
     const dispatch = useDispatch();
     const goals = useSelector(s=>s.goals);
+    const goalDetail = useSelector(s=>s.goalDetail);
     const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
     const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
     const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id==goal_id));
-    const goalSelected = goals.filter((goal)=>goal.id == goal_id); //an array with matching ID (only one item)
+    // const goalSelected = goals.filter((goal)=>goal.id == goal_id); //an array with matching ID (only one item)
+    // const goalSelected = goals.find((goal)=> goal.id==goal_id);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    console.log('goal detail goals',goals);
+    console.log('goals list',goals);
+    console.log('goal detail list',goalDetail);
+
+    function fetchGoalDetail(goal_id) {
+        dispatch({
+            type: 'FETCH_GOAL_DETAIL',
+            payload: goal_id
+        });
+    }
+    useEffect(()=>{
+        fetchGoalDetail(goal_id);
+    },[]);
 
     // removes a goal and redirects to home page
     function handleRemoveGoal(event,goal_id) {
@@ -167,16 +179,16 @@ export default function GoalDetail() {
         <>
             <Box sx={{display: 'flex', flexDirection:'column', m: 3, p: 4}}  >
                 <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
-                    <h1>{goalSelected[0].goal_title}</h1>
-                    <Chip size="small" sx={{backgroundColor: chipColor(goalSelected[0].status), color:'white', ml:'20px'}} label={`${goalSelected[0].status}`}/>
-                    <EditDialog 
+                    <h1>{goalDetail[0]?.goal_title}</h1>
+                    <Chip size="small" sx={{backgroundColor: chipColor(goalDetail[0]?.status), color:'white', ml:'20px'}} label={`${goalDetail[0]?.status}`}/> 
+                    {/* <EditDialog 
                         title={'Edit Goal'}
                         value = {{
-                            id: goalSelected[0].id,
-                            title: goalSelected[0].goal_title,
-                            description: goalSelected[0].goal_desc,
-                            status: goalSelected[0].status,
-                            targetDate: goalSelected[0].taregt_date //todo: fix typo
+                            id: goalSelected.id,
+                            title: goalSelected.goal_title,
+                            description: goalSelected.goal_desc,
+                            status: goalSelected.status,
+                            targetDate: goalSelected.taregt_date //todo: fix typo
                         }}
                         label={{
                             title: 'Title',
@@ -190,23 +202,23 @@ export default function GoalDetail() {
                         }}
                         action='EDIT_GOAL'
                     />
-                    <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected[0].id} title={goalSelected[0].goal_title}/>
+                    <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected.id} title={goalSelected.goal_title}/> */}
                 </Box>
                     
-                <p>{goalSelected[0].goal_desc}</p>
+                <p>{goalDetail[0]?.goal_desc}</p>
                 
                 {/* More info about the selected goal */}
                 <Box sx={{display: 'flex', justifyContent:'space-between'}}>
                     <ul>
-                        <li>Goal Created on: {dayjs(goalSelected[0].date_created).format('MM/DD/YYYY')}</li>
-                        <li>Target Date on: {dayjs(goalSelected[0].target_date).format('MM/DD/YYYY')}</li>
-                        <li>Goal Modified on: {dayjs(goalSelected[0].date_modified).format('MM/DD/YYYY')}</li>
-                        <li>Account-a-Friend: {goalSelected[0].accounta_friend_name}</li>
+                        <li>Goal Created on: {dayjs(goalDetail[0]?.date_created).format('MM/DD/YYYY')}</li>
+                        <li>Target Date on: {dayjs(goalDetail[0]?.target_date).format('MM/DD/YYYY')}</li>
+                        <li>Goal Modified on: {dayjs(goalDetail[0]?.date_modified).format('MM/DD/YYYY')}</li>
+                        <li>Account-a-Friend: {goalDetail[0]?.accounta_friend_name}</li>
                     </ul>
                 </Box>
 
                 {/* Action plan, reflection and comment tables */}
-                <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
+                {/* <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
                     <CustomTable 
                     tableName={'Action Plans'}
                     headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
@@ -221,7 +233,7 @@ export default function GoalDetail() {
                     tableName={'Comment'}
                     headings={['Comment', 'Edit', 'Delete' ]}
                     rows = {commentRows}/>
-                </Box>
+                </Box> */}
             </Box>
         </>
     )
