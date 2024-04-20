@@ -19,12 +19,9 @@ function NoData({tableHeading}) {
             </Box>
             </TableBody>
         </Table>
-        
     )
-    
 }
-function Row(props) {
-    const {row} = props;
+function Row({row}) {
     const [open, setOpen] = useState(false);
     // used to create color for status
     function chipColor(goal_status) {
@@ -38,6 +35,7 @@ function Row(props) {
             return '#ffc917'
         }
     }
+    console.log('row ...', row);
     return (
         <>
             <TableRow >
@@ -47,15 +45,13 @@ function Row(props) {
                                 onClick={()=>setOpen(!open)}
                     >
                         {open? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
-
                     </IconButton>
                 </TableCell>
                 <TableCell align="left">
                     {row.title}
                 </TableCell>
-
                 {row.status && 
-                <TableCell align="left">
+                <TableCell align="left">``
                     <Chip size="small" sx={{backgroundColor: chipColor(row.status), color:'white'}} label={`${row.status}`}/>
                 </TableCell>}
                 {row.status && 
@@ -88,11 +84,10 @@ function Row(props) {
                 </TableCell>
             </TableRow>
         </>
-    )
-    
+    )  
 }
 export default function CollapsibleTable({tableHeading, tableData}) {
-    console.log(tableHeading);
+    console.log(tableData);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -114,13 +109,11 @@ export default function CollapsibleTable({tableHeading, tableData}) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {tableData.map((data)=>(
-                    <Row row={data} />
+                {tableData.map((row)=>(
+                    <Row row={row} />
                 ))}
             </TableBody>
         </Table>}
-
     </TableContainer>
     )
-    
 }

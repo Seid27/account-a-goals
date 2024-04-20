@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
 import { Box} from "@mui/material";
-import {useEffect, useState } from "react";
+import {useEffect, useLayoutEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import Chip from '@mui/material/Chip';
@@ -35,8 +35,18 @@ export default function GoalDetail() {
             payload: goal_id
         });
     }
+
     useEffect(()=>{
+        console.log(
+            "This only happens ONCE. Anything in here is fired on component MOUNT."
+          );
+        
         fetchGoalDetail(goal_id);
+        return () => {
+            console.log(
+              "This only happens ONCE. Anything in here is fired on component UNMOUNT."
+            );
+          }
     },[]);
 
     // removes a goal and redirects to home page
@@ -178,7 +188,7 @@ export default function GoalDetail() {
 
     return (
         <>
-            <Box sx={{display: 'flex', flexDirection:'column', m: 3, p: 4}}  >
+            {goalDetail[0] && <Box sx={{display: 'flex', flexDirection:'column', m: 3, p: 4}}  >
                 <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
                     <h1>{goalDetail[0]?.goal_title}</h1>
                     <Chip size="small" sx={{backgroundColor: chipColor(goalDetail[0]?.status), color:'white', ml:'20px'}} label={`${goalDetail[0]?.status}`}/> 
@@ -206,23 +216,23 @@ export default function GoalDetail() {
                     <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected.id} title={goalSelected.goal_title}/> */}
                 </Box>
                     
-                <p>{goalDetail[0]?.goal_desc}</p>
+                <p>{goalDetail[0].goal_desc}</p>
                 
                 {/* More info about the selected goal */}
                 <Box sx={{display: 'flex', justifyContent:'space-between'}}>
                     <ul>
-                        <li>Goal Created on: {dayjs(goalDetail[0]?.date_created).format('MM/DD/YYYY')}</li>
-                        <li>Target Date on: {dayjs(goalDetail[0]?.target_date).format('MM/DD/YYYY')}</li>
-                        <li>Goal Modified on: {dayjs(goalDetail[0]?.date_modified).format('MM/DD/YYYY')}</li>
-                        <li>Account-a-Friend: {goalDetail[0]?.accounta_friend_name}</li>
+                        <li>Goal Created on: {dayjs(goalDetail[0].date_created).format('MM/DD/YYYY')}</li>
+                        <li>Target Date on: {dayjs(goalDetail[0].target_date).format('MM/DD/YYYY')}</li>
+                        <li>Goal Modified on: {dayjs(goalDetail[0].date_modified).format('MM/DD/YYYY')}</li>
+                        <li>Account-a-Friend: {goalDetail[0].accounta_friend_name}</li>
                     </ul>
                 </Box>
 
                 {/* Action plan, reflection and comment tables */}
                 <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
-                    <CollapsibleTable tableHeading={['Action Plans', 'Status', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.action_plans}/>
-                    <CollapsibleTable tableHeading={['Reflections', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.reflections}/>
-                    <CollapsibleTable tableHeading={['Comments', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.comments}/>
+                {goalDetail[0] && <CollapsibleTable tableHeading={['Action Plans', 'Status', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.action_plans}/>}
+                    {/* <CollapsibleTable tableHeading={['Reflections', 'Edit', 'Delete' ]} tableData={[goalDetail[0]?.reflections]}/>
+                    <CollapsibleTable tableHeading={['Comments', 'Edit', 'Delete' ]} tableData={[goalDetail[0]?.comments]}/> */}
                     {/* <CustomTable 
                     tableName={'Action Plans'}
                     headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
@@ -238,7 +248,7 @@ export default function GoalDetail() {
                     headings={['Comment', 'Edit', 'Delete' ]}
                     rows = {commentRows}/> */}
                 </Box>
-            </Box>
+            </Box>}
         </>
     )
     
