@@ -230,9 +230,9 @@ export default function GoalDetail() {
 
                 {/* Action plan, reflection and comment tables */}
                 <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
-                {goalDetail[0] && <CollapsibleTable tableHeading={['Action Plans', 'Status', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.action_plans}/>}
-                    {/* <CollapsibleTable tableHeading={['Reflections', 'Edit', 'Delete' ]} tableData={[goalDetail[0]?.reflections]}/>
-                    <CollapsibleTable tableHeading={['Comments', 'Edit', 'Delete' ]} tableData={[goalDetail[0]?.comments]}/> */}
+                    {goalDetail[0] && <CollapsibleTable tableHeading={['Action Plans', 'Status', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.action_plans}/>}
+                    {goalDetail[0] && <CollapsibleTable tableHeading={['Reflections', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.reflections}/>}
+                    {goalDetail[0] && <CollapsibleTable tableHeading={['Comments', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.comments}/>}
                     {/* <CustomTable 
                     tableName={'Action Plans'}
                     headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}

@@ -35,7 +35,7 @@ function Row({row}) {
             return '#ffc917'
         }
     }
-    console.log('row ...', row);
+    
     return (
         <>
             <TableRow >
@@ -51,7 +51,7 @@ function Row({row}) {
                     {row.title}
                 </TableCell>
                 {row.status && 
-                <TableCell align="left">``
+                <TableCell align="left">
                     <Chip size="small" sx={{backgroundColor: chipColor(row.status), color:'white'}} label={`${row.status}`}/>
                 </TableCell>}
                 {row.status && 
