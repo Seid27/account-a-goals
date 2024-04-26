@@ -16,12 +16,9 @@ import dayjs from "dayjs";
 // label is an object with labels for the fields
 // name is an object with name and id for the fields
 // action is the name of the action to dipatch to saga Ex. EDIT_GOAL.
-export default function EditDialog({title, value, label, name, action}){
+export default function EditDialog(props){
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
-    const [status, setStatus] = useState(value.status);
-    console.log(value.status);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -36,12 +33,14 @@ export default function EditDialog({title, value, label, name, action}){
         const formJson = Object.fromEntries(formData.entries());
         console.log("form JSON", formJson);
         dispatch({
-            type: action,
-            payload: {id:value.id, ...formJson}
+            type: props.action,
+            payload: {id:props.id, goal_id: props.goal_id, ...formJson}
         });
         handleClose();
     }
+    
 
+    console.log('edit props', props.children);
     return(
         <>
             <IconButton onClick={handleClickOpen}>
@@ -52,78 +51,39 @@ export default function EditDialog({title, value, label, name, action}){
             onClose={handleClose}
             PaperProps={{
                 component:'form',
-                onSubmit: (event)=>{handleSubmit(event)}}}
-            >
+                onSubmit: (event)=>{handleSubmit(event)}}}>
                 <DialogContent>
                     <DialogTitle sx={{p:'0px'}}>
-                    {title}
+                    {props.dialogTitle}
                     </DialogTitle>
                     <TextField
-                        autoFocus
                         required
                         margin="normal"
-                        id={name.title}
-                        name={name.title}
-                        label={label.title}
-                        defaultValue={value.title}
+                        id='title'
+                        name='title'
+                        label='Title'
+                        defaultValue={props.title}
                         type='text'
                         fullWidth
                         variant="outlined"
                     />
                     <TextField
                         margin="dense"
-                        id={name.description}
-                        name={name.description}
-                        label={label.description}
-                        defaultValue={value.description}
+                        id='description'
+                        name='description'
+                        label='Description'
+                        defaultValue={props.description}
                         type='text'
                         multiline
                         rows={5}
                         fullWidth
                         variant="outlined"
-                    />
-                    {/* Shown status drop down only when editing a goal and an action plan(only goals and action plans have status) */}
-                    {title == 'Edit Goal' || title == 'Edit Action Plan' &&
-                    <FormControl fullWidth sx={{mt:1}}>
-                        <InputLabel id='status_label'>Status</InputLabel>
-                        <Select
-                        required
-                        labelId='status_label'
-                        label="Status"
-                        id="status"
-                        name="status"
-                        value={status}
-                        onChange={(e)=>setStatus(e.target.value)}
-                        >
-                            <MenuItem value='Pending'>Pending</MenuItem>
-                            <MenuItem value='In progress'>In Progress</MenuItem>
-                            <MenuItem value='Complete'>Complete</MenuItem>
-                        </Select>
-                    </FormControl>}
-                                        
-                    {/* Show target date only when editing a goal and an action plan(only goals and action plans have tareget dates) */}
-                    {title == 'Edit Goal' || title == 'Edit Action Plan' &&
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
-
-                                <DatePicker 
-                                    id={name.targetDate}
-                                    name={name.targetDate}
-                                    label={label.targetDate}
-                                    defaultValue={dayjs(value.targetDate)}
-                                    slotProps={{
-                                        textField: {
-                                        required: true,
-                                    },
-                                    }}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    }
+                    />  
+                    {props.children}
                 </DialogContent>
                 <DialogActions>
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
-                    <Button type='submit' variant='outlined'>{title}</Button>
+                    <Button type='submit' variant='outlined'>Submit</Button>
                 </DialogActions>
             </Dialog>
         </>
