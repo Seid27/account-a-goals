@@ -1,15 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import { Box} from "@mui/material";
+import { Box, Button} from "@mui/material";
 import {useEffect, useLayoutEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import EditDialog from "./Dialogs/EditDialog";
 import AddDialog from "./Dialogs/AddDialog";
-import CollapsableRow from "./Tables/CollapsableRow";
 import DeleteDialog from "./Dialogs/DeleteDialog";
 import CollapsibleTable from "./Tables/CollapsibleTable";
+import CollapsableRow from "./Tables/CollapsableRow";
+import StatusSelector from "../Misc/StatusSelector";
+import DateSelector from "../Misc/DateSelector";
+import Search from "../Search/Search";
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -29,6 +32,11 @@ export default function GoalDetail() {
     console.log('goals list',goals);
     console.log('goal detail list',goalDetail);
 
+    const reflectionTableRow = [];
+    goalDetail[0]?.reflections.map((reflection)=>
+        <CollapsableRow data={reflection}/>);
+    console.log('ref', reflectionTableRow);
+
     function fetchGoalDetail(goal_id) {
         dispatch({
             type: 'FETCH_GOAL_DETAIL',
@@ -37,17 +45,20 @@ export default function GoalDetail() {
     }
 
     useEffect(()=>{
-        console.log(
-            "This only happens ONCE. Anything in here is fired on component MOUNT."
-          );
-        
         fetchGoalDetail(goal_id);
-        return () => {
-            console.log(
-              "This only happens ONCE. Anything in here is fired on component UNMOUNT."
-            );
-          }
     },[]);
+
+    function handleSubmit(event, formData) {
+        event.preventDefault();
+        // const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries(formData.entries());
+        console.log("form JSON", formJson);
+        dispatch({
+            type: action,
+            payload: {id:value.id, ...formJson}
+        });
+        // handleClose();
+    }
 
     // removes a goal and redirects to home page
     function handleRemoveGoal(event,goal_id) {
@@ -230,9 +241,60 @@ export default function GoalDetail() {
 
                 {/* Action plan, reflection and comment tables */}
                 <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
-                    {goalDetail[0] && <CollapsibleTable tableHeading={['Action Plans', 'Status', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.action_plans}/>}
-                    {goalDetail[0] && <CollapsibleTable tableHeading={['Reflections', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.reflections}/>}
-                    {goalDetail[0] && <CollapsibleTable tableHeading={['Comments', 'Edit', 'Delete' ]} tableData={goalDetail[0]?.comments}/>}
+                    {/* action plan table */}
+                     <AddDialog
+                        dialogTitle={'Add Action plan'}
+                        id = {goal_id}
+                        action='ADD_ACTION_PLAN'>
+                            <DateSelector/>
+                            <StatusSelector/>
+                    </AddDialog>
+                    <CollapsibleTable tableHeadings={['Action Plans', 'Status', 'Edit', 'Delete' ]}>
+                        {goalDetail[0]?.action_plans.map((actionPlan)=>
+                        <CollapsableRow data={actionPlan}>
+                            <EditDialog
+                                dialogTitle='Edit Action Plan' 
+                                id ={actionPlan.id} 
+                                goal_id = {goal_id}
+                                title = {actionPlan.title}
+                                description = {actionPlan.description}
+                                action = 'EDIT_ACTION_PLAN'>
+                                    <StatusSelector status={actionPlan.status}/>
+                                    <DateSelector date={actionPlan.target_date}/>
+                            </EditDialog>
+                        </CollapsableRow>)}
+                    </CollapsibleTable>
+
+                    {/* reflection table */}
+                    <AddDialog
+                        dialogTitle={'Add Reflection'}
+                        id = {goal_id}
+                        action='ADD_REFLECTION'>
+                    </AddDialog>
+                    <CollapsibleTable tableHeadings={['Reflections', 'Edit', 'Delete' ]}>
+                        {goalDetail[0]?.reflections.map((reflection)=>
+                        <CollapsableRow data={reflection}>
+                            <EditDialog
+                                dialogTitle='Edit Reflection' 
+                                id ={reflection.id} 
+                                goal_id = {goal_id}
+                                title = {reflection.title}
+                                description = {reflection.description}
+                                action = 'EDIT_REFLECTION'>
+                            </EditDialog>
+                        </CollapsableRow>)}
+                    </CollapsibleTable>
+                    {/* comments table */}
+                    <CollapsibleTable tableHeadings={['Comments', 'Edit', 'Delete' ]}>
+                        {goalDetail[0]?.comments.map((comment)=>
+                        <CollapsableRow data={comment}>
+                            <EditDialog
+                                dialogTitle={'Edit Comment'} 
+                                id ={comment.id} 
+                                title = {comment.title}
+                                description = {comment.description}/>
+                        </CollapsableRow>)}
+                    </CollapsibleTable>
                     {/* <CustomTable 
                     tableName={'Action Plans'}
                     headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
