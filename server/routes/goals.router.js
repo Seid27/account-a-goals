@@ -29,7 +29,7 @@ router.get('/:user_id', rejectUnauthenticated,(req, res) => {
 });
 
 /**
- * GET route: get goals using username
+ * GET route: get goal detail using goal id
  */
 router.get('/detail/:goal_id', rejectUnauthenticated, (req,res)=>{
   console.log('get goals using goal id');
@@ -91,10 +91,10 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     console.log(result.rows[0].id);
     const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date")
     values($1, $2, ${req.user.id}, $3, $4)`;
-    pool.query(queryText, [req.body.goal_title, 
-                              req.body.goal_desc, 
+    pool.query(queryText, [req.body.title, 
+                              req.body.description, 
                               result.rows[0].id, 
-                              req.body.target_date])
+                              req.body.targetDate])
       .then(()=>{
           res.sendStatus(201);
       }).catch((error)=>{

@@ -2,6 +2,8 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 import Swal from 'sweetalert2'
 
+
+// action.payload contains user id
 function* fetchGoals(action) {
 
     try {
@@ -48,10 +50,12 @@ function* editGoalSaga(action){
     }
 }
 
+
+// action.payload contains user an object {title: '', description: '', targetDate: '', status: '', id: user_id}
 function* addGoalSaga(action){
     try {
         yield axios.post('/api/goals', action.payload);
-        yield put({type:'FETCH_GOALS'});
+        yield put({type:'FETCH_GOALS', payload: action.payload.id});
         Swal.fire({
             title: "Goal Added!",
             icon: "success"
