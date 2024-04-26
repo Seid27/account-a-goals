@@ -12,10 +12,13 @@ function* fetchReflections(){
 
 }
 
+// add new reflection
+// action.payload contains user an object {title: '', description: '', id: goal_id}
 function* addReflection(action) {
     try {
-        yield axios.post(`/api/reflections/`, action.payload);
-        yield put({type: 'FETCH_REFLECTIONS' });
+        yield axios.post('api/reflections', action.payload);
+        // to refresh goal detail page
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.id});
     } catch (error) {
         console.error(error);
     }
@@ -25,7 +28,8 @@ function* addReflection(action) {
 function* editReflection(action) {
     try {
         yield axios.put(`/api/reflections/${action.payload.id}`, action.payload);
-        yield put({type: 'FETCH_REFLECTIONS' });
+        // to refresh goal detail page
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.goal_id});
     } catch (error) {
         console.error(error);
     }
