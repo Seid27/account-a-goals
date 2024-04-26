@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Box, Chip, Collapse, IconButton, TableCell, TableRow, Typography } from "@mui/material"
+import { Box, Chip, Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import dayjs from "dayjs";
-//creates a collabsable row using given data of action plan, reflection, commen
-export default function CollapsableRow({id,title, description, status,targetDate, dateCreated, dateModified, editDialog, deleteDialog}) {
+import EditDialog from "../Dialogs/EditDialog";
+//creates a collabsable row using given props.data of action plan, reflection, commen
+export default function CollapsableRow(props) {
     const [open, setOpen] = useState(false);
-    
     // used to create color for status
     function chipColor(goal_status) {
         if(goal_status == 'Complete'){
@@ -19,58 +19,82 @@ export default function CollapsableRow({id,title, description, status,targetDate
             return '#ffc917'
         }
     }
+    console.log('row data',props.data);
 
+    
     return (
         <>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset'}}}>
+            <TableRow>
                 <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    <IconButton aria-label="expand row"
+                                size="small"
+                                onClick={()=>setOpen(!open)}
+                    >
+                        {open? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
-
-                <TableCell>
-                    {title}
+                <TableCell align="left">
+                    {props.data.title}
                 </TableCell>
-
-                {status && 
-                <TableCell>
-                    <Chip size="small" sx={{backgroundColor: chipColor(status), color:'white'}} label={`${status}`}/>
-                </TableCell>}
-                <TableCell>
-                    {editDialog}
+                {props.data.status && 
+                    <TableCell align="center">
+                        <Chip size="small" sx={{backgroundColor: chipColor(props.data.status), color:'white'}} label={`${props.data.status}`}/>
+                    </TableCell>}
+                <TableCell align="center">
+                    {props.children}
                 </TableCell>
-                <TableCell>
-                    {deleteDialog}
-                </TableCell>
-
             </TableRow>
-            {/* collapse row, a drop down*/}
             <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0}} colSpan={6} >
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            
-                            <Box sx={{ margin: 1 }}>
-                                <Typography variant="h6">
-                                {description}
-                                </Typography> 
-                                <Typography>
-                                Date Created: {dayjs(dateCreated).format('MM/DD/YYYY')}
-                                </Typography>
-                                {targetDate && <Typography>
-                                Target Date: {dayjs(targetDate).format('MM/DD/YYYY')}
-                                </Typography>}
-                                {dateModified && <Typography>
-                                Modified Date: {dayjs(dateModified).format('MM/DD/YYYY')}
-                                </Typography>}
-                            </Box>
-                        </Collapse>
-                    </TableCell>
-                </TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0, backgroundColor:'#fffff3'}} colSpan={6} align="left">
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        {/* <Box sx={{ ml: 10, display:'flex', alignItems:'right', flexDirection:'column' }}>
+                            <Typography variant="h6">
+                            {props.data.description}
+                            </Typography> 
+                            <Typography>
+                            Date Created: {dayjs(props.data.date_created).format('MM/DD/YYYY')}
+                            </Typography>
+                            {props.data.target_date && <Typography>
+                            Target Date: {dayjs(props.data.target_date).format('MM/DD/YYYY')}
+                            </Typography>}
+                            {props.data.date_modified && <Typography>
+                            Modified Date: {dayjs(props.data.date_modified).format('MM/DD/YYYY')}
+                            </Typography>}
+                        </Box> */}
+                        
+                        <Box sx={{ margin: 1 }}>
+                            {/* <Typography variant="h6" gutterBottom component="div">
+                                Detail
+                            </Typography> */}
+                            <Table size="small">
+                                <TableHead>
+                                <TableRow>
+                                    <TableCell sx={{width: 400}}>Description</TableCell>
+                                    <TableCell >Date Created</TableCell>
+                                    <TableCell >{props.data.target_date && 'Target Date'}</TableCell>
+                                    <TableCell >Date Modified</TableCell>
+                                </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell sx={{width: 400}}>
+                                            {props.data.description}
+                                        </TableCell>
+                                        <TableCell >{dayjs(props.data.date_created).format('MM/DD/YYYY')}</TableCell>
+                                        <TableCell >
+                                            {props.data.target_date && dayjs(props.data.target_date).format('MM/DD/YYYY')}
+                                        </TableCell>
+                                        <TableCell >
+                                            {dayjs(props.data.date_modified).format('MM/DD/YYYY')}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+
+                    </Collapse>
+                </TableCell>
+            </TableRow>
         </>
-    )
-    
+    )  
 }
