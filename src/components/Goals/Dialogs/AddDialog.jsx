@@ -15,7 +15,7 @@ import Search from "../../Search/Search";
 // label is an object with labels for the fields
 // name is an object with name and id for the fields
 // action is the name of the action to dipatch to saga Ex. Add_A_GOAL.
-export default function AddDialog({title, label, name, action}){
+export default function AddDialog(props){
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
@@ -33,16 +33,15 @@ export default function AddDialog({title, label, name, action}){
         const formJson = Object.fromEntries(formData.entries());
         console.log("form JSON", formJson);
         dispatch({
-            type: action,
-            payload: formJson
+            type: props.action,
+            payload: {id:props.id, ...formJson}
         });
         handleClose();
     }
-
     return(
         <>
             <Button sx={{width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}} onClick={handleClickOpen}  variant="contained">
-                {title}
+                {props.dialogTitle}
             </Button>
             <Dialog
             open={open}
@@ -53,34 +52,35 @@ export default function AddDialog({title, label, name, action}){
             >
                 <DialogContent>
                     <DialogTitle sx={{p:'0px'}}>
-                    {title}
+                    {props.dialogTitle}
                     </DialogTitle>
                     <TextField
                         autoFocus
                         required
                         margin="normal"
-                        id={name.title}
-                        name={name.title}
-                        label={label.title}
+                        id='title'
+                        name='title'
+                        label='Title'
                         type='text'
                         fullWidth
                         variant="outlined"
                     />
                     <TextField
                         margin="dense"
-                        id={name.description}
-                        name={name.description}
-                        label={label.description}
+                        id='description'
+                        name='description'
+                        label='Description'
                         type='text'
                         multiline
                         rows={5}
                         fullWidth
                         variant="outlined"
                     />
+                    {props.children}
                     {/* Shown only when adding a goal */}
-                    {title == 'Add a Goal' && <Search/>}
+                    {/* {title == 'Add a Goal' && <Search/>} */}
                     {/* Shown only when editing a goal */}
-                    {title == 'Add a Goal' && 
+                    {/* {title == 'Add a Goal' && 
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
 
@@ -96,11 +96,11 @@ export default function AddDialog({title, label, name, action}){
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
-                    }               
+                    }                */}
                 </DialogContent>
                 <DialogActions>
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
-                    <Button type='submit' variant='outlined'>{title}</Button>
+                    <Button type='submit' variant='outlined'>Submit</Button>
                 </DialogActions>
             </Dialog>
         </>
