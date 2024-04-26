@@ -14,10 +14,12 @@ function* fetchActionPlans (action) {
 
 
 // adds new action plan
+// action.payload contains user an object {title: '', description: '', id: goal_id}
 function* addActionPlan(action){
     try {
         yield axios.post('api/actionplans', action.payload);
-        yield put({type: 'FETCH_ACTION_PLANS'}); 
+        // to refresh goal detail page
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.id});
     } catch (error) {
         console.error(error);
     }
@@ -36,10 +38,12 @@ function* removeActionPlan(action){
 }
 
 // edit action plan
+// payload contains the action plan id and goal id
 function* editActionPlan(action){
     try {
         yield axios.put(`/api/actionplans/${action.payload.id}`, action.payload);
-        yield put({type: 'FETCH_ACTION_PLANS'});
+        // to refresh goal detail page
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.goal_id});
     } catch (error) {
         console.error(error);
     }
