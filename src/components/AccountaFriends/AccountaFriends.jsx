@@ -3,6 +3,8 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom";
 
+
+// it displays a lsit of friends for the used
 export default function AccountaFriends() {
     const dispatch = useDispatch();
     const accountaFriends = useSelector(s=>s.accountaFriends);
@@ -17,6 +19,7 @@ export default function AccountaFriends() {
         fetchAccountaFriends();
     },[])
 
+    //takes to goals page where a list of goals is displayed for a specific friend
     function handleClick(id) {
         history.push({pathname: `/accounta-friends-goals/${id}`});
         
@@ -49,14 +52,3 @@ export default function AccountaFriends() {
     )
     
 }
-
-{/* <Card sx={{m:'0px', p:'0px'}}>
-                                <CardActionArea sx={{ display: 'flex'}}>
-                                    <Avatar>H</Avatar>
-                                    <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {accountaFriend.f_name}
-                                    </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card> */}

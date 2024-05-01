@@ -30,6 +30,21 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   })
 });
 
+// /**
+//  * GET route for action_plan by goal ID
+//  */
+
+// router.get(':goalId',(req,res)=>{
+//   const queryText = ``;
+//   try {
+    
+//   } catch (error) {
+//     console.error(error);
+//     res.send(500);
+//   }
+// })
+
+
 /**
  * POST route for action_plan
  */
@@ -40,11 +55,11 @@ router.post('/', rejectUnauthenticated, (req, res) => {
   values($1,$2,$3,$4,$5)`;
 
   pool.query(queryText,[
-                        req.body.action_plan_title,
-                        req.body.action_plan_desc,
-                        req.body.target_date,
+                        req.body.title,
+                        req.body.description,
+                        req.body.targetDate,
                         req.body.status,
-                        req.body.goal_id]).then(()=>{
+                        req.body.id]).then(()=>{
                           res.sendStatus(201);
                         }).catch((error)=>{
                           console.error(error);
@@ -84,7 +99,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 router.put('/:action_plan_id', rejectUnauthenticated,(req,res)=>{
     const queryText = `UPDATE "action_plan"
     SET "action_plan_title"=$1, "action_plan_desc"=$2, "target_date"=$3, "status"=$4, date_modified=NOW() where id=${req.params.action_plan_id}`;
-    pool.query(queryText,[req.body.action_plan_title, req.body.action_plan_desc, req.body.target_date, req.body.status]).then(()=>{
+    pool.query(queryText,[req.body.title, req.body.description, req.body.targetDate, req.body.status]).then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{
         console.error(error);
