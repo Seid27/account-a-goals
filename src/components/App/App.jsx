@@ -18,7 +18,6 @@ import './App.css';
 import GoalDetail from '../Goals/GoalDetail';
 import AccountaFriends from '../AccountaFriends/AccountaFriends';
 import AcccountaFriendsGoals from '../AccountaFriends/AccountaFriendsGoals';
-import AcccountaFriendsGoalDetail from '../AccountaFriends/AccountaFriendsGoalDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -120,11 +119,6 @@ function App() {
 
             <ProtectedRoute path='/accounta-friends-goals/:id'>
                 <AcccountaFriendsGoals/>
-
-            </ProtectedRoute>
-
-            <ProtectedRoute path='/accounta-friends-goal-detail/:goal_id'>
-                <AcccountaFriendsGoalDetail/>
             </ProtectedRoute>
 
 

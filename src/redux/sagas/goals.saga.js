@@ -25,19 +25,7 @@ function* fetchGoalDetail(action){
     }
 }
 
-// action.payload contains username
-// function* fetchGoalsByUserName(action) {
-//     try {
-//         const result = yield axios.get(`/api/goals/${action.payload}`);
-//         yield put({type: 'SET_GOALS', payload: result.data});
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
 function* editGoalSaga(action){
-    // console.log(action.payload.id);
-    // console.log(action.payload);
     try {
         yield axios.put(`/api/goals/${action.payload.id}`, action.payload);
         yield put({type:'FETCH_GOALS'});
@@ -66,7 +54,6 @@ function* addGoalSaga(action){
 }
 
 function* removeGoalSaga(action) {
-    // console.log('remove goal', `/api/goals/${action.payload}`);
     try {
         yield axios.delete(`/api/goals/${action.payload}`);
         yield put({type:'FETCH_GOALS'});
@@ -79,7 +66,6 @@ function* removeGoalSaga(action) {
 function* goalsSaga() {
     yield takeLatest('FETCH_GOALS', fetchGoals);
     yield takeLatest('FETCH_GOAL_DETAIL', fetchGoalDetail);
-    // yield takeLatest('FETCH_GOALS_BY_USERNAME', fetchGoalsByUserName);
     yield takeLatest('ADD_GOAL', addGoalSaga);
     yield takeLatest('EDIT_GOAL', editGoalSaga);
     yield takeLatest('REMOVE_GOAL', removeGoalSaga);
