@@ -5,73 +5,81 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import Search from "../../Search/Search";
 
-export default function AddActionPlanDialog({goal_id}) {
-    const [openAddReflectionDialog, setOpenReflectionDialog] = useState(false)
+// A reusable dialog to add a goal, reflection, action plan and comment.
+// title and descriptions are common fields for goal, reflection, action plan and comment.
+// other input elements can be passed through props.children
+export default function AddDialog(props){
     const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
 
-    const handleOpenAddRefelctionDialog = () => setOpenReflectionDialog(true);
-    const handleCloseAddReflectionDialog = () => setOpenReflectionDialog(false);
-    
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     function handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
+        console.log("form JSON", formJson);
         dispatch({
-            type: 'ADD_REFLECTION',
-            payload: {...formJson,goal_id}
+            type: props.action,
+            payload: {id:props.id, ...formJson}
         });
-        handleCloseAddReflectionDialog();
-        
+        handleClose();
     }
-
-    return (
+    return(
         <>
-        
-            <Button sx={{width:'200px', backgroundColor: '#619b8a', ":hover":{backgroundColor:"#a1c181"}}}  onClick={handleOpenAddRefelctionDialog} variant="contained">
-                Add Reflection
+            <Button sx={{width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}} onClick={handleClickOpen}  variant="contained">
+                {props.dialogTitle}
             </Button>
             <Dialog
-            open={openAddReflectionDialog}
-            onClose={handleCloseAddReflectionDialog}
+            open={open}
+            onClose={handleClose}
             PaperProps={{
                 component:'form',
                 onSubmit: (event)=>{handleSubmit(event)}}}
             >
                 <DialogContent>
                     <DialogTitle sx={{p:'0px'}}>
-                    Add Reflection
+                    {props.dialogTitle}
                     </DialogTitle>
                     <TextField
                         autoFocus
                         required
                         margin="normal"
-                        id="reflection_title"
-                        name="reflection_title"
-                        label="Title"
+                        id='title'
+                        name='title'
+                        label='Title'
                         type='text'
                         fullWidth
                         variant="outlined"
                     />
                     <TextField
                         margin="dense"
-                        id="reflection_desc"
-                        name="reflection_desc"
-                        label="Description"
+                        id='description'
+                        name='description'
+                        label='Description'
                         type='text'
                         multiline
                         rows={5}
                         fullWidth
                         variant="outlined"
                     />
+                    {/* any extra input fields for a specific add for instance add goal has status drop down 
+                    while add reflection does not have status drop down  */}
+                    {props.children}
                 </DialogContent>
                 <DialogActions>
-                    <Button  onClick={handleCloseAddReflectionDialog} variant='outlined'>Cancel</Button>
-                    <Button type='submit' variant='outlined'>Add</Button>
+                    <Button  onClick={handleClose} variant='outlined'>Cancel</Button>
+                    <Button type='submit' variant='outlined'>Submit</Button>
                 </DialogActions>
-                
             </Dialog>
         </>
     )
-    
 }

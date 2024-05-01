@@ -1,12 +1,8 @@
 import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
-import goals from './goals.reducer';
-import actionPlans from './actionPlans.reducer';
-import reflections from './reflections.reducer';
-import comments from './comments.reducer';
-import {accountaFriends, accountaFriendsGoals, accountaFriendsReflections, 
-        accountaFriendsActionPlans, accountaFriendsComments} from './accounta_friends.reducer'
+import {goals, goalDetail} from './goals.reducer';
+import {accountaFriends, accountaFriendsGoals} from './accounta_friends.reducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -18,14 +14,9 @@ const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
   goals,
-  actionPlans,
-  reflections,
-  comments,
+  goalDetail,
   accountaFriends,
   accountaFriendsGoals,
-  accountaFriendsActionPlans,
-  accountaFriendsReflections,
-  accountaFriendsComments
 });
 
 export default rootReducer;

@@ -1,5 +1,5 @@
 {
-  "name": "prime-solo-project",
+  "name": "account-a-goals",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -58,6 +58,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "heroku-run-build-script": true
+  }
 }

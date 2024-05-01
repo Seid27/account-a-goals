@@ -5,26 +5,19 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
 import './App.css';
 import GoalDetail from '../Goals/GoalDetail';
 import AccountaFriends from '../AccountaFriends/AccountaFriends';
 import AcccountaFriendsGoals from '../AccountaFriends/AccountaFriendsGoals';
-import AcccountaFriendsGoalDetail from '../AccountaFriends/AccountaFriendsGoalDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -126,11 +119,6 @@ function App() {
 
             <ProtectedRoute path='/accounta-friends-goals/:id'>
                 <AcccountaFriendsGoals/>
-
-            </ProtectedRoute>
-
-            <ProtectedRoute path='/accounta-friends-goal-detail/:goal_id'>
-                <AcccountaFriendsGoalDetail/>
             </ProtectedRoute>
 
 

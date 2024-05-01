@@ -32,9 +32,9 @@ router.post('/', rejectUnauthenticated,(req, res) => {
   // POST route code here
   const queryText = `insert into reflection ("reflection_title", "reflection_desc", "goal_id") values
   ($1,$2, $3)`;
-  pool.query(queryText,[req.body.reflection_title, 
-                        req.body.reflection_desc,
-                        req.body.goal_id])
+  pool.query(queryText,[req.body.title, 
+                        req.body.description,
+                        req.body.id])
     .then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{
@@ -48,7 +48,7 @@ router.post('/', rejectUnauthenticated,(req, res) => {
  */
 router.put('/:reflection_id', rejectUnauthenticated, (req,res)=>{
     const queryText = `update "reflection" set reflection_title=$1, reflection_desc=$2, date_modified=NOW() where id=${req.params.reflection_id}`;
-    pool.query(queryText,[req.body.reflection_title, req.body.reflection_desc]).then(()=>{
+    pool.query(queryText,[req.body.title, req.body.description]).then(()=>{
         res.sendStatus(200);
     }).catch((error)=>{
         console.error(error);
