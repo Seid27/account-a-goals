@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import { Box, Button} from "@mui/material";
+import { Box, Button, IconButton} from "@mui/material";
 import {useEffect, useLayoutEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
@@ -12,7 +12,9 @@ import CollapsibleTable from "./Tables/CollapsibleTable";
 import CollapsableRow from "./Tables/CollapsableRow";
 import StatusSelector from "../Misc/StatusSelector";
 import DateSelector from "../Misc/DateSelector";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Search from "../Search/Search";
+
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -21,21 +23,7 @@ export default function GoalDetail() {
     const {goal_id} = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
-    const goals = useSelector(s=>s.goals);
     const goalDetail = useSelector(s=>s.goalDetail);
-    const actionPlans = useSelector(s=>s.actionPlans.filter((action_plan)=> action_plan.goal_id == goal_id));
-    const reflections = useSelector(s=>s.reflections.filter((reflection)=>reflection.goal_id==goal_id));
-    const comments = useSelector(s=>s.comments.filter((comment)=>comment.goal_id==goal_id));
-    // const goalSelected = goals.filter((goal)=>goal.id == goal_id); //an array with matching ID (only one item)
-    // const goalSelected = goals.find((goal)=> goal.id==goal_id);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    console.log('goals list',goals);
-    console.log('goal detail list',goalDetail);
-
-    const reflectionTableRow = [];
-    goalDetail[0]?.reflections.map((reflection)=>
-        <CollapsableRow data={reflection}/>);
-    console.log('ref', reflectionTableRow);
 
     function fetchGoalDetail(goal_id) {
         dispatch({
@@ -81,121 +69,6 @@ export default function GoalDetail() {
             return '#ffc917'
         }
     }
-
-    //creates action plan rows for each action plan
-    const actionPlanRows = [];
-    actionPlans.map((item,i)=> actionPlanRows.push(
-    <CollapsableRow 
-                    key={i}
-                    title={item.action_plan_title} 
-                    description={item.action_plan_desc}
-                    status={item.status} 
-                    dateCreated={item.data_created} 
-                    targetDate={item.target_date}
-                    editDialog={<EditDialog 
-                        title={'Edit Action Plan'}
-                        value = {{
-                            id: item.id,
-                            title: item.action_plan_title,
-                            description: item.action_plan_desc,
-                            status: item.status,
-                            targetDate: item.taregt_date //todo: fix typo
-                        }}
-                        label={{
-                            title: 'Title',
-                            description: 'Description',
-                            targetDate : 'Target Date',
-                        }}
-                        name={{
-                            title: 'action_plan_title',
-                            description: 'action_plan_desc',
-                            targetDate: 'target_date'
-                        }}
-                        action='EDIT_ACTION_PLAN'/> }
-                    deleteDialog={<DeleteDialog action={'REMOVE_GOAL'} id={item.id} title={item.action_plan_title}/>}
-    />));
-
-    //creates reflection rows for each action plan
-    const reflectionRows = [];
-    reflections.map((item,i)=> reflectionRows.push(
-    <CollapsableRow key={i}
-                    title={item.reflection_title} 
-                    description={item.reflection_desc}
-                    dateCreated={item.data_created} 
-                    dateModified={item.date_modified}
-                    editDialog={<EditDialog 
-                        title={'Edit Reflection'}
-                        value = {{
-                            id: item.id,
-                            title: item.reflection_title,
-                            description: item.reflection_desc,
-                        }}
-                        label={{
-                            title: 'Title',
-                            description: 'Description',
-                        }}
-                        name={{
-                            title: 'reflection_title',
-                            description: 'reflection_desc',
-                        }}
-                        action='EDIT_REFLECTION'/> }
-                    deleteDialog={<DeleteDialog action={'REMOVE_GOAL'} id={item.id} title={item.reflection_title}/>}
-    />));
-    //creates comment rows for each action plan
-    const commentRows = [];
-    comments.map((item,i)=> commentRows.push(
-    <CollapsableRow key={i}
-                    title={item.comment_title} 
-                    description={item.comment_desc}
-                    dateCreated={item.data_created} 
-                    dateModified={item.date_modified}
-                    editDialog={<EditDialog 
-                        title={'Edit Comment'}
-                        value = {{
-                            id: item.id,
-                            title: item.comment_title,
-                            description: item.comment_desc,
-                        }}
-                        label={{
-                            title: 'Title',
-                            description: 'Description',
-                        }}
-                        name={{
-                            title: 'comment_title',
-                            description: 'comment_desc',
-                        }}
-                        action='EDIT_COMMENT'/> }
-                    deleteDialog={<DeleteDialog action={'REMOVE_GOAL'} id={item.id} title={item.comment_title}/>}
-    />));
-
-
-    //add action plan dialog
-    const addActionPlanDialog = <AddDialog
-            title={'Add Action plan'}
-            label={{
-                title: 'Title',
-                description: 'Description',
-            }}
-            name={{
-                title: 'action_plan_title',
-                description: 'action_plan_desc',
-            }}
-            action='ADD_ACTION_PLAN'/>;
-
-    //add reflection dialog
-    const addReflectionDialog = <AddDialog
-            title={'Add Reflection'}
-            label={{
-                title: 'Title',
-                description: 'Description',
-            }}
-            name={{
-                title: 'reflection_title',
-                description: 'reflection_desc',
-            }}
-            action='ADD_REFLECTION'/>
-
-    
 
     return (
         <>
@@ -246,8 +119,8 @@ export default function GoalDetail() {
                         dialogTitle={'Add Action plan'}
                         id = {goal_id}
                         action='ADD_ACTION_PLAN'>
-                            <DateSelector/>
                             <StatusSelector/>
+                            <DateSelector/>
                     </AddDialog>
                     <CollapsibleTable tableHeadings={['Action Plans', 'Status', 'Edit', 'Delete' ]}>
                         {goalDetail[0]?.action_plans.map((actionPlan)=>
@@ -262,6 +135,11 @@ export default function GoalDetail() {
                                     <StatusSelector status={actionPlan.status}/>
                                     <DateSelector date={actionPlan.target_date}/>
                             </EditDialog>
+                            <DeleteDialog>
+                                 <IconButton aria-label="delete" size="large">
+                                    <DeleteForeverIcon color="error" fontSize='inherit'/>                
+                                </IconButton>
+                            </DeleteDialog>
                         </CollapsableRow>)}
                     </CollapsibleTable>
 
@@ -295,20 +173,6 @@ export default function GoalDetail() {
                                 description = {comment.description}/>
                         </CollapsableRow>)}
                     </CollapsibleTable>
-                    {/* <CustomTable 
-                    tableName={'Action Plans'}
-                    headings={['Action Plan', 'Status', 'Edit', 'Delete' ]}
-                                rows = {actionPlanRows}
-                                addDialog={addActionPlanDialog} />
-                    <CustomTable 
-                    tableName={'Reflections'}
-                    headings={['Reflections', 'Edit', 'Delete' ]}
-                                rows = {reflectionRows}
-                                addDialog={addReflectionDialog} />
-                    <CustomTable 
-                    tableName={'Comment'}
-                    headings={['Comment', 'Edit', 'Delete' ]}
-                    rows = {commentRows}/> */}
                 </Box>
             </Box>}
         </>

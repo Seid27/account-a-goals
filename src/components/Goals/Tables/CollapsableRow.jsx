@@ -19,7 +19,7 @@ export default function CollapsableRow(props) {
             return '#ffc917'
         }
     }
-    console.log('row data',props.data);
+    console.log('row children',props.children[1]);
 
     
     return (
@@ -41,7 +41,10 @@ export default function CollapsableRow(props) {
                         <Chip size="small" sx={{backgroundColor: chipColor(props.data.status), color:'white'}} label={`${props.data.status}`}/>
                     </TableCell>}
                 <TableCell align="center">
-                    {props.children}
+                    {props.children[0]}
+                </TableCell>
+                <TableCell align="center">
+                    {props.children[1]}
                 </TableCell>
             </TableRow>
             <TableRow>
