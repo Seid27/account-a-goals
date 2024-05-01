@@ -8,14 +8,9 @@ import { useDispatch } from "react-redux";
 import EditIcon from '@mui/icons-material/Edit';
 import dayjs from "dayjs";
 
-// A reusable dialog for edit(update)
-//  To edit goal, reflection, action plan and comment.
-// Takes in title, data, label and action as props
-// title is a string which is the title of the dialog Ex. Add a Goal
-// value is an object with values to auto populate input fields if necessary
-// label is an object with labels for the fields
-// name is an object with name and id for the fields
-// action is the name of the action to dipatch to saga Ex. EDIT_GOAL.
+// A reusable dialog for edit(update) a goal, reflection, action plan and comment.
+// title and descriptions are common fields for goal, reflection, action plan and comment.
+// other input elements can be passed through props.children
 export default function EditDialog(props){
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
@@ -38,7 +33,6 @@ export default function EditDialog(props){
         });
         handleClose();
     }
-    
 
     console.log('edit props', props.children);
     return(
