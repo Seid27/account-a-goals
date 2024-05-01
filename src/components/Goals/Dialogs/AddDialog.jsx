@@ -7,14 +7,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Search from "../../Search/Search";
 
-// A reusable dialog
-//  To add a goal, reflection, action plan, and comment
-// Takes in title, data, label and action as props
-// title is a string which is the title of the dialog Ex. Add a Goal
-// value is an object with values to auto populate input fields if necessary
-// label is an object with labels for the fields
-// name is an object with name and id for the fields
-// action is the name of the action to dipatch to saga Ex. Add_A_GOAL.
+// A reusable dialog to add a goal, reflection, action plan and comment.
+// title and descriptions are common fields for goal, reflection, action plan and comment.
+// other input elements can be passed through props.children
 export default function AddDialog(props){
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
@@ -76,27 +71,9 @@ export default function AddDialog(props){
                         fullWidth
                         variant="outlined"
                     />
+                    {/* any extra input fields for a specific add for instance add goal has status drop down 
+                    while add reflection does not have status drop down  */}
                     {props.children}
-                    {/* Shown only when adding a goal */}
-                    {/* {title == 'Add a Goal' && <Search/>} */}
-                    {/* Shown only when editing a goal */}
-                    {/* {title == 'Add a Goal' && 
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer sx={{mt:'5px'}} components={['DatePicker']}>
-
-                                <DatePicker 
-                                    id={name.targetDate}
-                                    name={name.targetDate}
-                                    label={label.targetDate}
-                                    slotProps={{
-                                        textField: {
-                                        required: true,
-                                    },
-                                    }}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    }                */}
                 </DialogContent>
                 <DialogActions>
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>

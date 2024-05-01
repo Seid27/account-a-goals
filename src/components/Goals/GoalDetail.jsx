@@ -1,20 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import { Box, Button, IconButton} from "@mui/material";
-import {useEffect, useLayoutEffect, useState } from "react";
+import { Box,IconButton} from "@mui/material";
+import {useEffect} from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import EditDialog from "./Dialogs/EditDialog";
 import AddDialog from "./Dialogs/AddDialog";
 import DeleteDialog from "./Dialogs/DeleteDialog";
-import CollapsibleTable from "./Tables/CollapsibleTable";
+import CollapsibleTable from "./Tables/CustomTable";
 import CollapsableRow from "./Tables/CollapsableRow";
 import StatusSelector from "../Misc/StatusSelector";
 import DateSelector from "../Misc/DateSelector";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Search from "../Search/Search";
-
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)

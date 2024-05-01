@@ -14,27 +14,6 @@ export default function Goals({goals}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector((store) => store.user);
-    // const goals = useSelector(s=>s.goals);
-
-    //fetch all data for a user
-    // function fetchGoals() {
-    //     dispatch({
-    //         type: 'FETCH_GOALS'
-    //     });
-    //     dispatch({
-    //         type: 'FETCH_ACTION_PLANS',
-    //     });
-    //     dispatch({
-    //         type: 'FETCH_REFLECTIONS'
-    //     });
-    //     dispatch({
-    //         type: 'FETCH_COMMENTS'
-    //     }); 
-    // }
-
-    // useEffect(()=>{
-    //     fetchGoals();
-    // },[]);
 
     // sends user to the goal detail page
     function handleGoalDetail(goal_id) {

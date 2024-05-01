@@ -1,12 +1,10 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import CustomButton from "../../../CustomButton/CustomButton";
 
 export default function DeleteDialog(props) {
-    // {buttonType,action,id, goal_id,title}
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const dispatch = useDispatch();
     //Delete dialog control
