@@ -27,7 +27,7 @@ function* fetchGoalDetail(action){
 
 function* editGoalSaga(action){
     try {
-        yield axios.put(`/api/goals/${action.payload.id}`, action.payload);
+        yield axios.put(`/api/goals/${action.payload.goal_id}`, action.payload);
         yield put({type:'FETCH_GOALS'});
         Swal.fire({
             title: "Goal Updated!",

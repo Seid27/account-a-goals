@@ -13,6 +13,11 @@ export default function DeleteDialog(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
+        dispatch({
+            type: props.action,
+            payload: {id:props.id, goal_id: props.goal_id}
+        })
+        handleCloseDeleteDialog();
     }
 
     return(

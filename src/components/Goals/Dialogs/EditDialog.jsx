@@ -3,8 +3,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import CustomButton from "../../../CustomButton/CustomButton";
 import EditIcon from '@mui/icons-material/Edit';
 import dayjs from "dayjs";
 
@@ -34,12 +35,14 @@ export default function EditDialog(props){
         handleClose();
     }
 
-    console.log('edit props', props.children);
+    //convert to array
+    //this is because props.children is an object when only one child is passed as props
+    let children = React.Children.toArray(props.children);
     return(
         <>
-            <IconButton onClick={handleClickOpen}>
-                <EditIcon />
-            </IconButton>
+            <CustomButton onClick={handleClickOpen}>
+                {children[0]}
+            </CustomButton>
             <Dialog
             open={open}
             onClose={handleClose}
@@ -72,8 +75,11 @@ export default function EditDialog(props){
                         rows={5}
                         fullWidth
                         variant="outlined"
-                    />  
-                    {props.children}
+                    /> 
+
+                    {/* dispaly optional children props */}
+                    {children.map((child, i)=> i !== 0 ? child : '')}
+
                 </DialogContent>
                 <DialogActions>
                     <Button  onClick={handleClose} variant='outlined'>Cancel</Button>

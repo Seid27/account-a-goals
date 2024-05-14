@@ -28,10 +28,13 @@ function* editActionPlan(action){
 }
 
 // deletes action plan
+// action.payload contains the id of the action plan to delete
 function* removeActionPlan(action){
+    console.log(action);
     try {
-        yield axios.delete(`api/actionplans/${action.payload}`);
-        // yield put({type: 'FETCH_ACTION_PLANS'}); 
+        yield axios.delete(`api/actionplans/${action.payload.id}`);
+        // to refresh goal detail page
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.goal_id});
     } catch (error) {
         console.error(error);
     }

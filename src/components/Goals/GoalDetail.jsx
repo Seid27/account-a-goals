@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import { Box,IconButton} from "@mui/material";
+import { Box,Button,IconButton} from "@mui/material";
 import {useEffect} from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ import CollapsableRow from "./Tables/CollapsableRow";
 import StatusSelector from "../Misc/StatusSelector";
 import DateSelector from "../Misc/DateSelector";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
@@ -74,28 +75,21 @@ export default function GoalDetail() {
                 <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
                     <h1>{goalDetail[0]?.goal_title}</h1>
                     <Chip size="small" sx={{backgroundColor: chipColor(goalDetail[0]?.status), color:'white', ml:'20px'}} label={`${goalDetail[0]?.status}`}/> 
-                    {/* <EditDialog 
-                        title={'Edit Goal'}
-                        value = {{
-                            id: goalSelected.id,
-                            title: goalSelected.goal_title,
-                            description: goalSelected.goal_desc,
-                            status: goalSelected.status,
-                            targetDate: goalSelected.taregt_date //todo: fix typo
-                        }}
-                        label={{
-                            title: 'Title',
-                            description: 'Description',
-                            targetDate : 'Target Date',
-                        }}
-                        name={{
-                            title: 'goal_title',
-                            description: 'goal_description',
-                            targetDate: 'target_date'
-                        }}
-                        action='EDIT_GOAL'
-                    />
-                    <DeleteDialog action={'REMOVE_GOAL'} id={goalSelected.id} title={goalSelected.goal_title}/> */}
+                    <EditDialog dialogTitle='Edit Goal'
+                                goal_id = {goal_id}
+                                title = {goalDetail[0]?.goal_title}
+                                description = {goalDetail[0]?.goal_desc}
+                                action = 'EDIT_GOAL'>
+                                    <Button variant="contained">
+                                        Edit
+                                    </Button>
+                                    
+                    </EditDialog>
+                    <DeleteDialog>
+                        <Button variant="contained">
+                            delete
+                        </Button>
+                    </DeleteDialog>
                 </Box>
                     
                 <p>{goalDetail[0].goal_desc}</p>
@@ -130,10 +124,13 @@ export default function GoalDetail() {
                                 title = {actionPlan.title}
                                 description = {actionPlan.description}
                                 action = 'EDIT_ACTION_PLAN'>
+                                    <IconButton>
+                                        <EditIcon />
+                                    </IconButton>
                                     <StatusSelector status={actionPlan.status}/>
                                     <DateSelector date={actionPlan.target_date}/>
                             </EditDialog>
-                            <DeleteDialog>
+                            <DeleteDialog id={actionPlan.id} goal_id={goal_id} action='REMOVE_ACTION_PLANS'>
                                  <IconButton aria-label="delete" size="large">
                                     <DeleteForeverIcon color="error" fontSize='inherit'/>                
                                 </IconButton>
