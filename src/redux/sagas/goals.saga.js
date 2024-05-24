@@ -30,10 +30,10 @@ function* addGoalSaga(action){
         yield axios.post('/api/goals', action.payload);
         yield put({type:'FETCH_GOALS', payload: action.payload.id});
         //may be this need to be in the front end as a best practice
-        Swal.fire({
-            title: "Goal Added!",
-            icon: "success"
-          });
+        // Swal.fire({
+        //     title: "Goal Added!",
+        //     icon: "success"
+        //   });
     } catch (error) {
         console.error(error);
     }
@@ -43,11 +43,12 @@ function* addGoalSaga(action){
 function* editGoalSaga(action){
     try {
         yield axios.put(`/api/goals/${action.payload.goal_id}`, action.payload);
-        yield put({type:'FETCH_GOALS'});
-        Swal.fire({
-            title: "Goal Updated!",
-            icon: "success"
-          });
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.goal_id});
+        // yield put({type:'FETCH_GOALS'});
+        // Swal.fire({
+        //     title: "Goal Updated!",
+        //     icon: "success"
+        //   });
     } catch (error) {
         console.log(error);
     }

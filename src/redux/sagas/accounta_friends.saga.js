@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-
+// fetches all acounta friends for a user
 function* fetchAccountaFriends(){
     try {
         const result = yield axios.get('/api/accountafriends');

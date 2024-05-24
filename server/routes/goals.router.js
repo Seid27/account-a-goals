@@ -128,37 +128,28 @@ router.post('/', rejectUnauthenticated, (req, res) => {
  */
 router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
   console.log('updating goal');
+  console.log(req.body);
     const queryText = `UPDATE "goal"
     SET goal_title= $1, goal_desc= $2, target_date=$3, status=$4, date_modified=NOW() where id=${req.params.goalId}`;
-    pool.query(queryText,[req.body.goal_title, req.body.goal_desc, req.body.target_date, req.body.status])
+    pool.query(queryText,[req.body.title, req.body.description, req.body.targetDate, req.body.status])
     .then(()=>{
-        const fullNameQuery =  `select "user".f_name, "user".l_name from goal join "user" on "user".id = goal.user_id where goal.id=${req.params.goalId}`;
-        pool.query(fullNameQuery).then((result)=>{
-          console.log(result.rows);
-          if (req.body.status === 'Complete') {
-            console.log('sending complete message');
-            client.messages
-            .create({
-                body: `Congratulate your Account-a-friend, 
-                ${result.rows[0].f_name} ${result.rows[0].l_name}. ${req.body.goal_title} goal is complete.`,
-                from: '+18554640563',
-                to: '+12069607616'
-            })
-            .then(message => console.log(message.sid));
-            }
-          }).catch((error)=>{
-            console.error(error);
-        })
-        // if (req.body.status === 'Complete') {
-        //   console.log('sending complete message');
-        //   client.messages
-        //   .create({
-        //       body: 'This is twilio test message',
-        //       from: '+18554640563',
-        //       to: '+12069607616'
-        //   })
-        //   .then(message => console.log(message.sid));
-        // }
+        // const fullNameQuery =  `select "user".f_name, "user".l_name from goal join "user" on "user".id = goal.user_id where goal.id=${req.params.goalId}`;
+        // pool.query(fullNameQuery).then((result)=>{
+        //   console.log(result.rows);
+        //   if (req.body.status === 'Complete') {
+        //     console.log('sending complete message');
+        //     client.messages
+        //     .create({
+        //         body: `Congratulate your Account-a-friend, 
+        //         ${result.rows[0].f_name} ${result.rows[0].l_name}. ${req.body.goal_title} goal is complete.`,
+        //         from: '+18554640563',
+        //         to: '+12069607616'
+        //     })
+        //     .then(message => console.log(message.sid));
+        //     }
+        //   }).catch((error)=>{
+        //     console.error(error);
+        // })
         res.sendStatus(201);
     }).catch((error)=>{
         console.error(error);

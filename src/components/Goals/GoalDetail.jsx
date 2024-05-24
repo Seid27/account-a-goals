@@ -108,28 +108,25 @@ export default function GoalDetail() {
                 </Alert>
             </Snackbar> */}
             {goalDetail[0] && <Box sx={{display: 'flex', flexDirection:'column', m: 3, p: 4}}  >
-                <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
-                    <h1>{goalDetail[0]?.goal_title}</h1>
-                    <Chip size="small" sx={{backgroundColor: chipColor(goalDetail[0]?.status), color:'white', ml:'20px'}} label={`${goalDetail[0]?.status}`}/> 
+                <Box sx={{display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
+                    <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
+                        <h1>{goalDetail[0]?.goal_title}</h1>
+                        <Chip size="small" sx={{backgroundColor: chipColor(goalDetail[0]?.status), color:'white', ml:'20px'}} label={`${goalDetail[0]?.status}`}/> 
+                    </Box>
                     <EditDialog dialogTitle='Edit Goal'
                                 goal_id = {goal_id}
                                 title = {goalDetail[0]?.goal_title}
                                 description = {goalDetail[0]?.goal_desc}
                                 action = 'EDIT_GOAL'>
-                                    <Button variant="contained">
-                                        Edit
-                                    </Button>
-                                    
+                        {/* <IconButton>
+                            <EditIcon/>
+                        </IconButton> */}
+                        <Button variant="contained" sx={{width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}}>
+                            Edit Goal
+                        </Button> 
+                        <StatusSelector status={goalDetail[0]?.status}/>
+                        <DateSelector date={goalDetail[0]?.target_date}/>   
                     </EditDialog>
-                    {/* <DeleteDialog
-                                    goal_id={goal_id} 
-                                    dialogTitle='Delete Goal'
-                                    title = {goalDetail[0]?.goal_title} 
-                                    action='REMOVE_GOAL'>
-                        <Button variant="contained">
-                            delete
-                        </Button>
-                    </DeleteDialog> */}
                 </Box>
                     
                 <p>{goalDetail[0].goal_desc}</p>
@@ -197,7 +194,13 @@ export default function GoalDetail() {
                             </EditDialog>
                         </CollapsableRow>)}
                     </CollapsibleTable>
+
                     {/* comments table */}
+                    <AddDialog
+                        dialogTitle={'Add a Comment'}
+                        id = {goal_id}
+                        action='ADD_REFLECTION'>
+                    </AddDialog>
                     <CollapsibleTable tableHeadings={['Comments', 'Edit', 'Delete' ]}>
                         {goalDetail[0]?.comments.map((comment)=>
                         <CollapsableRow data={comment}>

@@ -1,4 +1,4 @@
-import { Box,Button,Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import { Box,Button,Checkbox, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import List from '@mui/material/List';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,6 +7,7 @@ import AddDialog from './Dialogs/AddDialog';
 import DateSelector from '../Misc/DateSelector';
 import StatusSelector from '../Misc/StatusSelector';
 import Search from '../Search/Search';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 // This is goals page
 // It displays a lsit of goals for a user
@@ -22,11 +23,8 @@ export default function Goals({goals, user_id}) {
 
     // called when a user clicks on the check box
     // updates the status of a goal
-
     function handleChecked(event,goal){
         event.stopPropagation();
-        console.log("goal status",goal.status);
-
         let newGoal = {...goal};
         if (goal.status === 'Pending' || goal.status === 'In Progress') {
             newGoal = {...newGoal,status: 'Complete'};
@@ -40,29 +38,12 @@ export default function Goals({goals, user_id}) {
             type: 'EDIT_GOAL',
             payload: newGoal
         })
-
     }
 
     return (
         <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
-            
             <Box sx={{ width: '100%', maxWidth: 800,}}>
-                <Box sx={{p:2,
-                        display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
-                    {/* <AddDialog
-                        title={'Add a Goal'}
-                        label={{
-                            title: 'Title',
-                            description: 'Description',
-                            targetDate : 'Target Date',
-                        }}
-                        name={{
-                            title: 'goal_title',
-                            description: 'goal_description',
-                            targetDate: 'target_date'
-                        }}
-                        action='ADD_GOAL'/> */}
-                    {/* todo: need to change the id */}
+                <Box sx={{p:2, display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
                     <AddDialog
                         dialogTitle={'Add a Goal'}
                         id = {user.id}
@@ -72,7 +53,6 @@ export default function Goals({goals, user_id}) {
                             <StatusSelector/>
                     </AddDialog>
                 </Box>
-                
                 <List>
                     {
                         goals.map((goal) =>{
@@ -84,9 +64,9 @@ export default function Goals({goals, user_id}) {
                                             dialogTitle='Delete Goal'
                                             title = {goal.goal_title} 
                                             action='REMOVE_GOAL'>
-                                            <Button variant="contained">
-                                                delete
-                                            </Button>
+                                            <IconButton size='large'>
+                                                <DeleteForeverRoundedIcon/>
+                                            </IconButton>
                                         </DeleteDialog>
                                     }
                                     >
@@ -96,7 +76,6 @@ export default function Goals({goals, user_id}) {
                                                 edge="start"
                                                 checked = {goal.status === "Complete"}
                                                 onClick={(event)=>handleChecked(event,goal)}
-                                                //todo: add check handler to send update to goal status using axios
                                             />
                                         </ListItemIcon>
                                         <ListItemText primary={goal.goal_title}/>
@@ -107,10 +86,7 @@ export default function Goals({goals, user_id}) {
                         )
                     }              
                 </List>
-
             </Box>
-                
         </Box>
     )
-    
 }
