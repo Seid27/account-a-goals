@@ -170,9 +170,10 @@ router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
 /**
  * DELETE route to delete goal
  */
-router.delete('/:goalId', rejectUnauthenticated, (req,res)=>{
+router.delete('/:id', rejectUnauthenticated, (req,res)=>{
   console.log('deleting data ...');
-    const queryText = `delete from goal where id=${req.params.goalId}`;
+  console.log(req.params.id);
+    const queryText = `delete from goal where id=${req.params.id}`;
     pool.query(queryText).then(()=>{
         res.sendStatus(204);
     }).catch((error)=>{

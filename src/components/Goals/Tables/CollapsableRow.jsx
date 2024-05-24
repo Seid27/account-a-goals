@@ -19,7 +19,7 @@ export default function CollapsableRow(props) {
             return '#ffc917'
         }
     }
-    console.log('row children',props.children[1]);
+    // console.log('row children',props.children[1]);
 
     
     return (

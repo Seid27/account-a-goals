@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
 import WarningIcon from '@mui/icons-material/Warning';
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import CustomButton from "../../../CustomButton/CustomButton";
 
@@ -18,14 +18,18 @@ export default function DeleteDialog(props) {
             payload: {id:props.id, goal_id: props.goal_id}
         })
         handleCloseDeleteDialog();
+        
     }
+
+    //convert to array
+    //this is because props.children is an object when only one child is passed as props
+    let children = React.Children.toArray(props.children);
 
     return(
         <>
             <CustomButton onClick={handleOpenDeleteDialog}>
-                {props.children}
+                {children[0]}
             </CustomButton>
-
             <Dialog
             open={openDeleteDialog}
             onClose={handleCloseDeleteDialog}
@@ -36,11 +40,11 @@ export default function DeleteDialog(props) {
                 <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
                 <WarningIcon sx={{ml: '20px', pt:'10px'}} fontSize="large" color="warning"/>
                 <DialogTitle sx={{pt:'20px', pl:'10px', pb:'0px'}}>
-                Delete
+                {props.dialogTitle} 
                 </DialogTitle>
                 </Box>
                 <DialogContent>
-                    Are you sure You want to delete "title"?
+                    {`Are you sure You want to delete "${props.title}" goal?`}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDeleteDialog} variant='outlined'>Cancel</Button>

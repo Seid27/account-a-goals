@@ -1,4 +1,4 @@
-import { Box,Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import { Box,Button,Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import List from '@mui/material/List';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -10,20 +10,19 @@ import Search from '../Search/Search';
 
 // This is goals page
 // It displays a lsit of goals for a user
-export default function Goals({goals}) {
+export default function Goals({goals, user_id}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector((store) => store.user);
 
     // sends user to the goal detail page
     function handleGoalDetail(goal_id) {
-        console.log(goal_id);
         history.push({pathname: `/detail/${goal_id}`});
-        console.log(history);
     }
 
     // called when a user clicks on the check box
     // updates the status of a goal
+
     function handleChecked(event,goal){
         event.stopPropagation();
         console.log("goal status",goal.status);
@@ -63,6 +62,7 @@ export default function Goals({goals}) {
                             targetDate: 'target_date'
                         }}
                         action='ADD_GOAL'/> */}
+                    {/* todo: need to change the id */}
                     <AddDialog
                         dialogTitle={'Add a Goal'}
                         id = {user.id}
@@ -71,29 +71,36 @@ export default function Goals({goals}) {
                             <DateSelector/>
                             <StatusSelector/>
                     </AddDialog>
-                    
                 </Box>
                 
                 <List>
                     {
                         goals.map((goal) =>{
                                 return (
-                                
                                     <ListItem  key={goal.id} secondaryAction={
-                                        <DeleteDialog action={'REMOVE_GOAL'} id={goal.id} title={goal.goal_title}/>
+                                        <DeleteDialog
+                                            id = {user.id}
+                                            goal_id={goal.id} 
+                                            dialogTitle='Delete Goal'
+                                            title = {goal.goal_title} 
+                                            action='REMOVE_GOAL'>
+                                            <Button variant="contained">
+                                                delete
+                                            </Button>
+                                        </DeleteDialog>
                                     }
                                     >
-                                        <ListItemButton sx={{mr: '20px'}} onClick={()=>handleGoalDetail(goal.id)}>
-                                            <ListItemIcon>
+                                    <ListItemButton sx={{mr: '20px'}} onClick={()=>handleGoalDetail(goal.id)}>
+                                        <ListItemIcon>
                                             <Checkbox 
                                                 edge="start"
                                                 checked = {goal.status === "Complete"}
                                                 onClick={(event)=>handleChecked(event,goal)}
                                                 //todo: add check handler to send update to goal status using axios
                                             />
-                                            </ListItemIcon>
-                                            <ListItemText primary={goal.goal_title}/>
-                                        </ListItemButton>
+                                        </ListItemIcon>
+                                        <ListItemText primary={goal.goal_title}/>
+                                    </ListItemButton>
                                     </ListItem>
                                 );
                             }

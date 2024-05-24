@@ -2,7 +2,6 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 import Swal from 'sweetalert2'
 
-
 // action.payload contains user id
 function* fetchGoals(action) {
 
@@ -25,6 +24,22 @@ function* fetchGoalDetail(action){
     }
 }
 
+// action.payload contains an object {title: '', description: '', targetDate: '', status: '', id: user_id}
+function* addGoalSaga(action){
+    try {
+        yield axios.post('/api/goals', action.payload);
+        yield put({type:'FETCH_GOALS', payload: action.payload.id});
+        //may be this need to be in the front end as a best practice
+        Swal.fire({
+            title: "Goal Added!",
+            icon: "success"
+          });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// todo: need to fix this too, fetch goals needs a user id
 function* editGoalSaga(action){
     try {
         yield axios.put(`/api/goals/${action.payload.goal_id}`, action.payload);
@@ -38,29 +53,14 @@ function* editGoalSaga(action){
     }
 }
 
-
-// action.payload contains user an object {title: '', description: '', targetDate: '', status: '', id: user_id}
-function* addGoalSaga(action){
-    try {
-        yield axios.post('/api/goals', action.payload);
-        yield put({type:'FETCH_GOALS', payload: action.payload.id});
-        Swal.fire({
-            title: "Goal Added!",
-            icon: "success"
-          });
-    } catch (error) {
-        console.error(error);
-    }
-}
-
+// action.payload containts id which is user id and goal id
 function* removeGoalSaga(action) {
     try {
-        yield axios.delete(`/api/goals/${action.payload}`);
-        yield put({type:'FETCH_GOALS'});
+        yield axios.delete(`/api/goals/${action.payload.goal_id}`);
+        yield put({type:'FETCH_GOALS', payload: action.payload.id});
     } catch (error) {
         console.error(error);
     }
-    
 }
 
 function* goalsSaga() {

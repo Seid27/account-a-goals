@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
-import { Box,Button,IconButton} from "@mui/material";
-import {useEffect} from "react";
+import {Box,Button,IconButton} from "@mui/material";
+import {useEffect, useState} from "react";
 import dayjs from 'dayjs';
 import { useHistory } from "react-router-dom";
 import Chip from '@mui/material/Chip';
@@ -17,13 +17,26 @@ import EditIcon from '@mui/icons-material/Edit';
 
 // goal detail page
 // shows info about each goal (title, description, status, date created, date modified of a goal)
-// also displays action plan, reflection and coment tables
+// also displays action plan, reflection and comment tables
 export default function GoalDetail() {
     const {goal_id} = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
     const goalDetail = useSelector(s=>s.goalDetail);
+    const [open, setOpen] = useState(false);
 
+    // if deleteSuccess is true delete goal action  was successful 
+    // take user to goals page
+    // if (deleteSuccess === true ) {
+    //     dispatch({type: 'SET_DELETE', payload: false});
+    //     history.push('/');
+    // }
+    // const found = goalDetail.find((goal) => goal.id=== goal_id);
+
+    // console.log('found ',found);
+    // if (found === undefined) {
+    //     history.push('/')
+    // }
     function fetchGoalDetail(goal_id) {
         dispatch({
             type: 'FETCH_GOAL_DETAIL',
@@ -35,27 +48,27 @@ export default function GoalDetail() {
         fetchGoalDetail(goal_id);
     },[]);
 
-    function handleSubmit(event, formData) {
-        event.preventDefault();
-        // const formData = new FormData(event.currentTarget);
-        const formJson = Object.fromEntries(formData.entries());
-        console.log("form JSON", formJson);
-        dispatch({
-            type: action,
-            payload: {id:value.id, ...formJson}
-        });
-        // handleClose();
-    }
+    // function handleSubmit(event, formData) {
+    //     event.preventDefault();
+    //     // const formData = new FormData(event.currentTarget);
+    //     const formJson = Object.fromEntries(formData.entries());
+    //     console.log("form JSON", formJson);
+    //     dispatch({
+    //         type: action,
+    //         payload: {id:value.id, ...formJson}
+    //     });
+    //     // handleClose();
+    // }
 
     // removes a goal and redirects to home page
-    function handleRemoveGoal(event,goal_id) {
-        event.preventDefault();
-        dispatch({
-            type: 'REMOVE_GOAL',
-            payload: goal_id
-        })
-        history.push('/');
-    }
+    // function handleRemoveGoal(event,goal_id) {
+    //     event.preventDefault();
+    //     dispatch({
+    //         type: 'REMOVE_GOAL',
+    //         payload: goal_id
+    //     })
+    //     history.push('/');
+    // }
     
     function chipColor(goal_status) {
         if(goal_status == 'Complete'){
@@ -69,8 +82,31 @@ export default function GoalDetail() {
         }
     }
 
+    
+
+    // const handleClick = () => {
+    //     setOpen(true);
+    // };
+
+    // const handleClose = (event, reason) => {
+    //     if (reason === 'clickaway') {
+    //     return;
+    //     }
+
+    //     setOpen(false);
+    // };
+
     return (
         <>
+            {/* <Snackbar open={open} autoHideDuration={6000}>
+                <Alert
+                severity="success"
+                variant="filled"
+                sx={{ width: '100%' }}
+                >
+                Delete was a success.
+                </Alert>
+            </Snackbar> */}
             {goalDetail[0] && <Box sx={{display: 'flex', flexDirection:'column', m: 3, p: 4}}  >
                 <Box sx={{display: 'flex', alignItems:'center', justifyContent:'left'}}>
                     <h1>{goalDetail[0]?.goal_title}</h1>
@@ -85,11 +121,15 @@ export default function GoalDetail() {
                                     </Button>
                                     
                     </EditDialog>
-                    <DeleteDialog>
+                    {/* <DeleteDialog
+                                    goal_id={goal_id} 
+                                    dialogTitle='Delete Goal'
+                                    title = {goalDetail[0]?.goal_title} 
+                                    action='REMOVE_GOAL'>
                         <Button variant="contained">
                             delete
                         </Button>
-                    </DeleteDialog>
+                    </DeleteDialog> */}
                 </Box>
                     
                 <p>{goalDetail[0].goal_desc}</p>
