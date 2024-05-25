@@ -27,8 +27,8 @@ function* editReflection(action) {
 
 function* removeReflection(action){
     try {
-        yield axios.delete(`/api/reflections/${action.payload}`);
-        // yield put({type: 'FETCH_REFLECTIONS' });
+        yield axios.delete(`/api/reflections/${action.payload.id}`);
+        yield put({type: 'FETCH_GOAL_DETAIL', payload: action.payload.goal_id});
     } catch (error) {
         console.error(error);
     }
