@@ -16,10 +16,11 @@ router.get('/:user_id', rejectUnauthenticated,(req, res) => {
   // GET route code here
   // const queryText = `select * from "goal" where "user_id"=${req.user.id}`;
   console.log('get goals using user id');
+  console.log(req.params.user_id);
   const queryText = `select goal.id, 
   goal.goal_title, goal.goal_desc, goal.user_id, goal.date_created, goal.date_modified, 
   goal.target_date, goal.status, goal.accounta_friend_id, (select concat( f_name, ' ', l_name) 
-  from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name from goal where goal.user_id=${req.params.user_id};`
+  from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name from goal where goal.user_id=${req.params.user_id} order by goal.id;`
   pool.query(queryText).then((result)=>{
     res.send(result.rows);
   }).catch((error)=>{
@@ -36,6 +37,7 @@ router.get('/detail/:goal_id', rejectUnauthenticated, (req,res)=>{
   console.log(req.params.goal_id);
   const queryText = 
   `select goal.id, goal.goal_title, goal.accounta_friend_id, goal.goal_desc, goal.status, goal.date_created, goal.date_modified, goal.target_date, 
+  (select concat( f_name, ' ', l_name) from "user" where "user".id = goal.accounta_friend_id) as accounta_friend_name,
   COALESCE (json_agg(DISTINCT jsonb_build_object(
               'id', action_plan.id,
               'title', action_plan.action_plan_title,
@@ -82,19 +84,22 @@ router.get('/detail/:goal_id', rejectUnauthenticated, (req,res)=>{
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
   // POST route code here
-  console.log('receiving data');
+  console.log('receiving new goal data');
+  console.log(req.body);
   console.log(req.body.account_a_friend);
   const fullName = req.body.account_a_friend.split(" ");
   console.log(fullName);
   const getIdQuery = `select id from "user" where "f_name"='${fullName[0]}' and "l_name"='${fullName[1]}'`;
   pool.query(getIdQuery).then((result)=>{
     console.log(result.rows[0].id);
-    const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date")
-    values($1, $2, ${req.user.id}, $3, $4)`;
+    const queryText = `insert into "goal" ("goal_title","goal_desc","user_id","accounta_friend_id","target_date", "status")
+    values($1, $2, ${req.user.id}, $3, $4,$5)`;
     pool.query(queryText, [req.body.title, 
                               req.body.description, 
                               result.rows[0].id, 
-                              req.body.targetDate])
+                              req.body.targetDate,
+                              req.body.status
+                            ])
       .then(()=>{
           res.sendStatus(201);
       }).catch((error)=>{
@@ -126,11 +131,11 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 /**
  * PUT route to edit goal
  */
-router.put('/:goalId', rejectUnauthenticated,(req,res)=>{
+router.put('/:goal_id', rejectUnauthenticated,(req,res)=>{
   console.log('updating goal');
   console.log(req.body);
     const queryText = `UPDATE "goal"
-    SET goal_title= $1, goal_desc= $2, target_date=$3, status=$4, date_modified=NOW() where id=${req.params.goalId}`;
+    SET goal_title= $1, goal_desc= $2, target_date=$3, status=$4, date_modified=NOW() where id=${req.params.goal_id}`;
     pool.query(queryText,[req.body.title, req.body.description, req.body.targetDate, req.body.status])
     .then(()=>{
         // const fullNameQuery =  `select "user".f_name, "user".l_name from goal join "user" on "user".id = goal.user_id where goal.id=${req.params.goalId}`;

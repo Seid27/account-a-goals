@@ -29,7 +29,7 @@ export default function AddDialog(props){
         console.log("form JSON", formJson);
         dispatch({
             type: props.action,
-            payload: {id:props.id, ...formJson}
+            payload: {user_id:props.user_id, ...formJson}
         });
         handleClose();
     }

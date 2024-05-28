@@ -11,7 +11,7 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 // This is goals page
 // It displays a lsit of goals for a user
-export default function Goals({goals, user_id}) {
+export default function Goals({goals}) {
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector((store) => store.user);
@@ -25,13 +25,19 @@ export default function Goals({goals, user_id}) {
     // updates the status of a goal
     function handleChecked(event,goal){
         event.stopPropagation();
-        let newGoal = {...goal};
+        let newGoal = {
+            goal_id : goal.id,
+            user_id : goal.user_id,
+            title: goal.goal_title,
+            description: goal.goal_desc,
+            targetDate: goal.target_date
+        };
         if (goal.status === 'Pending' || goal.status === 'In Progress') {
             newGoal = {...newGoal,status: 'Complete'};
         }
 
         else{
-            newGoal = {...newGoal,status: 'Pending'};
+            newGoal = {...newGoal,status: goal.status === 'Pending'? 'Pending' : 'In Progress'};
         }
 
         dispatch({
@@ -44,9 +50,10 @@ export default function Goals({goals, user_id}) {
         <Box sx={{display: 'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}  >
             <Box sx={{ width: '100%', maxWidth: 800,}}>
                 <Box sx={{p:2, display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
+                    {/* add goal */}
                     <AddDialog
                         dialogTitle={'Add a Goal'}
-                        id = {user.id}
+                        user_id = {user.id}
                         action='ADD_GOAL'>
                             <Search/>
                             <DateSelector/>

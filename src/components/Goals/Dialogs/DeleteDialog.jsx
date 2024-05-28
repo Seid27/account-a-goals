@@ -44,7 +44,7 @@ export default function DeleteDialog(props) {
                 </DialogTitle>
                 </Box>
                 <DialogContent>
-                    {`Are you sure You want to delete "${props.title}" goal?`}
+                    {`Are you sure you want to delete "${props.title}"?`}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDeleteDialog} variant='outlined'>Cancel</Button>

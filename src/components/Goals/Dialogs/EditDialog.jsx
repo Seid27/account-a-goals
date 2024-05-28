@@ -28,9 +28,10 @@ export default function EditDialog(props){
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
         console.log("form JSON", formJson);
+        //id could be reflection id, action plan id, or comment id
         dispatch({
             type: props.action,
-            payload: {id:props.id, goal_id: props.goal_id, ...formJson}
+            payload: {id:props.id, goal_id: props.goal_id, user_id: props.user_id, ...formJson}
         });
         handleClose();
     }

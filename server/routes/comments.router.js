@@ -8,24 +8,24 @@ const {
 /**
  * GET route for comment
  */
-router.get('/', rejectUnauthenticated, (req, res) => {
-    // GET route code here
-    const queryText = `select "comment".id,
-                                "comment".comment_title, 
-                                "comment".comment_desc, 
-                                "comment".date_created, 
-                                "comment".date_modified,
-                                "comment".date_created,
-                                "comment".goal_id from "comment" 
-                                join goal on goal.id = "comment".goal_id where user_id = ${req.user.id} 
-                                order by date_modified desc` ;
+// router.get('/', rejectUnauthenticated, (req, res) => {
+//     // GET route code here
+//     const queryText = `select "comment".id,
+//                                 "comment".comment_title, 
+//                                 "comment".comment_desc, 
+//                                 "comment".date_created, 
+//                                 "comment".date_modified,
+//                                 "comment".date_created,
+//                                 "comment".goal_id from "comment" 
+//                                 join goal on goal.id = "comment".goal_id where user_id = ${req.user.id} 
+//                                 order by date_modified desc` ;
 
-    pool.query(queryText).then((result)=>{
-        res.send(result.rows);
-    }).catch((error)=>{
-        console.error(error);
-    });
-});
+//     pool.query(queryText).then((result)=>{
+//         res.send(result.rows);
+//     }).catch((error)=>{
+//         console.error(error);
+//     });
+// });
 
 /**
  * POST route to create a new comment
@@ -33,9 +33,9 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
     const queryText = `insert into "comment" ("comment_title", "comment_desc", "goal_id")
     values ($1,$2,$3)`;
-    pool.query(queryText,[req.body.comment_title,
-                            req.body.comment_desc,
-                            req.body.goal_id])
+    pool.query(queryText,[req.body.title,
+                            req.body.description,
+                            req.body.id])
     .then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{
@@ -49,7 +49,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 router.put('/:comment_id', rejectUnauthenticated,(req,res)=>{
     
     const queryText = `update "comment" set comment_title=$1, comment_desc=$2, date_modified=NOW() where id=${req.params.comment_id}`;
-    pool.query(queryText,[req.body.comment_title, req.body.comment_desc]).then(()=>{
+    pool.query(queryText,[req.body.title, req.body.description]).then(()=>{
         res.sendStatus(201);
     }).catch((error)=>{
         console.error(error);

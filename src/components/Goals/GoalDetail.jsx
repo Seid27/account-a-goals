@@ -24,6 +24,7 @@ export default function GoalDetail() {
     const dispatch = useDispatch();
     const goalDetail = useSelector(s=>s.goalDetail);
     const [open, setOpen] = useState(false);
+    const user = useSelector(store => store.user);
 
     // if deleteSuccess is true delete goal action  was successful 
     // take user to goals page
@@ -113,20 +114,20 @@ export default function GoalDetail() {
                         <h1>{goalDetail[0]?.goal_title}</h1>
                         <Chip size="small" sx={{backgroundColor: chipColor(goalDetail[0]?.status), color:'white', ml:'20px'}} label={`${goalDetail[0]?.status}`}/> 
                     </Box>
+                    {goalDetail[0].accounta_friend_id !== user.id &&
+                    // edit goal
                     <EditDialog dialogTitle='Edit Goal'
+                                user_id={user.id}
                                 goal_id = {goal_id}
                                 title = {goalDetail[0]?.goal_title}
                                 description = {goalDetail[0]?.goal_desc}
                                 action = 'EDIT_GOAL'>
-                        {/* <IconButton>
-                            <EditIcon/>
-                        </IconButton> */}
                         <Button variant="contained" sx={{width:'200px',backgroundColor: '#fb8500', ":hover":{backgroundColor:"#ffb703"}}}>
                             Edit Goal
                         </Button> 
                         <StatusSelector status={goalDetail[0]?.status}/>
                         <DateSelector date={goalDetail[0]?.target_date}/>   
-                    </EditDialog>
+                    </EditDialog>}
                 </Box>
                     
                 <p>{goalDetail[0].goal_desc}</p>
@@ -144,16 +145,18 @@ export default function GoalDetail() {
                 {/* Action plan, reflection and comment tables */}
                 <Box sx={{display: 'flex', alignItems: 'left',justifyContent:'left', flexDirection:'column', mt:2}}>
                     {/* action plan table */}
+                    {goalDetail[0].accounta_friend_id !== user.id &&
                      <AddDialog
                         dialogTitle={'Add Action plan'}
                         id = {goal_id}
                         action='ADD_ACTION_PLAN'>
                             <StatusSelector/>
                             <DateSelector/>
-                    </AddDialog>
+                    </AddDialog>}
                     <CollapsibleTable tableHeadings={['Action Plans', 'Status', 'Edit', 'Delete' ]}>
                         {goalDetail[0]?.action_plans.map((actionPlan)=>
                         <CollapsableRow data={actionPlan}>
+                            {goalDetail[0].accounta_friend_id !== user.id &&
                             <EditDialog
                                 dialogTitle='Edit Action Plan' 
                                 id ={actionPlan.id} 
@@ -166,24 +169,27 @@ export default function GoalDetail() {
                                     </IconButton>
                                     <StatusSelector status={actionPlan.status}/>
                                     <DateSelector date={actionPlan.target_date}/>
-                            </EditDialog>
-                            <DeleteDialog id={actionPlan.id} goal_id={goal_id} action='REMOVE_ACTION_PLANS'>
-                                 <IconButton aria-label="delete" size="large">
+                            </EditDialog>}
+                            {goalDetail[0].accounta_friend_id !== user.id &&
+                            <DeleteDialog id={actionPlan.id} goal_id={goal_id} title={actionPlan.title} action='REMOVE_ACTION_PLANS'>
+                                <IconButton aria-label="delete" size="large">
                                     <DeleteForeverIcon color="error" fontSize='inherit'/>                
                                 </IconButton>
-                            </DeleteDialog>
+                            </DeleteDialog>}
                         </CollapsableRow>)}
                     </CollapsibleTable>
 
                     {/* reflection table */}
+                    {goalDetail[0].accounta_friend_id !== user.id &&
                     <AddDialog
                         dialogTitle={'Add Reflection'}
                         id = {goal_id}
                         action='ADD_REFLECTION'>
-                    </AddDialog>
+                    </AddDialog>}
                     <CollapsibleTable tableHeadings={['Reflections', 'Edit', 'Delete' ]}>
                         {goalDetail[0]?.reflections.map((reflection)=>
                         <CollapsableRow data={reflection}>
+                            {goalDetail[0].accounta_friend_id !== user.id &&
                             <EditDialog
                                 dialogTitle='Edit Reflection' 
                                 id ={reflection.id} 
@@ -191,24 +197,48 @@ export default function GoalDetail() {
                                 title = {reflection.title}
                                 description = {reflection.description}
                                 action = 'EDIT_REFLECTION'>
-                            </EditDialog>
+                                <IconButton>
+                                    <EditIcon />
+                                </IconButton>
+                            </EditDialog>}
+
+                            {goalDetail[0].accounta_friend_id !== user.id &&
+                            <DeleteDialog id={reflection.id} goal_id={goal_id} title={reflection.title} action='REMOVE_REFLECTION'>
+                                <IconButton aria-label="delete" size="large">
+                                    <DeleteForeverIcon color="error" fontSize='inherit'/>                
+                                </IconButton>
+                            </DeleteDialog>}
                         </CollapsableRow>)}
                     </CollapsibleTable>
 
                     {/* comments table */}
+                    {goalDetail[0].accounta_friend_id === user.id &&
                     <AddDialog
                         dialogTitle={'Add a Comment'}
                         id = {goal_id}
-                        action='ADD_REFLECTION'>
-                    </AddDialog>
+                        action='ADD_COMMENT'>
+                    </AddDialog>}
                     <CollapsibleTable tableHeadings={['Comments', 'Edit', 'Delete' ]}>
                         {goalDetail[0]?.comments.map((comment)=>
                         <CollapsableRow data={comment}>
+                            {goalDetail[0].accounta_friend_id === user.id &&
                             <EditDialog
-                                dialogTitle={'Edit Comment'} 
-                                id ={comment.id} 
+                                dialogTitle='Edit Comment'
+                                id = {comment.id}
+                                goal_id = {goal_id}
                                 title = {comment.title}
-                                description = {comment.description}/>
+                                description = {comment.description}
+                                action = 'EDIT_COMMENT'>
+                                <IconButton>
+                                    <EditIcon/>
+                                </IconButton>
+                            </EditDialog>}
+                            {goalDetail[0].accounta_friend_id === user.id &&
+                            <DeleteDialog id={comment.id} goal_id={goal_id} title={comment.title} action='REMOVE_COMMENT'>
+                                <IconButton aria-label="delete" size="large">
+                                    <DeleteForeverIcon color="error" fontSize='inherit'/>                
+                                </IconButton>
+                            </DeleteDialog>}
                         </CollapsableRow>)}
                     </CollapsibleTable>
                 </Box>

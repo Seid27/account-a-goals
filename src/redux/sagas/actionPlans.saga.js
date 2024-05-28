@@ -16,7 +16,7 @@ function* addActionPlan(action){
 }
 
 // edit action plan
-// payload contains the action plan id and goal id
+// action.payload contains user an object {id: action_plan_id, goal_id: goal_id, title: '', description: '', , }
 function* editActionPlan(action){
     try {
         yield axios.put(`/api/actionplans/${action.payload.id}`, action.payload);
